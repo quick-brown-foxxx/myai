@@ -1,7 +1,7 @@
 ---
 name: how-to-write-skills
 description: >-
-  Helps create and refine portable, self-contained agent skills. Use when
+  Helps create and refine portable, self-contained agent skills. ALWAYS USE when
   creating or editing a SKILL.md, reviewing skill frontmatter or instructions,
   or improving discoverability, triggering, portability, or skill structure.
 license: MIT
@@ -43,16 +43,30 @@ Hard constraints:
 
 Write `description` for discovery, not for marketing.
 
+- Assume the agent usually sees the directory name, `name`, and `description` before invocation.
+- Assume the body is mainly post-invocation guidance.
+- Put invocation guidance in `description`, not in the body.
+- Keep `description` focused on when to load. Put detailed instructions and decision rules in the body.
+
 - Put the main use case early.
 - Include words users would actually say.
 - Mention concrete tasks, artifacts, file types, symptoms, or domains when relevant.
 - Keep it specific enough to trigger correctly, but not so narrow that it misses obvious paraphrases.
 - Keep it trigger-oriented. State the outcome and when to use the skill, but do not stuff it with workflow steps or process summaries.
+- A strong default is a two-part description: first sentence gives the trigger, second sentence packs in task, domain, artifact, and tool keywords.
 
 Good pattern:
 
 ```yaml
 description: Helps create portable, self-contained agent skills with clear frontmatter and strong discoverability. Use when creating or editing a SKILL.md, refining skill instructions, or improving skill triggering.
+```
+
+Another good pattern:
+
+```yaml
+description: >-
+  ALWAYS LOAD THIS SKILL WHEN ADDING LOGGING, CONFIGURING LOG OUTPUT, OR SETTING UP COLORLOG.
+  Do not configure Python logging directly — use this skill first. Python logging, stdout/stderr behavior, rotating files, CLI vs GUI/server output.
 ```
 
 Bad patterns:
@@ -87,11 +101,26 @@ Discovery is part of the skill design.
 
 When writing `name` and `description`, optimize for how another agent will find the skill later.
 
+- Treat loading and behavior as separate design problems.
+- The `description` should help the skill load for the right tasks.
+- The body should tell the agent how strongly to apply the skill once loaded.
+- Some skills should load broadly but apply flexibly. Others should load narrowly and be followed rigidly.
+
+Important: body text cannot rescue a skill that did not load. If a rule is about invocation, trigger scope, or when to reach for the skill, put it in `description`.
+
+Example: an `advanced-repo-research` skill should load for all `inspect upstream source` requests, but explain the agent when to use simple research vs advanced.
+
 - Use descriptive names with real task words.
 - Cover likely synonyms.
 - Include concrete trigger phrases when they help.
 - Mention failure symptoms when the skill addresses a problem.
 - Mention specific tools, libraries, file types, or domains only when they are truly part of the trigger.
+- Prefer literal task-shaped names and descriptions over abstract goals.
+- Hard directives like `ALWAYS LOAD THIS SKILL WHEN X` are useful when you need to ensure a skill is consistently loaded for a clearly scoped class of work.
+- Scope `X` tightly enough to avoid bad matches.
+- Pair it with a second sentence such as `Do not do Y directly — read this skill first` when you need to steer the agent away from bypassing the skill.
+
+Example: `ALWAYS LOAD THIS SKILL WHEN WORKING WITH PYSIDE6, QT, OR DESKTOP GUI CODE. Do not review or write PySide6 or Qt code directly — use this skill first.`
 
 Think in terms of search terms an agent might match:
 
@@ -113,11 +142,19 @@ Overtriggering signs:
 
 If triggering is wrong, refine the description before adding more body text.
 
+Also verify that the skill is discoverable from the expected directory layout for the target agents. For supported agent paths, check:
+
+- `https://github.com/vercel-labs/skills#supported-agents`
+
 ## Verification
 
 Do not turn verification into ritual.
 
 For simple skills, a small careful read by separate subagent is usually enough.
+
+Match the verification effort to the risk. Use stronger checks when the main failure mode is triggering, discoverability, or behavior in realistic agent workflows.
+
+Example: a tiny wording cleanup may only need a careful read, while a trigger-sensitive skill should usually get at least one realistic invocation test.
 
 Use stronger verification only when the skill contains:
 
@@ -133,6 +170,15 @@ In those cases:
 3. Look at where the skill was misunderstood, skipped, or interpreted too narrowly or too broadly.
 4. Fix the skill.
 5. Repeat if the first verification exposed meaningful problems.
+
+For skills where triggering matters, a realistic invocation test is often the most useful check:
+
+- give a fresh agent a plausible task
+- do not over-specify the workflow unless that is part of the requirement
+- see whether the skill loads or is disclosed naturally
+- check whether it changed the behavior you cared about, such as tool choice, escalation, or reporting
+
+Example: ask a fresh agent to research an upstream package behavior from real sources, instruct it to report used skills and see whether it will use `advanced-repo-research` practices or not.
 
 The goal is not formal TDD. The goal is to confirm that another agent can understand and apply the skill. And that it's instructions are correct.
 
