@@ -43,8 +43,8 @@ Hard constraints:
 
 Write `description` for discovery, not for marketing.
 
-- Assume the agent usually sees the directory name, `name`, and `description` before invocation.
-- Assume the body is mainly post-invocation guidance.
+- Assume the agent sees ONLY directory name, `name`, and `description` before invocation.
+- Assume the body is ONLY post-invocation guidance.
 - Put invocation guidance in `description`, not in the body.
 - Keep `description` focused on when to load. Put detailed instructions and decision rules in the body.
 
@@ -106,7 +106,7 @@ When writing `name` and `description`, optimize for how another agent will find 
 - The body should tell the agent how strongly to apply the skill once loaded.
 - Some skills should load broadly but apply flexibly. Others should load narrowly and be followed rigidly.
 
-Important: body text cannot rescue a skill that did not load. If a rule is about invocation, trigger scope, or when to reach for the skill, put it in `description`.
+Important: body text cannot help a skill that did not load. If a rule is about invocation, trigger scope, or when to reach for the skill, put it in `description`.
 
 Example: an `advanced-repo-research` skill should load for all `inspect upstream source` requests, but explain the agent when to use simple research vs advanced.
 
@@ -117,6 +117,8 @@ Example: an `advanced-repo-research` skill should load for all `inspect upstream
 - Mention specific tools, libraries, file types, or domains only when they are truly part of the trigger.
 - Prefer literal task-shaped names and descriptions over abstract goals.
 - Hard directives like `ALWAYS LOAD THIS SKILL WHEN X` are useful when you need to ensure a skill is consistently loaded for a clearly scoped class of work.
+- Do not make entire body `UPPER CASE`, only initial phrase.
+- You can adjust this to language of the skill, eg russian.
 - Scope `X` tightly enough to avoid bad matches.
 - Pair it with a second sentence such as `Do not do Y directly — read this skill first` when you need to steer the agent away from bypassing the skill.
 
@@ -140,7 +142,7 @@ Overtriggering signs:
 - The skill loads for adjacent but different tasks.
 - The description is broad enough to match generic writing or documentation work.
 
-If triggering is wrong, refine the description before adding more body text.
+If triggering is wrong, refine the description instead of editing body text.
 
 Also verify that the skill is discoverable from the expected directory layout for the target agents. For supported agent paths, check:
 
