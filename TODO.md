@@ -10,4 +10,4 @@
   - preconfigure
   - create/find per-cli usage skills
 - make a map/table of agent level teamlead/teammate/subagent and skills available/recommended/blocked for the level
-- in main meta-skill (into), define and explain "ceremony scales with task" rule, set task/repo measurement rules
+- in main meta-skill (intro), define and explain "ceremony scales with task" rule, set task/repo measurement rules

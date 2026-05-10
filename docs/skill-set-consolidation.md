@@ -74,7 +74,7 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 | prototype-first + systematic-debugging                      | When 3+ fixes fail, prototype the fix approach before committing                             |
 | prototype-first + executing-plans                           | Spike risky plan steps before full implementation                                            |
 | testing-python + TDD                                        | testing-python defines WHAT good tests look like. TDD defines WHEN to write them. Orthogonal |
-| doubt-driven-development + any skill                        | Apply at any phase: doubt your spec, doubt your plan, doubt your implementation              |
+| doubt-early + any skill                        | Apply at any phase: doubt your spec, doubt your plan, doubt your implementation              |
 | source-driven-development + any implementation skill        | "Check docs, not memory" applies everywhere                                                  |
 | context-engineering + subagent-driven-development           | Context packing for subagent dispatch                                                        |
 | spec-driven-development + planning                          | Spec comes first, then plan. Sequential but complementary                                    |
@@ -132,7 +132,7 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 | #   | Skill Name                  | Description                                                                                           | Primary Source |
 | --- | --------------------------- | ----------------------------------------------------------------------------------------------------- | -------------- |
 | 13  | `prototype-first`           | Isolate risky assumptions, spike, capture outcome, update plan. Useful at any phase                   | Personal       |
-| 14  | `doubt-driven-development`  | CLAIM → EXTRACT → DOUBT (adversarial review) → RECONCILE → STOP. Apply at any phase                   | Addy           |
+| 14  | `doubt-early`               | Fresh-context adversarial review before committing. Catches wrong solutions AND wrong problems (XY). Agent decides cross-model based on task scope. | Personal (from Addy) |
 | 15  | `source-driven-development` | Every framework decision backed by official docs. Detect stack → fetch → implement from docs → cite   | Addy           |
 | 16  | `context-engineering`       | Context hierarchy, packing strategies, confusion management. Pack right context instead of flooding   | Addy           |
 | 17  | `code-simplification`       | Preserve behavior, clarity over cleverness. Understand before touching. Incremental with verification | Addy           |
@@ -205,13 +205,13 @@ WORKFLOW PHASES          SKILLS (with cross-cutting enrichers)
 
 IDEATION ──────────── idea-refine / brainstorming (TBD)
                       │
-                      ├── enriched by: doubt-driven-development
+                      ├── enriched by: doubt-early
                       ├── enriched by: prototype-first (spike risky assumptions)
                       │
 DESIGN/SPEC ───────── spec-driven-development
                       │
                       ├── enriched by: source-driven-development (check docs)
-                      ├── enriched by: doubt-driven-development (adversarial review)
+                      ├── enriched by: doubt-early (adversarial review)
                       ├── enriched by: api-and-interface-design
                       ├── enriched by: architecting-changes
                       │
@@ -235,7 +235,7 @@ DEBUGGING ──────────── systematic-debugging
                       │
 REVIEW ─────────────── code-review
                       │
-                      ├── enriched by: doubt-driven-development (adversarial review)
+                      ├── enriched by: doubt-early (adversarial review)
                       │
 VERIFICATION ───────── verification-before-completion
                       │
@@ -246,7 +246,7 @@ ALWAYS AVAILABLE (cross-cutting):
   ├── using-skills (bootstrap/meta)
   ├── how-to-write-skills
   ├── context-engineering
-  └── doubt-driven-development
+  └── doubt-early
 
 RESEARCH (on-demand):
   ├── ai-edge-research
@@ -289,7 +289,7 @@ PYTHON-SPECIFIC (per-project):
 - [ ] Direct comparison: brainstorming vs idea-refine
 - [ ] Direct comparison: writing-plans vs planning-and-task-breakdown
 - [ ] Write core PHILOSOPHY.md (generalized from Python)
-- [ ] Batch 1: cross-cutting enrichers (prototype-first, doubt-driven, source-driven, context-engineering, code-simplification)
+- [x] Batch 1: cross-cutting enrichers (prototype-first ✓, doubt-early ✓, source-driven, context-engineering, code-simplification)
 - [ ] Batch 2: domain skills (api-design, security, perf, ci-cd, shipping, frontend, devtools, deprecation, docs)
 - [ ] Batch 3: core workflow skills
 - [ ] Batch 4: parallel/agent skills
