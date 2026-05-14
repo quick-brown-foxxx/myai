@@ -74,7 +74,7 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 | prototype-first + systematic-debugging                      | When 3+ fixes fail, prototype the fix approach before committing                             |
 | prototype-first + executing-plans                           | Spike risky plan steps before full implementation                                            |
 | testing-python + TDD                                        | testing-python defines WHAT good tests look like. TDD defines WHEN to write them. Orthogonal |
-| doubt-early + any skill                        | Apply at any phase: doubt your spec, doubt your plan, doubt your implementation              |
+| doubt-early + any skill                                     | Apply at any phase: doubt your spec, doubt your plan, doubt your implementation              |
 | source-driven-development + any implementation skill        | "Check docs, not memory" applies everywhere                                                  |
 | context-engineering + subagent-driven-development           | Context packing for subagent dispatch                                                        |
 | spec-driven-development + planning                          | Spec comes first, then plan. Sequential but complementary                                    |
@@ -129,13 +129,13 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 
 ### Cross-Cutting Enricher Skills
 
-| #   | Skill Name                  | Description                                                                                           | Primary Source |
-| --- | --------------------------- | ----------------------------------------------------------------------------------------------------- | -------------- |
-| 13  | `prototype-first`           | Isolate risky assumptions, spike, capture outcome, update plan. Useful at any phase                   | Personal       |
+| #   | Skill Name                  | Description                                                                                                                                         | Primary Source       |
+| --- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| 13  | `prototype-first`           | Isolate risky assumptions, spike, capture outcome, update plan. Useful at any phase                                                                 | Personal             |
 | 14  | `doubt-early`               | Fresh-context adversarial review before committing. Catches wrong solutions AND wrong problems (XY). Agent decides cross-model based on task scope. | Personal (from Addy) |
-| 15  | `source-driven-development` | Every framework decision backed by official docs. Detect stack → fetch → implement from docs → cite   | Addy           |
-| 16  | `context-engineering`       | Context hierarchy, packing strategies, confusion management. Pack right context instead of flooding   | Addy           |
-| 17  | `code-simplification`       | Preserve behavior, clarity over cleverness. Understand before touching. Incremental with verification | Addy           |
+| 15  | `source-driven-development` | Every framework decision backed by official docs. Detect stack → fetch → implement from docs → cite                                                 | Addy                 |
+| 16  | `context-engineering`       | Context hierarchy, packing strategies, confusion management. Pack right context instead of flooding                                                 | Addy                 |
+| 17  | `code-simplification`       | Preserve behavior, clarity over cleverness. Understand before touching. Incremental with verification                                               | Addy                 |
 
 ### Parallel/Agent Workflow Skills
 

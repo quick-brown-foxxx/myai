@@ -2,6 +2,7 @@
 
 - handle and catch XY problems
   - related to prototype-first: when AI should consider prototyping, sometimes (not always) it's within XY problem on the wrong execution path
+  - relation between prototype-first and doubt-early, what is the order?
 - different models for different subagents?
   - eg coder is gpt, reviewer is claude and so on?
   - parametrization to avoid hardcoding model into agent md description?
