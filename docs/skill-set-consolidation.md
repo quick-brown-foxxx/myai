@@ -133,8 +133,6 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 | --- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
 | 13  | `prototype-first`           | Isolate risky assumptions, spike, capture outcome, update plan. Useful at any phase                                                                 | Personal             |
 | 14  | `doubt-early`               | Fresh-context adversarial review before committing. Catches wrong solutions AND wrong problems (XY). Agent decides cross-model based on task scope. | Personal (from Addy) |
-| 15  | `source-driven-development` | Every framework decision backed by official docs. Detect stack → fetch → implement from docs → cite                                                 | Addy                 |
-| 16  | `context-engineering`       | Context hierarchy, packing strategies, confusion management. Pack right context instead of flooding                                                 | Addy                 |
 | 17  | `code-simplification`       | Preserve behavior, clarity over cleverness. Understand before touching. Incremental with verification                                               | Addy                 |
 
 ### Parallel/Agent Workflow Skills
@@ -191,6 +189,8 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 | Superpowers `writing-skills`                       | Personal how-to-write-skills is sufficient     |
 | Superpowers `using-superpowers`                    | Merged into using-skills                       |
 | Addy `using-agent-skills`                          | Merged into using-skills                       |
+| Addy `contect-engineering`                         | Generally not needed                           |
+| Addy `source-driven-development`                   | Too opinionated                                |
 | Superpowers `executing-plans`                      | Merged into incremental-implementation         |
 | Superpowers `writing-plans`                        | Merged into planning-work (pending comparison) |
 | Superpowers `test-driven-development` (standalone) | Merged into demoted test-driven-development    |
@@ -210,7 +210,6 @@ IDEATION ──────────── idea-refine / brainstorming (TBD)
                       │
 DESIGN/SPEC ───────── spec-driven-development
                       │
-                      ├── enriched by: source-driven-development (check docs)
                       ├── enriched by: doubt-early (adversarial review)
                       ├── enriched by: api-and-interface-design
                       ├── enriched by: architecting-changes
@@ -218,14 +217,12 @@ DESIGN/SPEC ───────── spec-driven-development
 PLANNING ───────────── planning-work
                       │
                       ├── enriched by: prototype-first (validate plan assumptions)
-                      ├── enriched by: context-engineering (pack right context)
                       │
 IMPLEMENTATION ─────── incremental-implementation
                       │               │
                       │               ├── subagent-driven-development (parallel)
                       │               └── dispatching-parallel-agents (independent tasks)
                       │
-                      ├── enriched by: source-driven-development (verify API usage)
                       ├── enriched by: code-simplification (simplest thing first)
                       ├── enriched by: prototype-first (spike before commit)
                       │
@@ -245,7 +242,6 @@ FINISHING ──────────── finishing-a-development-branch
 ALWAYS AVAILABLE (cross-cutting):
   ├── using-skills (bootstrap/meta)
   ├── how-to-write-skills
-  ├── context-engineering
   └── doubt-early
 
 RESEARCH (on-demand):
@@ -289,7 +285,7 @@ PYTHON-SPECIFIC (per-project):
 - [ ] Direct comparison: brainstorming vs idea-refine
 - [ ] Direct comparison: writing-plans vs planning-and-task-breakdown
 - [ ] Write core PHILOSOPHY.md (generalized from Python)
-- [x] Batch 1: cross-cutting enrichers (prototype-first ✓, doubt-early ✓, source-driven, context-engineering, code-simplification)
+- [x] Batch 1: cross-cutting enrichers (prototype-first ✓, doubt-early ✓, source-driven ⛌, context-engineering ⛌, code-simplification)
 - [ ] Batch 2: domain skills (api-design, security, perf, ci-cd, shipping, frontend, devtools, deprecation, docs)
 - [ ] Batch 3: core workflow skills
 - [ ] Batch 4: parallel/agent skills

@@ -49,3 +49,7 @@ Instead I want this process not to be controlled by random skill invocation, but
 Teammate receives description of its high level step that it should proceed now and implement entire step. Once agent finishes the step, I may invoke the next command for the same teammate or may exit it and start a new agent with next command.
 
 So the workflow should be reflected in the skills, but skills do not drive the workflow. They should be aligned with it. But skills are more low level than the workflow.
+
+---
+
+See [../.tmp/addy-agent-skills/agents/README.md](../.tmp/addy-agent-skills/agents/README.md) - it's not my pattern but I like structure
