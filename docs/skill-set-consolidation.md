@@ -159,9 +159,6 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 | 25  | `performance-optimization`      | Measure before optimizing. Workflow: measure → identify → fix → verify → guard. Common anti-patterns               | Addy                       |
 | 26  | `ci-cd-and-automation`          | Quality gate pipelines, feature flags, staged rollouts, rollback plans, dependabot                                 | Addy                       |
 | 27  | `shipping-and-launch`           | Pre-launch checklist, feature flag strategy, staged rollout with thresholds, monitoring, rollback                  | Addy                       |
-| 28  | `frontend-ui-engineering`       | Component architecture, state management, design system, accessibility, responsive design                          | Addy (project-specific)    |
-| 29  | `browser-testing-with-devtools` | Chrome DevTools MCP. DOM inspection, console, network, performance traces. Security boundaries for browser content | Addy                       |
-| 30  | `deprecation-and-migration`     | Code is liability, Hyrum's Law. Migration process and patterns. Zombie code                                        | Addy                       |
 | 31  | `documentation-and-adrs`        | ADRs, inline docs, API docs, README structure, changelog                                                           | Addy                       |
 | 32  | `test-driven-development`       | Red-green-refactor as recommended technique. When TDD adds value vs when other approaches are better               | Merge: addy + superpowers  |
 
@@ -195,6 +192,9 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 | Superpowers `writing-plans`                        | Merged into planning-work (pending comparison) |
 | Superpowers `test-driven-development` (standalone) | Merged into demoted test-driven-development    |
 | Addy `test-driven-development` (standalone)        | Same merge                                     |
+| Addy `browser-testing-with-devtools`               | Will enroll my own later                       |
+| Addy `deprecation-and-migration`                   | Not need for my cases                          |
+| Addy `frontend-ui-engineering`                     | Too opinionated, will enroll my own            |
 | Superpowers `requesting-code-review`               | Merged into code-review                        |
 | Superpowers `receiving-code-review`                | Merged into code-review                        |
 
@@ -252,11 +252,8 @@ RESEARCH (on-demand):
 DOMAIN-SPECIFIC (per-project):
   ├── security-and-hardening
   ├── performance-optimization
-  ├── browser-testing-with-devtools
   ├── ci-cd-and-automation
   ├── shipping-and-launch
-  ├── frontend-ui-engineering
-  ├── deprecation-and-migration
   └── documentation-and-adrs
 
 PYTHON-SPECIFIC (per-project):
@@ -286,7 +283,7 @@ PYTHON-SPECIFIC (per-project):
 - [ ] Direct comparison: writing-plans vs planning-and-task-breakdown
 - [ ] Write core PHILOSOPHY.md (generalized from Python)
 - [x] Batch 1: cross-cutting enrichers (prototype-first ✓, doubt-early ✓, source-driven ⛌, context-engineering ⛌, code-simplification ✓)
-- [ ] Batch 2: domain skills (api-design, security, perf, ci-cd, shipping, frontend, devtools, deprecation, docs)
+- [x] Batch 2: domain skills (api-design ✓, security ✓, perf ✓, ci-cd ✓, shipping ✓, frontend ⛌, devtools ⛌, deprecation ⛌, docs ✓)
 - [ ] Batch 3: core workflow skills
 - [ ] Batch 4: parallel/agent skills
 - [ ] Batch 5: Python skill set refactoring

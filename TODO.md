@@ -19,3 +19,11 @@
 - in main meta-skill (intro), define and explain "ceremony scales with task" rule, set task/repo measurement rules
 
 - in skill for spawning subagents MAYBE add prompting rules from [context-management skill](.tmp/addy-agent-skills/skills/context-engineering/SKILL.md)
+
+- enroll own or merge:
+  - merge `browser-testing-with-devtools` from addy with POLZA's skill
+  - merge addy's `frontend-ui-engineering` with my nextjs template/skills
+
+- run over all borrowed skills to check if we can enrich them with our PHILOSOPHY or practices
+- ensure all our skills are consistent
+- double check discovery/invocation of all skills' descriptions
