@@ -285,7 +285,7 @@ PYTHON-SPECIFIC (per-project):
 - [ ] Direct comparison: brainstorming vs idea-refine
 - [ ] Direct comparison: writing-plans vs planning-and-task-breakdown
 - [ ] Write core PHILOSOPHY.md (generalized from Python)
-- [x] Batch 1: cross-cutting enrichers (prototype-first ✓, doubt-early ✓, source-driven ⛌, context-engineering ⛌, code-simplification)
+- [x] Batch 1: cross-cutting enrichers (prototype-first ✓, doubt-early ✓, source-driven ⛌, context-engineering ⛌, code-simplification ✓)
 - [ ] Batch 2: domain skills (api-design, security, perf, ci-cd, shipping, frontend, devtools, deprecation, docs)
 - [ ] Batch 3: core workflow skills
 - [ ] Batch 4: parallel/agent skills
