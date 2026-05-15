@@ -241,20 +241,20 @@ FINISHING ──────────── finishing-a-development-branch
 
 ALWAYS AVAILABLE (cross-cutting):
   ├── using-skills (bootstrap/meta)
-  ├── how-to-write-skills
-  └── doubt-early
+  ├── how-to-write-skills ✓
+  └── doubt-early ✓
 
 RESEARCH (on-demand):
-  ├── ai-edge-research
-  ├── upstream-source-research
-  └── writing-upstream-bug-reports
+  ├── ai-edge-research ✓
+  ├── upstream-source-research ✓
+  └── writing-upstream-bug-reports ✓
 
 DOMAIN-SPECIFIC (per-project):
-  ├── security-and-hardening
-  ├── performance-optimization
-  ├── ci-cd-and-automation
-  ├── shipping-and-launch
-  └── documentation-and-adrs
+  ├── security-and-hardening ✓
+  ├── performance-optimization ✓
+  ├── ci-cd-and-automation ✓
+  ├── shipping-and-launch ✓
+  └── documentation-and-adrs ✓
 
 PYTHON-SPECIFIC (per-project):
   ├── writing-python-code
