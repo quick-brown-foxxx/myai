@@ -253,7 +253,9 @@ Take the output into Step 4 (RECONCILE).
 - **`prototype-first`**: use when the doubt reveals a risky assumption worth prototyping
 - **`source-driven-development`**: SDD verifies framework facts; doubt-early verifies your reasoning
 - **`systematic-debugging`**: when doubt reveals a real failure mode, drop into debugging
-- **`brainstorming`**: doubt-early challenges decisions; brainstorming generates them
+- **`idea-sharpening`**: doubt-early challenges assumptions; idea-sharpening explores them
+- **`brainstorming`**: doubt-early challenges design decisions; brainstorming generates the spec
+- **`planning-implementation`**: doubt-early catches flawed decomposition; planning-implementation structures the work
 
 ## Verification Checklist
 

@@ -111,7 +111,7 @@ All skills live in `skills/` at repo root. Symlinked into `.agents/skills/` for 
 | ------------------ | ---------- | ------------------------------------------------------------------------------------- |
 | `prototype-first`  | ✅ Existing | Referenced by all three pipeline skills (recommendation)                              |
 | `doubt-early`      | ✅ Existing | Referenced by all three pipeline skills (recommendation)                              |
-| `visual-mockups`      | 📝 Extract   | Browser mockups for brainstorming. Extracted from superpowers brainstorming aux files |
+| `visual-mockups`      | ✅ Existing  | Browser mockups for brainstorming. Extracted from superpowers brainstorming aux files |
 
 ## Excluded / Deferred
 
@@ -142,7 +142,7 @@ Maps upstream skill files to resulting skills. For final review and comparison.
 |---|---|---|---|
 | Superpowers brainstorming | `SKILL.md` | Explore context, one-at-a-time questions, multi-choice preference, propose 2-3 approaches, design-for-isolation | ✅ Fully absorbed |
 | Superpowers brainstorming | `spec-document-reviewer-prompt.md` | Review checklist (Completeness, Consistency, Clarity, Scope, YAGNI) | ✅ Review questions absorbed into Review section |
-| Superpowers brainstorming | `visual-companion.md` | Browser-based mockup server | ➡️ Extracted to `visual-mockups` skill (future) |
+| Superpowers brainstorming | `visual-companion.md` | Browser-based mockup server | ✅ Extracted to `visual-mockups` skill |
 | Superpowers brainstorming | `scripts/` | `start-server.sh`, `stop-server.sh`, etc. | ➡️ Goes with `visual-mockups` skill |
 | Addy spec-driven-dev | `SKILL.md` | 6-core-area spec template, surface assumptions, reframe criteria technique | ✅ Absorbed (spec patterns only) |
 | — | — | Workflow governance, phase gates, implementation dispatch | ❌ Excluded (belongs in future workflow docs) |
