@@ -1,4 +1,4 @@
-# Skill Design Decisions
+# Skills For Planning Design Decisions
 
 Captures architectural decisions from the ideation/planning skill design session.
 If starting fresh, read this + `skill-set-consolidation.md` first.
