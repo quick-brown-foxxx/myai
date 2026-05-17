@@ -290,4 +290,4 @@ PYTHON-SPECIFIC (per-project):
 - [ ] Batch 5: Python skill set refactoring
 - [ ] Batch 6: using-skills bootstrap + how-to-write-skills review
 - [ ] Workflow documentation (separate from skills)
-- [ ] Extract `visual-mockups` as standalone aux skill (in-browser UI mockups for brainstorming/spec phase)
+- [x] Extract `visual-mockups` as standalone aux skill (in-browser UI mockups for brainstorming/spec phase)

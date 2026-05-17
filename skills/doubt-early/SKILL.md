@@ -24,7 +24,7 @@ This is not `/review`. `/review` is a verdict on a finished artifact. This is in
 
 - About to implement under uncertainty (requirements underspecified, multiple plausible approaches)
 - About to fix something that "shouldn't exist" (flaky tests, race conditions, unexpected behavior)
-- Drawing in lng multi step fixes that feel like a hack
+- Getting drawn into long multi-step fixes that feel like a hack
 - Caught yourself adding complexity to work around uncertainty
 - Making an assumption that, if wrong, invalidates the approach
 - About to make an architectural decision
@@ -251,7 +251,7 @@ Take the output into Step 4 (RECONCILE).
 ## Interaction with Other Skills
 
 - **`prototype-first`**: use when the doubt reveals a risky assumption worth prototyping
-- **`source-driven-development`**: SDD verifies framework facts; doubt-early verifies your reasoning
+- **Source/docs research**: source and documentation checks verify external facts; doubt-early verifies your reasoning
 - **`systematic-debugging`**: when doubt reveals a real failure mode, drop into debugging
 - **`idea-sharpening`**: doubt-early challenges assumptions; idea-sharpening explores them
 - **`brainstorming`**: doubt-early challenges design decisions; brainstorming generates the spec

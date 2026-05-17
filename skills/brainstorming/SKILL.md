@@ -76,7 +76,13 @@ Focus on understanding:
 
 If multiple approaches exist, propose 2-3 with trade-offs and your recommendation. Lead with your recommended option and explain why.
 
-### 4. Write the Spec
+### 4. Present the Design
+
+Before writing a persistent spec, briefly present the intended design: architecture, components, data flow, error handling, and testing approach. Scale this to the situation — a few sentences for straightforward changes, fuller sections for nuanced work.
+
+This is not a hard gate. Skip or compress this step in headless environments, for straightforward/simple tasks, or when the user explicitly asked for no additional questions. Use judgment: the point is to prevent misunderstanding, not to add ceremony.
+
+### 5. Write the Spec
 
 The spec is a living document that persists for the feature's lifetime. It's used in PRs for context and final validation. Update it if scope or plan changes.
 
@@ -85,6 +91,8 @@ Cover these core areas:
 **Objective:** What are we building and why? Who is the user? What does success look like?
 
 **Tech Stack:** Key frameworks, languages, dependencies with versions.
+
+**Commands:** Full executable build, test, lint, and dev commands with flags.
 
 **Project Structure:** Where source code lives, where tests go, where docs belong.
 

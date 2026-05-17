@@ -86,8 +86,8 @@ docs/
 Plans reference specs, specs reference concepts — simple relative links:
 
 ```markdown
-Spec: docs/concepts/2026-05-17-user-auth.md
-Plan: docs/specs/2026-05-17-user-auth.md
+Concept: docs/concepts/2026-05-17-user-auth.md
+Spec: docs/specs/2026-05-17-user-auth.md
 ```
 
 ## Skill File Conventions
@@ -115,12 +115,12 @@ All skills live in `skills/` at repo root. Symlinked into `.agents/skills/` for 
 
 ## Excluded / Deferred
 
-| Item                      | Source                    | Reason                                                                              |
-| ------------------------- | ------------------------- | ----------------------------------------------------------------------------------- |
-| Subagent dispatch prompts | Both superpowers          | Models handle subagent prompts ad hoc; aux files are rarely loaded (~80% skip rate) |
-| Subagent-vs-inline choice | Superpowers writing-plans | Depends on task size/session context. Not part of planning skill.                   |
-| workflow orchestration    | Addy spec-driven-dev      | Belongs in separate workflow documentation, not in skills                           |
-| `strategic-deep-dive`     | idea-refine aux files | Future subskill if frameworks/examples/criteria are too large for idea-sharpening      |
+| Item                                | Source                    | Reason                                                                                                        |
+| ----------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Workflow/subagent execution prompts | Both superpowers          | Execution orchestration depends on task size/session context; reviewer prompt patterns are embedded where useful |
+| Subagent-vs-inline choice           | Superpowers writing-plans | Depends on task size/session context. Not part of planning skill.                                             |
+| workflow orchestration              | Addy spec-driven-dev      | Belongs in separate workflow documentation, not in skills                                                     |
+| `strategic-deep-dive`               | idea-refine aux files     | Future subskill if frameworks/examples/criteria are too large for idea-sharpening                             |
 
 ## Source Map
 
@@ -131,7 +131,7 @@ Maps upstream skill files to resulting skills. For final review and comparison.
 | Upstream Source | File | Content Used | Status |
 |---|---|---|---|
 | Addy idea-refine | `SKILL.md` | 3-phase process (divergent→convergent→ship), output template, anti-patterns, verification | ✅ Fully absorbed |
-| Addy idea-refine | `frameworks.md` | 7 ideation frameworks (SCAMPER, First Principles, JTBD, Constraint-Based, Pre-Mortem, Analogous Inspiration) | ✅ Condensed inline |
+| Addy idea-refine | `frameworks.md` | 7 ideation frameworks (SCAMPER, How Might We, First Principles, JTBD, Constraint-Based, Pre-Mortem, Analogous Inspiration) | ✅ Condensed inline; HMW folded into Phase 1 |
 | Addy idea-refine | `refinement-criteria.md` | Evaluation rubric (User Value, Feasibility, Differentiation), Decision Matrix, MVP Scoping | ✅ Condensed inline |
 | Addy idea-refine | `examples.md` | 3 full session transcripts | ❌ Excluded — too long, rarely read |
 | Addy idea-refine | `scripts/idea-refine.sh` | Creates `docs/ideas/` directory | ❌ Excluded — trivial, done inline |
