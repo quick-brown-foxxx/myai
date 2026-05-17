@@ -84,9 +84,9 @@ This is not a hard gate. Skip or compress this step in headless environments, fo
 
 ### 5. Write the Spec
 
-The spec is a living document that persists for the feature's lifetime. It's used in PRs for context and final validation. Update it if scope or plan changes.
+For moderate or larger work, write a persistent spec that can be used in PRs for context and final validation. For small, clear work, an inline spec or short design note is enough. Update any persistent spec if scope or plan changes.
 
-Cover these core areas:
+Cover these core areas. In existing projects, compress unchanged sections instead of restating boilerplate.
 
 **Objective:** What are we building and why? Who is the user? What does success look like?
 
@@ -169,9 +169,9 @@ Isolate third-party libraries behind typed interfaces. This provides type safety
 
 ## Output
 
-Save the validated spec to `docs/specs/YYYY-MM-DD-<feature>.md`.
+For moderate or larger work, save the validated spec to `docs/specs/YYYY-MM-DD-<feature>.md`. For small work, keep the validated design inline unless persistence would help future implementation or review.
 
-The spec persists for the feature's lifetime. Reference it in PRs for context. Update it when scope or plan changes.
+Persistent specs last for the feature's lifetime. Reference them in PRs for context and update them when scope or plan changes.
 
 ## Related Skills
 
@@ -233,6 +233,6 @@ Fix any issues found. Iterate if the review exposed meaningful problems.
 
 - [ ] The spec covers objective, approach, and success criteria
 - [ ] Assumptions were surfaced and validated with the user
-- [ ] The user has reviewed and approved the spec
-- [ ] The spec is saved to `docs/specs/YYYY-MM-DD-<feature>.md`
+- [ ] For moderate/large or ambiguous work, the user has reviewed and approved the spec
+- [ ] For persistent specs, the spec is saved to `docs/specs/YYYY-MM-DD-<feature>.md`
 - [ ] Ambiguous requirements were reframed as concrete criteria

@@ -59,8 +59,8 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 | Topic         | Skills                                                                    | Conflict                                                                                                    | Resolution                                                                                              |
 | ------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | TDD           | Superpowers `test-driven-development` vs Addy `test-driven-development`   | Both define rigid red-green-refactor. Superpowers is dogmatic ("delete code before test"), Addy is moderate | Merge: Addy structure + Superpowers anti-rationalization, demote from Iron Law to recommended technique |
-| Ideation      | Superpowers `brainstorming` vs Addy `idea-refine`                         | Both 3-phase ideation but different flows. Superpowers has HARD GATE, Addy is flexible                      | **Needs direct comparison before deciding**                                                             |
-| Planning      | Superpowers `writing-plans` vs Addy `planning-and-task-breakdown`         | Both break work into tasks. Superpowers is rigid, Addy is practical (vertical slicing, dependency graphs)   | **Needs direct comparison before deciding**                                                             |
+| Ideation      | Superpowers `brainstorming` vs Addy `idea-refine`                         | Both 3-phase ideation but different flows. Superpowers has HARD GATE, Addy is flexible                      | Split into `idea-sharpening` for strategic ideation and `brainstorming` for technical specs             |
+| Planning      | Superpowers `writing-plans` vs Addy `planning-and-task-breakdown`         | Both break work into tasks. Superpowers is rigid, Addy is practical (vertical slicing, dependency graphs)   | Merge into `planning-implementation`: Addy structure plus selected Superpowers no-placeholder/review rules |
 | Debugging     | Superpowers `systematic-debugging` vs Addy `debugging-and-error-recovery` | Same domain, different depth. Superpowers is deep, Addy is broader/shallower                                | Merge: Superpowers root-cause-first + Addy triage + error patterns. Drop pressure tests                 |
 | Review        | Superpowers `requesting`+`receiving-code-review` vs Addy `code-review`    | Superpowers splits requesting/receiving + subagent pattern. Addy has 5-axis review in one skill             | Merge: Addy 5-axis + Superpowers verify-before-implementing-feedback. Drop mandatory subagent pattern   |
 | Meta          | Superpowers `using-superpowers` vs Addy `using-agent-skills`              | Both define how to discover/load skills                                                                     | Merge into one lightweight bootstrap skill                                                              |
@@ -116,8 +116,9 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 | --- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
 | 1   | `using-skills`                   | Bootstrap: discover, load, combine skills. Lightweight, no Iron Laws                                                           | Merge: superpowers using-superpowers + addy using-agent-skills                           |
 | 2   | `how-to-write-skills`            | Author portable, discoverable, self-contained skills. Verification matched to complexity                                       | Personal                                                                                 |
-| 3   | `idea-sharpening`                | Complex ideation: expand → converge → sharpen. Flexible, no hard gates. Includes refinement criteria and frameworks            | Addy (pending comparison with superpowers brainstorming)                                 |
-| 5   | `planning-implementation`        | Break work into ordered, verifiable tasks. Dependency graphs, vertical slicing, task sizing                                    | Merge: addy planning + superpowers writing-plans (resolved in skill-design-decisions.md) |
+| 3   | `idea-sharpening`                | Complex ideation: expand → converge → sharpen. Flexible, no hard gates. Includes refinement criteria and frameworks            | Addy idea-refine                                                                         |
+| 4   | `brainstorming`                  | Technical spec creation for understood features: architecture, components, data flow, success criteria                         | Merge: superpowers brainstorming + Addy spec patterns                                    |
+| 5   | `planning-implementation`        | Break work into ordered, verifiable tasks. Dependency graphs, vertical slicing, task sizing                                    | Merge: addy planning + superpowers writing-plans (resolved in skills-for-planning-design.md) |
 | 6   | `architecting-changes`           | Boundary placement, reusable core, composition vs inheritance, framework vs custom, wrapper decisions. Routes to domain skills | Generalized from Python architecting-python-changes                                      |
 | 7   | `incremental-implementation`     | Thin vertical slices: implement → test → verify → commit → next. Scope discipline, one thing at a time                         | Addy                                                                                     |
 | 8   | `systematic-debugging`           | No fixes without root cause. 4 phases: investigate → analyze → hypothesize → implement. Plus triage checklist                  | Merge: superpowers + addy                                                                |
@@ -181,13 +182,13 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 
 | Removed                                            | Reason                                         |
 | -------------------------------------------------- | ---------------------------------------------- |
-| Superpowers `brainstorming`                        | Pending comparison with addy idea-refine       |
+| Superpowers `brainstorming` hard-gate workflow     | Split/softened into `brainstorming`; visual companion extracted to `visual-mockups` |
 | Superpowers `writing-skills`                       | Personal how-to-write-skills is sufficient     |
 | Superpowers `using-superpowers`                    | Merged into using-skills                       |
 | Addy `using-agent-skills`                          | Merged into using-skills                       |
 | Addy `contect-engineering`                         | Generally not needed                           |
 | Addy `source-driven-development`                   | Too opinionated                                |
-| Addy `spec-driven-development`                     | Too high level                                 |
+| Addy `spec-driven-development` workflow governance | Too high level; spec patterns absorbed into `brainstorming` |
 | Superpowers `executing-plans`                      | Merged into incremental-implementation         |
 | Superpowers `writing-plans`                        | Merged into planning-implementation (resolved) |
 | Superpowers `test-driven-development` (standalone) | Merged into demoted test-driven-development    |
@@ -279,8 +280,8 @@ PYTHON-SPECIFIC (per-project):
 - [x] Design principles agreed
 - [x] Proposed final skill list (draft)
 - [x] Skill relationship map
-- [x] Direct comparison: brainstorming vs idea-refine — resolved in skill-design-decisions.md
-- [x] Direct comparison: writing-plans vs planning-and-task-breakdown — resolved in skill-design-decisions.md
+- [x] Direct comparison: brainstorming vs idea-refine — resolved in skills-for-planning-design.md
+- [x] Direct comparison: writing-plans vs planning-and-task-breakdown — resolved in skills-for-planning-design.md
 - [ ] Write core PHILOSOPHY.md (generalized from Python)
 - [x] Batch 1: cross-cutting enrichers (prototype-first ✓, doubt-early ✓, source-driven ⛌, context-engineering ⛌, code-simplification ✓)
 - [x] Batch 2: domain skills (api-design ✓, security ✓, perf ✓, ci-cd ✓, shipping ✓, frontend ⛌, devtools ⛌, deprecation ⛌, docs ✓)

@@ -43,9 +43,12 @@ Before writing any plan, operate in read-only mode:
 - Read the spec, relevant docs and relevant codebase sections
 - Identify existing patterns and conventions
 - Map dependencies between components
+- Map likely files and responsibilities before writing tasks
 - Note risks and unknowns
 
-Do not write implementation code during planning. The output is a plan document, not implementation.
+Do not write implementation code during planning. The output is a plan or task list, not implementation.
+
+When mapping files, prefer clear responsibilities and existing conventions. Files that change together should usually live together; split by responsibility, not by technical layer alone. If an existing file is unwieldy and the planned change touches it, include a targeted split in the plan, but avoid unrelated restructuring.
 
 ### Step 2: Map the Dependency Graph
 
@@ -130,6 +133,8 @@ Each task follows this structure:
 
 **Dependencies:** [Task numbers this depends on, or None]
 
+**Estimated size:** [XS/S/M/L]
+
 **Files likely touched:**
 - `src/path/to/file.py`
 - `tests/path/to/test_file.py`
@@ -207,7 +212,7 @@ Order tasks so that:
 - [Question needing human input]
 ```
 
-Save the plan to `docs/implementation-plans/YYYY-MM-DD-<feature>.md`.
+For moderate or larger work, save the plan to `docs/implementation-plans/YYYY-MM-DD-<feature>.md`. For small work, an inline task list is enough. Plans are working artifacts; persist them when they will help coordination, handoff, or later review.
 
 ## Parallelization
 
@@ -222,7 +227,7 @@ When multiple agents or sessions are available:
 | Rationalization | Reality |
 |---|---|
 | "I'll figure it out as I go" | That's how you end up with rework. 10 minutes of planning saves hours. |
-| "The tasks are obvious" | Write them anyway. Explicit tasks surface hidden dependencies and edge cases. |
+| "The tasks are obvious" | If the work is multi-step, write them anyway. Explicit tasks surface hidden dependencies and edge cases. |
 | "Planning is overhead" | Planning is the task. Implementation without a plan is just typing. |
 | "I can hold it all in my head" | Context windows are finite. Written plans survive session boundaries. |
 
@@ -292,4 +297,4 @@ Before starting implementation:
 - [ ] Task dependencies are identified and ordered correctly
 - [ ] No task touches more than ~5 files
 - [ ] Checkpoints exist between major phases
-- [ ] The human has reviewed and approved the plan
+- [ ] For moderate/large or ambiguous work, the human has reviewed and approved the plan

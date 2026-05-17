@@ -2,9 +2,10 @@
 name: idea-sharpening
 description: >-
   Refines vague ideas into sharp, validated concepts through structured divergent
-  and convergent thinking. Use when a task is unclear, when you need to
-  stress-test assumptions before committing, or when exploring options before
-  converging on one. Not for tasks with clear, unambiguous requirements.
+  and convergent thinking. Use when a concept is still unclear, when the user
+  asks to ideate or refine an idea, or when exploring options before converging
+  on what to build. Not for clear implementation tasks or adversarial review of
+  an existing plan.
 ---
 
 ## Planning Pipeline
@@ -41,6 +42,8 @@ You are an ideation partner. Guide the user through three phases. This is a conv
 **Goal:** Take the raw idea and open it up.
 
 1. **Restate the idea** as a crisp "How Might We" problem statement. This forces clarity on what's actually being solved.
+
+   Good HMW framings are narrow enough to act on, broad enough to allow multiple solutions, and include the user plus the key constraint. Avoid solution-embedded framings like "How might we add a chatbot?" when the real question is support load, response quality, or user self-service.
 
 2. **Ask 3-5 sharpening questions.** Focus on:
    - Who is this for, specifically?
@@ -85,6 +88,8 @@ After the user reacts to Phase 1 (resonant ideas, pushback, new context), shift 
 
 **Be honest, not supportive.** If an idea is weak, say so with kindness. Push back on complexity, question real value. A good ideation partner is not a yes-machine.
 
+Good ideation changes the frame, not just the wording. Diagnose the bottleneck before prescribing: "help restaurants compete" might become "retain regulars directly," and "stale retros" might become "fix the output layer." Variations should explain why they exist, and your recommendation should have an opinion.
+
 ### Phase 3: Sharpen & Ship
 
 Produce a concrete artifact — a markdown one-pager that moves work forward:
@@ -117,7 +122,7 @@ Produce a concrete artifact — a markdown one-pager that moves work forward:
 
 The "Not Doing" list is the most valuable part. Make trade-offs explicit.
 
-Ask the user if they'd like to save this to `docs/concepts/YYYY-MM-DD-<concept>.md` (or a location of their choosing). Only save if they confirm.
+For moderate or larger concepts, ask the user if they'd like to save this to `docs/concepts/YYYY-MM-DD-<concept>.md` (or a location of their choosing). For small explorations, an inline one-pager is enough. Only save if they confirm.
 
 ## Ideation Frameworks
 
@@ -280,4 +285,4 @@ After completing an ideation session:
 - [ ] Hidden assumptions are explicitly listed with validation strategies
 - [ ] A "Not Doing" list makes trade-offs explicit
 - [ ] The output is a concrete artifact (markdown one-pager), not just conversation
-- [ ] The user confirmed the final direction before any implementation work
+- [ ] For moderate/large or ambiguous work, the user confirmed the final direction before implementation work
