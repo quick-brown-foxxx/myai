@@ -90,6 +90,46 @@ After the user reacts to Phase 1 (resonant ideas, pushback, new context), shift 
 
 Good ideation changes the frame, not just the wording. Diagnose the bottleneck before prescribing: "help restaurants compete" might become "retain regulars directly," and "stale retros" might become "fix the output layer." Variations should explain why they exist, and your recommendation should have an opinion.
 
+## Example Process Patterns
+
+Use these as calibration for tone and reasoning. The point is not to show the final answer; it is to show how to move from vague prompt to sharper bet.
+
+### Local Restaurants vs Delivery Platforms
+
+Raw idea: "Help small local restaurants compete with the big delivery platforms."
+
+First move: reframe away from the user's wording. "Compete" could mean discovery, ordering, delivery logistics, customer retention, brand, margins, or loyalty. Ask which part hurts most and who the primary user is. If the answer is "restaurant owners paying 25-30% commission but feeling trapped," the problem is not generic competition; it is platform dependency and loss of customer relationship.
+
+Expansion move: generate variations that attack different leverage points, not cosmetic versions of the same app:
+- Direct channel toolkit: restaurants own branded ordering for customers who already know them.
+- Pickup-first ordering: remove delivery entirely and keep the margin problem small.
+- Neighborhood collective: restaurants pool discovery and marketing instead of each fighting alone.
+- Regulars engine: focus only on repeat customers who already have a restaurant habit.
+- Zero-management automation: assume owners are in the kitchen, not dashboards.
+
+Convergence move: notice which variations combine into a sharper thesis. The regulars + zero-management pair changes the bet from "build a DoorDash alternative" to "move a restaurant's best repeat customers onto a lower-friction direct reorder loop." Push back on the tempting "also build the full ordering platform" instinct: that may be necessary later, but it can blur the MVP before the core behavior is validated.
+
+Sharpening move: define the MVP around the riskiest assumption. If the hardest question is whether regular customers will switch channels, test that with a narrow SMS or direct-link reorder flow before building discovery, delivery, analytics, POS sync, or a marketplace.
+
+### Real-Time Collaboration in an Existing Editor
+
+Raw idea: "Add real-time collaboration to our document editor."
+
+First move: ground the idea in existing architecture. Scan the codebase for the document model, persistence path, editor granularity, and real-time infrastructure. A block-based editor with no WebSocket layer suggests different options than a character-level text editor that already has presence events.
+
+Diagnostic move: ask what collaboration actually means for users. Are they editing the same paragraph simultaneously, working in different sections, commenting while one person edits, or just needing a sales checkbox because competitors have it? The answer changes both the required fidelity and the cost worth paying.
+
+Expansion move: produce directions with genuinely different complexity profiles:
+- Presence only: users see who is in the doc and where they are, but editing remains single-user.
+- Block-level locking: multiple users can work at once as long as they edit different blocks.
+- Async suggestions: collaboration is review/merge, not simultaneous editing.
+- Version branches: users work independently and merge later.
+- Full CRDT co-editing: highest fidelity, highest implementation and testing cost.
+
+Convergence move: separate "must have to stop losing deals" from "differentiator worth deep investment." If customers mostly need confidence that teams can work together, presence or block-level locking may be the first useful proof. If the product's core value is collaborative writing itself, the CRDT path may be justified earlier.
+
+Sharpening move: make the not-doing list protect the plan. If choosing minimum viable co-editing, explicitly cut character-level CRDTs, offline sync, and AI collaboration until block-level collaboration proves insufficient. If choosing full fidelity, explicitly name the technical assumptions that need prototyping before committing.
+
 ### Phase 3: Sharpen & Ship
 
 Produce a concrete artifact — a markdown one-pager that moves work forward:
