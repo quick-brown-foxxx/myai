@@ -9,7 +9,7 @@ description: >-
 
 ## Planning Pipeline
 
-This skill is part of a scalable planning pipeline. Each step is optional depending on taworksk size:
+This skill is part of a scalable planning pipeline. Each step is optional depending on work size:
 
 ```
 idea-sharpening → brainstorming → planning-implementation → code
@@ -168,7 +168,7 @@ The spec persists for the feature's lifetime. Reference it in PRs for context. U
 ## Related Skills
 
 - **`idea-sharpening`** — Run this first if you're not sure what to build. Produces a validated concept to spec against.
-- **`visual-companion`** — If the design involves UI questions (layouts, mockups, diagrams), use the visual companion for browser-based interactive exploration.
+- **`visual-mockups`** — If the design involves UI questions (layouts, mockups, diagrams), use the visual mockups skill for browser-based interactive exploration.
 - **`prototype-first`** — If the spec involves a technically risky approach, prototype the critical path first before committing the full spec.
 - **`doubt-early`** — After writing the spec, use `doubt-early` for adversarial review of the design decisions.
 - **`planning-implementation`** — Next step. Breaks the spec into ordered implementation tasks.
@@ -180,6 +180,46 @@ The spec persists for the feature's lifetime. Reference it in PRs for context. U
 - Skipping the spec because "it's obvious" — if it's truly obvious, the spec is short, not absent
 - Silencing ambiguous requirements instead of surfacing them as assumptions
 - Over-engineering (building for scale that won't arrive, abstractions for future needs)
+
+## Review
+
+After writing the spec, review it before proceeding. How you review depends on scope. `doubt-early` can be part of the review process with same or separate subagent.
+
+**Spec scope (small feature, clear architecture, few files):** Run a quick self-review:
+- Are there any "TBD", "TODO", or incomplete sections?
+- Is the objective specific enough to validate against later?
+- Are the architecture decisions internally consistent?
+- Are there ambiguous requirements that could be interpreted two ways?
+- Are there unrequested features (YAGNI violations)?
+
+**Complex or large spec (multi-component, risky architecture, many dependencies):** Dispatch a fresh subagent to review the spec document independently before proceeding:
+
+```
+You are a spec document reviewer. Verify this spec is complete and ready for planning.
+
+**Spec to review:** [SPEC_FILE_PATH]
+
+## What to Check
+| Category | What to Look For |
+|----------|------------------|
+| Completeness | TODOs, placeholders, "TBD", incomplete sections |
+| Consistency | Internal contradictions, conflicting requirements |
+| Clarity | Requirements ambiguous enough to cause someone to build the wrong thing |
+| Scope | Focused enough for a single plan — not covering multiple independent subsystems |
+| YAGNI | Unrequested features, over-engineering |
+
+## Calibration
+Only flag issues that would cause real problems during implementation planning.
+Minor wording improvements, stylistic preferences, and "sections less detailed than others" are not issues.
+Approve unless there are serious gaps that would lead to a flawed plan.
+
+## Output Format
+**Status:** Approved | Issues Found
+**Issues (if any):** [Section X]: [specific issue] - [why it matters for planning]
+**Recommendations:** [advisory suggestions]
+```
+
+Fix any issues found. Iterate if the review exposed meaningful problems.
 
 ## Verification
 

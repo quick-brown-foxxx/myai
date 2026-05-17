@@ -231,6 +231,45 @@ Differentiation is the tiebreaker between options in the same quadrant.
 - **`brainstorming`** — Next step after the concept is validated. Produces the technical spec.
 - **`planning-implementation`** — Final planning step before coding. Breaks the spec into concrete tasks.
 
+## Review
+
+After writing the concept doc, review it before proceeding. How you review depends on scope. `doubt-early` can be part of the review process with same or separate subagent.
+
+**Concept scope (assumptions are mostly clear, straightforward path):** Run a quick self-review:
+- Are there any "TBD", "TODO", or incomplete sections?
+- Is the problem statement crisp and unambiguous?
+- Are the recommended direction and the assumptions list internally consistent?
+- Could someone read this and build the wrong thing?
+
+**Complex or vague concept (many open questions, high-risk assumptions):** Dispatch a fresh subagent to review the concept doc independently before proceeding:
+
+```
+You are a concept reviewer. Verify this concept doc is coherent and ready for spec writing.
+
+**Concept to review:** [CONCEPT_FILE_PATH]
+
+## What to Check
+| Category | What to Look For |
+|----------|------------------|
+| Completeness | TODOs, placeholders, "TBD", incomplete sections |
+| Consistency | Internal contradictions between problem, direction, and scope |
+| Clarity | Requirements ambiguous enough to spec the wrong thing |
+| Assumptions | Hidden assumptions that aren't surfaced in the list |
+| Focus | Scoped to one concept, not multiple independent ideas |
+
+## Calibration
+Only flag issues that would cause real problems during spec writing. Minor wording
+improvements and stylistic preferences are not issues.
+Approve unless there are serious gaps that would lead to a flawed spec.
+
+## Output Format
+**Status:** Approved | Issues Found
+**Issues (if any):** [section]: [specific issue] - [why it matters]
+**Recommendations:** [advisory suggestions]
+```
+
+Fix any issues found. Iterate if the review exposed meaningful problems.
+
 ## Verification
 
 After completing an ideation session:

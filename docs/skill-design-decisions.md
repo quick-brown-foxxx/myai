@@ -42,7 +42,7 @@ Each skill's description should explicitly state when to skip it.
 - **Output:** `docs/specs/YYYY-MM-DD-<feature>.md`
 - **Spec lifespan:** Persists for the feature's lifetime. Used in PRs for context and final validation. Updated if scope/plan changes.
 - **Next:** `planning-implementation`
-- **Cross-refs:** Recommends `prototype-first` for risky implementation choices, `doubt-early` for design review. References `visual-companion` for browser-based mockups when UI questions arise.
+- **Cross-refs:** Recommends `prototype-first` for risky implementation choices, `doubt-early` for design review. References `visual-mockups` for browser-based mockups when UI questions arise.
 - **From spec-driven-development (absorbed):** 6-core-area spec template, "surface assumptions" practice, "reframe instructions as success criteria" technique
 - **From spec-driven-development (excluded):** Workflow governance (gates, plans, implementation dispatch) — belongs in future workflow docs
 - **From brainstorming (excluded):** Hard gate ("MUST present design for every project") — replaced by ceremony scaling
@@ -111,7 +111,7 @@ All skills live in `skills/` at repo root. Symlinked into `.agents/skills/` for 
 | ------------------ | ---------- | ------------------------------------------------------------------------------------- |
 | `prototype-first`  | ✅ Existing | Referenced by all three pipeline skills (recommendation)                              |
 | `doubt-early`      | ✅ Existing | Referenced by all three pipeline skills (recommendation)                              |
-| `visual-companion` | 📝 Extract  | Browser mockups for brainstorming. Extracted from superpowers brainstorming aux files |
+| `visual-mockups`      | 📝 Extract   | Browser mockups for brainstorming. Extracted from superpowers brainstorming aux files |
 
 ## Excluded / Deferred
 
@@ -120,4 +120,40 @@ All skills live in `skills/` at repo root. Symlinked into `.agents/skills/` for 
 | Subagent dispatch prompts | Both superpowers          | Models handle subagent prompts ad hoc; aux files are rarely loaded (~80% skip rate) |
 | Subagent-vs-inline choice | Superpowers writing-plans | Depends on task size/session context. Not part of planning skill.                   |
 | workflow orchestration    | Addy spec-driven-dev      | Belongs in separate workflow documentation, not in skills                           |
-| `strategic-deep-dive`     | idea-refine aux files     | Future subskill if frameworks/examples/criteria are too large for idea-sharpening   |
+| `strategic-deep-dive`     | idea-refine aux files | Future subskill if frameworks/examples/criteria are too large for idea-sharpening      |
+
+## Source Map
+
+Maps upstream skill files to resulting skills. For final review and comparison.
+
+### idea-sharpening
+
+| Upstream Source | File | Content Used | Status |
+|---|---|---|---|
+| Addy idea-refine | `SKILL.md` | 3-phase process (divergent→convergent→ship), output template, anti-patterns, verification | ✅ Fully absorbed |
+| Addy idea-refine | `frameworks.md` | 7 ideation frameworks (SCAMPER, First Principles, JTBD, Constraint-Based, Pre-Mortem, Analogous Inspiration) | ✅ Condensed inline |
+| Addy idea-refine | `refinement-criteria.md` | Evaluation rubric (User Value, Feasibility, Differentiation), Decision Matrix, MVP Scoping | ✅ Condensed inline |
+| Addy idea-refine | `examples.md` | 3 full session transcripts | ❌ Excluded — too long, rarely read |
+| Addy idea-refine | `scripts/idea-refine.sh` | Creates `docs/ideas/` directory | ❌ Excluded — trivial, done inline |
+
+### brainstorming
+
+| Upstream Source | File | Content Used | Status |
+|---|---|---|---|
+| Superpowers brainstorming | `SKILL.md` | Explore context, one-at-a-time questions, multi-choice preference, propose 2-3 approaches, design-for-isolation | ✅ Fully absorbed |
+| Superpowers brainstorming | `spec-document-reviewer-prompt.md` | Review checklist (Completeness, Consistency, Clarity, Scope, YAGNI) | ✅ Review questions absorbed into Review section |
+| Superpowers brainstorming | `visual-companion.md` | Browser-based mockup server | ➡️ Extracted to `visual-mockups` skill (future) |
+| Superpowers brainstorming | `scripts/` | `start-server.sh`, `stop-server.sh`, etc. | ➡️ Goes with `visual-mockups` skill |
+| Addy spec-driven-dev | `SKILL.md` | 6-core-area spec template, surface assumptions, reframe criteria technique | ✅ Absorbed (spec patterns only) |
+| — | — | Workflow governance, phase gates, implementation dispatch | ❌ Excluded (belongs in future workflow docs) |
+
+### planning-implementation
+
+| Upstream Source | File | Content Used | Status |
+|---|---|---|---|
+| Addy planning-and-task-breakdown | `SKILL.md` | 5-step process, dependency graph, vertical slicing, task sizing (XS-XL), checkpoints, parallelization, rationalizations, red flags | ✅ Fully absorbed |
+| Superpowers writing-plans | `SKILL.md` | No-placeholders rule, exact file paths requirement | ✅ Cherry-picked |
+| Superpowers writing-plans | `plan-document-reviewer-prompt.md` | Review checklist (Completeness, Spec Alignment, Task Decomposition, Buildability) | ✅ Review questions absorbed into Review section |
+| — | — | TDD-per-step as mandatory | ❌ Excluded |
+| — | — | Subagent-driven vs inline execution choice | ❌ Excluded (context-dependent) |
+| — | — | Full code in every task step | ❌ Excluded (over-specification) |
