@@ -2,14 +2,253 @@
 name: planning-implementation
 description: >-
   Breaks validated specs into ordered, implementable tasks with explicit acceptance
-  criteria and verification. Use when you have a spec and need to decompose work
-  into concrete steps. Not for single-file changes with obvious scope or specs
-  with sufficient implementation detail built in.
+  criteria and verification. Use when you have a spec or a task and need to decompose work
+  into concrete steps with dependencies, file paths, and checkpoints. Not for simple
+  single-file changes with obvious scope or specs with sufficient implementation
+  detail built in.
 ---
 
-# Planning Implementation
+## Planning Pipeline
 
-TODO: Merge addy planning-and-task-breakdown + cherry-picked rules from
-superpowers writing-plans (no-placeholders, exact file paths, execution handoff
-in generic form) into one ~350-400 line self-contained file.
-See `docs/skill-design-decisions.md` for scope and design decisions.
+This skill is part of a scalable planning pipeline. Each step is optional depending on work size:
+
+```
+idea-sharpening → brainstorming → planning-implementation → code
+```
+
+- **Tiny** (typo, single-file fix): skip all → code directly
+- **Small** (obvious small change in known codebase): quick inline plan → code
+- **Moderate** (medium-sized feature in several files): brainstorming → here → code
+- **Big** (vague idea and/or big/multi-feature): full pipeline
+
+**You are here:** planning-implementation (task breakdown).
+**Next:** code — use the plan to drive implementation task by task.
+
+## When to Use
+
+- You have a spec or clear requirements that need breaking into concrete steps
+- A task feels too large or vague to start
+- Work needs to be parallelized across multiple sessions
+- The implementation order isn't obvious
+- You need to communicate scope to a human or another agent
+
+**When to skip:** Single-file changes with obvious scope, or when the spec already contains well-defined tasks with acceptance criteria.
+
+## The Planning Process
+
+### Step 1: Read-Only Exploration
+
+Before writing any plan, operate in read-only mode:
+
+- Read the spec, relevant docs and relevant codebase sections
+- Identify existing patterns and conventions
+- Map dependencies between components
+- Note risks and unknowns
+
+Do not write implementation code during planning. The output is a plan document, not implementation.
+
+### Step 2: Map the Dependency Graph
+
+Identify what depends on what:
+
+```
+Database schema
+    │
+    ├── API models/types
+    │       │
+    │       ├── API endpoints
+    │       │       │
+    │       │       └── Frontend API client
+    │       │               │
+    │       │               └── UI components
+    │       │
+    │       └── Validation logic
+    │
+    └── Seed data / migrations
+```
+
+Implementation order follows the dependency graph bottom-up: build foundations first.
+
+### Step 3: Slice Vertically
+
+Instead of building all the database, then all the API, then all the UI — build one complete feature path at a time.
+
+**Bad (horizontal slicing):**
+```
+Task 1: Build entire database schema
+Task 2: Build all API endpoints
+Task 3: Build all UI components
+Task 4: Connect everything
+```
+
+**Good (vertical slicing):**
+```
+Task 1: User can create an account (schema + API + UI for registration)
+Task 2: User can log in (auth schema + API + UI for login)
+Task 3: User can create a todo (todo schema + API + UI for creation)
+Task 4: User can view todo list (query + API + UI for list view)
+```
+
+Each vertical slice delivers working, testable functionality.
+
+### Step 4: Size Tasks
+
+Use this sizing guide:
+
+| Size | Files | Scope | Example |
+|------|-------|-------|---------|
+| **XS** | 1 | Single function or config change | Add a validation rule |
+| **S** | 1-2 | One component or endpoint | Add a new API endpoint |
+| **M** | 3-5 | One feature slice | User registration flow |
+| **L** | 5-8 | Multi-component feature | Search with filtering and pagination |
+| **XL** | 8+ | Too large — break it down further | — |
+
+Aim for S and M tasks. If a task is L or larger, break it into smaller tasks.
+
+**When to break a task down further:**
+- It would take more than one focused session of agent work
+- You cannot describe acceptance criteria in 3 or fewer bullet points
+- It touches two or more independent subsystems
+- The task title contains "and" (sign of multiple tasks)
+
+### Step 5: Write the Plan
+
+Each task follows this structure:
+
+```markdown
+## Task [N]: [Short descriptive title]
+
+**Description:** One paragraph explaining what this task accomplishes.
+
+**Acceptance criteria:**
+- [ ] [Specific, testable condition]
+- [ ] [Specific, testable condition]
+
+**Verification:**
+- [ ] Tests pass: `pytest tests/feature/test_file.py -v`
+- [ ] Manual check: [what to verify]
+
+**Dependencies:** [Task numbers this depends on, or None]
+
+**Files likely touched:**
+- `src/path/to/file.py`
+- `tests/path/to/test_file.py`
+```
+
+#### No Placeholders
+
+Every task must contain actionable content. These are plan failures:
+
+- "TBD", "TODO", "implement later", "fill in details"
+- "Add appropriate error handling" (without specifying what)
+- "Write tests for the above" (without specifying test cases)
+- "Similar to Task N" (repeat the detail — the engineer may read tasks out of order)
+- Steps that describe what to do without showing specifics
+
+Use exact file paths. Every path should be precise and actionable.
+
+### Arrange Tasks With Checkpoints
+
+Order tasks so that:
+1. Dependencies are satisfied (build foundation first)
+2. Each task leaves the system in a working state
+3. Verification checkpoints occur after every 2-3 tasks
+4. High-risk tasks are early (fail fast)
+
+```markdown
+## Checkpoint: After Tasks 1-3
+- [ ] All tests pass
+- [ ] Application builds without errors
+- [ ] Core user flow works end-to-end
+- [ ] Review with human before proceeding
+```
+
+### Plan Document Template
+
+```markdown
+# Implementation Plan: [Feature Name]
+
+## Overview
+[One paragraph summary of what we're building]
+
+## Architecture Decisions
+- [Key decision 1 and rationale]
+- [Key decision 2 and rationale]
+
+## Task List
+
+### Phase 1: Foundation
+- [ ] Task 1: ...
+- [ ] Task 2: ...
+
+### Checkpoint: Foundation
+- [ ] Tests pass, builds clean
+
+### Phase 2: Core Features
+- [ ] Task 3: ...
+- [ ] Task 4: ...
+
+### Checkpoint: Core Features
+- [ ] End-to-end flow works
+
+### Phase 3: Polish
+- [ ] Task 5: ...
+
+### Checkpoint: Complete
+- [ ] All acceptance criteria met
+- [ ] Ready for review
+
+## Risks and Mitigations
+| Risk | Impact | Mitigation |
+|------|--------|------------|
+| [Risk] | [High/Med/Low] | [Strategy] |
+
+## Open Questions
+- [Question needing human input]
+```
+
+Save the plan to `docs/implementation-plans/YYYY-MM-DD-<feature>.md`.
+
+## Parallelization
+
+When multiple agents or sessions are available:
+
+- **Safe to parallelize:** Independent feature slices, tests for already-implemented features, documentation
+- **Must be sequential:** Database migrations, shared state changes, dependency chains
+- **Needs coordination:** Features that share an API contract — define the contract first, then parallelize
+
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "I'll figure it out as I go" | That's how you end up with rework. 10 minutes of planning saves hours. |
+| "The tasks are obvious" | Write them anyway. Explicit tasks surface hidden dependencies and edge cases. |
+| "Planning is overhead" | Planning is the task. Implementation without a plan is just typing. |
+| "I can hold it all in my head" | Context windows are finite. Written plans survive session boundaries. |
+
+## Red Flags
+
+- Starting implementation without a written task list for multi-step work
+- Tasks that say "implement the feature" without acceptance criteria
+- No verification steps in the plan
+- All tasks are XL-sized
+- No checkpoints between tasks
+- Dependency order isn't considered
+
+## Related Skills
+
+- **`idea-sharpening`** — Run this first if you don't know what to build yet.
+- **`brainstorming`** — Run this before planning-implementation if you need a spec.
+- **`prototype-first`** — If a task involves a technically risky or ambiguous approach, prototype the critical path first before committing the full plan.
+- **`doubt-early`** — After writing the plan, use `doubt-early` for adversarial review before starting implementation.
+
+## Verification
+
+Before starting implementation:
+
+- [ ] Every task has acceptance criteria
+- [ ] Every task has a verification step
+- [ ] Task dependencies are identified and ordered correctly
+- [ ] No task touches more than ~5 files
+- [ ] Checkpoints exist between major phases
+- [ ] The human has reviewed and approved the plan

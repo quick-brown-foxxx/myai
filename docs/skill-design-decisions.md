@@ -14,10 +14,10 @@ idea-sharpening ──→ brainstorming ──→ planning-implementation ──
 
 All three skills adapt to task size. Small/obvious tasks can collapse the pipeline:
 
-- **XS task** (typo, single-file fix): skip all three, go straight to code
-- **S task** (obvious change in known codebase): skip idea-sharpening, quick inline brainstorming + plan
-- **M task** (new feature with clear requirements): brainstorming → planning-implementation
-- **L task** (vague idea and/or big/multi-feature): full pipeline, all three documents
+- **Tiny** (typo, single-file fix) skip all three, go straight to code
+- **Small** (obvious small change in known codebase) skip idea-sharpening, quick inline brainstorming + plan
+- **Moderate** (medium-sized feature in several files) brainstorming → planning-implementation
+- **Big** (vague idea and/or big/multi-feature) full pipeline, all three documents
 
 Each skill's description should explicitly state when to skip it.
 
@@ -107,17 +107,17 @@ All skills live in `skills/` at repo root. Symlinked into `.agents/skills/` for 
 
 ## Related/Aux Skills
 
-| Skill               | Status       | Notes                                                      |
-| ------------------- | ------------ | ---------------------------------------------------------- |
-| `prototype-first`     | ✅ Existing  | Referenced by all three pipeline skills (recommendation)   |
-| `doubt-early`         | ✅ Existing  | Referenced by all three pipeline skills (recommendation)   |
-| `visual-companion`    | 📝 Extract   | Browser mockups for brainstorming. Extracted from superpowers brainstorming aux files |
+| Skill              | Status     | Notes                                                                                 |
+| ------------------ | ---------- | ------------------------------------------------------------------------------------- |
+| `prototype-first`  | ✅ Existing | Referenced by all three pipeline skills (recommendation)                              |
+| `doubt-early`      | ✅ Existing | Referenced by all three pipeline skills (recommendation)                              |
+| `visual-companion` | 📝 Extract  | Browser mockups for brainstorming. Extracted from superpowers brainstorming aux files |
 
 ## Excluded / Deferred
 
-| Item                      | Source                | Reason                                                                                 |
-| ------------------------- | --------------------- | -------------------------------------------------------------------------------------- |
-| Subagent dispatch prompts | Both superpowers      | Models handle subagent prompts ad hoc; aux files are rarely loaded (~80% skip rate)    |
-| Subagent-vs-inline choice | Superpowers writing-plans | Depends on task size/session context. Not part of planning skill.                  |
-| workflow orchestration    | Addy spec-driven-dev  | Belongs in separate workflow documentation, not in skills                              |
-| `strategic-deep-dive`     | idea-refine aux files | Future subskill if frameworks/examples/criteria are too large for idea-sharpening      |
+| Item                      | Source                    | Reason                                                                              |
+| ------------------------- | ------------------------- | ----------------------------------------------------------------------------------- |
+| Subagent dispatch prompts | Both superpowers          | Models handle subagent prompts ad hoc; aux files are rarely loaded (~80% skip rate) |
+| Subagent-vs-inline choice | Superpowers writing-plans | Depends on task size/session context. Not part of planning skill.                   |
+| workflow orchestration    | Addy spec-driven-dev      | Belongs in separate workflow documentation, not in skills                           |
+| `strategic-deep-dive`     | idea-refine aux files     | Future subskill if frameworks/examples/criteria are too large for idea-sharpening   |

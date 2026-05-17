@@ -17,6 +17,7 @@
 - make a map/table of agent level teamlead/teammate/subagent and skills available/recommended/blocked for the level
 
 - in main meta-skill (intro), define and explain "ceremony scales with task" rule, set task/repo measurement rules
+  - add initial project size estimation guide to understand how complex the workflow should be. Eg in small script it's ok to do quick edits with manual check, in big production monorepo all fixes will require testing
 
 - in skill for spawning subagents MAYBE add prompting rules from [context-management skill](.tmp/addy-agent-skills/skills/context-engineering/SKILL.md)
 

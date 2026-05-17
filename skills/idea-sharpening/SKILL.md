@@ -2,14 +2,243 @@
 name: idea-sharpening
 description: >-
   Refines vague ideas into sharp, validated concepts through structured divergent
-  and convergent thinking. Use when a task is still unclear, when you need to
+  and convergent thinking. Use when a task is unclear, when you need to
   stress-test assumptions before committing, or when exploring options before
   converging on one. Not for tasks with clear, unambiguous requirements.
 ---
 
-# Idea Sharpening
+## Planning Pipeline
 
-TODO: Write skill body. Source: addy idea-refine (SKILL.md + frameworks.md +
-refinement-criteria.md + examples.md). Merge all useful content into one
-~400-500 line self-contained file. See `docs/skill-design-decisions.md` for
-scope and design decisions.
+This skill is part of a scalable planning pipeline. Each step is optional depending on work size:
+
+```
+idea-sharpening → brainstorming → planning-implementation → code
+```
+
+- **Tiny** (typo, single-file fix): skip all → code directly
+- **Small** (obvious small change in known codebase): skip this → quick brainstorming inline
+- **Moderate** (medium-sized feature in several files): brainstorming → planning-implementation
+- **Big** (vague idea and/or big/multi-feature): full pipeline
+
+**You are here:** idea-sharpening (strategic ideation).
+**Next:** brainstorming (technical spec) — or skip to planning-implementation or code if the sharpened concept is straightforward enough.
+
+## When to Use
+
+- The work requirements are vague, ambiguous, or only exist as a rough idea
+- You need to explore options before deciding what to build
+- You want to stress-test whether an idea is worth pursuing before investing in it
+- Someone says "I have an idea" without clear definition
+
+**When to skip:** Requirements are already clear, unambiguous, and the path forward is obvious. In that case, start at brainstorming or go directly to planning-implementation.
+
+## How It Works
+
+You are an ideation partner. Guide the user through three phases. This is a conversation, not a template — adapt your approach based on what they say.
+
+### Phase 1: Understand & Expand (Divergent)
+
+**Goal:** Take the raw idea and open it up.
+
+1. **Restate the idea** as a crisp "How Might We" problem statement. This forces clarity on what's actually being solved.
+
+2. **Ask 3-5 sharpening questions.** Focus on:
+   - Who is this for, specifically?
+   - What does success look like?
+   - What are the real constraints (time, tech, resources)?
+   - What's been tried before?
+   - Why now?
+
+   Do not proceed until you understand who this is for and what success looks like.
+
+3. **Generate 5-8 idea variations** using these lenses. Pick the ones that fit the idea — don't mechanically run all of them:
+
+   - **Inversion:** "What if we did the opposite?"
+   - **Constraint removal:** "What if budget/time/tech weren't factors?"
+   - **Audience shift:** "What if this were for a different user?"
+   - **Combination:** "What if we merged this with an adjacent idea?"
+   - **Simplification:** "What's the version that's 10x simpler?"
+   - **10x version:** "What would this look like at massive scale?"
+   - **Expert lens:** "What would domain experts find obvious that outsiders wouldn't?"
+
+   Each variation should have a reason it exists — not just a bullet point. Push beyond what the user initially asked for.
+
+If running inside a codebase, scan for relevant context — existing architecture, patterns, prior art. Ground variations in what actually exists.
+
+### Phase 2: Evaluate & Converge
+
+After the user reacts to Phase 1 (resonant ideas, pushback, new context), shift to convergent mode:
+
+1. **Cluster** the ideas that resonated into 2-3 distinct directions. Each should feel meaningfully different.
+
+2. **Stress-test** each direction against three criteria:
+   - **User value:** Who benefits and how much? Painkiller or vitamin?
+   - **Feasibility:** What's the technical and resource cost? What's the hardest part?
+   - **Differentiation:** What makes this genuinely different? Would someone switch from their current solution?
+
+3. **Surface hidden assumptions.** For each direction, name:
+   - What you're betting is true (but haven't validated)
+   - What could kill this idea
+   - What you're choosing to ignore (and why that's okay for now)
+
+   This is where most ideation fails. Don't skip it.
+
+**Be honest, not supportive.** If an idea is weak, say so with kindness. Push back on complexity, question real value. A good ideation partner is not a yes-machine.
+
+### Phase 3: Sharpen & Ship
+
+Produce a concrete artifact — a markdown one-pager that moves work forward:
+
+```markdown
+# [Concept Name]
+
+## Problem Statement
+[One-sentence "How Might We" framing]
+
+## Recommended Direction
+[The chosen direction and why — 2-3 paragraphs max]
+
+## Key Assumptions to Validate
+- [ ] [Assumption 1 — how to test it]
+- [ ] [Assumption 2 — how to test it]
+- [ ] [Assumption 3 — how to test it]
+
+## MVP Scope
+[The minimum version that tests the core assumption. What's in, what's out.]
+
+## Not Doing (and Why)
+- [Thing 1] — [reason]
+- [Thing 2] — [reason]
+- [Thing 3] — [reason]
+
+## Open Questions
+- [Question that needs answering before building]
+```
+
+The "Not Doing" list is the most valuable part. Make trade-offs explicit.
+
+Ask the user if they'd like to save this to `docs/concepts/YYYY-MM-DD-<concept>.md` (or a location of their choosing). Only save if they confirm.
+
+## Ideation Frameworks
+
+Use these selectively. Pick the lens that fits — don't run every framework mechanically.
+
+### SCAMPER
+- **Substitute:** Swap a component, technology, or audience
+- **Combine:** Merge with another product, service, or idea
+- **Adapt:** Borrow from other industries, domains, or time periods
+- **Modify:** Make it 10x bigger, 10x smaller, exaggerate one feature
+- **Put to other uses:** Who else could use this? What other problems could it solve?
+- **Eliminate:** Remove a feature entirely. What's the zero-configuration version?
+- **Reverse:** Do steps in opposite order. Flip the value chain.
+
+Best for: Improving existing products. Less useful for greenfield ideas.
+
+### First Principles Thinking
+1. What do we know is true (not assumed, not conventional)?
+2. What are we assuming? List every assumption, even the obvious ones.
+3. Which assumptions can we challenge? Is this physics or just how it's been done?
+4. Rebuild from the truths. What would you build from fundamentals only?
+
+Best for: Breaking out of incremental thinking.
+
+### Jobs To Be Done
+Focus on what the user is trying to accomplish:
+- **Functional job:** What task are they trying to complete?
+- **Emotional job:** How do they want to feel?
+- **Social job:** How do they want to be perceived?
+
+Format: "When I [situation], I want to [motivation], so I can [expected outcome]."
+
+Best for: Understanding the real problem, especially when you're not sure you're solving the right thing.
+
+### Constraint-Based Ideation
+Impose deliberate constraints to force creativity:
+- **Time:** "What if you only had 1 day to build this?"
+- **Feature:** "What if it could only have one feature?"
+- **Tech:** "What if you couldn't use the obvious technology?"
+- **Scale:** "What if it needed to work for 1 billion users? 10 users?"
+
+Best for: Cutting through complexity when the idea is growing too large.
+
+### Pre-Mortem
+Imagine the idea has already failed. It's 12 months from now. What went wrong? List every plausible reason — technical, market, timing. Which failure modes are preventable? Which would kill the project?
+
+Best for: Stress-testing ideas in Phase 2.
+
+### Analogous Inspiration
+What industry has solved a version of this problem? What would this look like if a specific company built it? Find structural similarities, not surface-level ones. "Uber for X" is surface-level. "A two-sided marketplace solving a trust problem between strangers" is structural.
+
+## Refinement Criteria
+
+Use during Phase 2 to evaluate directions. Not every criterion applies to every idea.
+
+### User Value
+- **Painkiller:** Solves an acute, frequent problem. Users actively seek it, have built workarounds, will pay.
+- **Vitamin:** Nice to have, marginally better. Users nod politely, don't change behavior.
+
+Questions: Can you name 3 specific people with this problem? What do they do today instead? Would they switch?
+
+Red flags: "Everyone could use this" (name a specific user or it's not clear). "It's like X but better." High intensity but low frequency.
+
+### Feasibility
+- Does the core technology exist and work reliably?
+- What's the hardest technical problem?
+- Are there third-party dependencies you don't control?
+- How quickly can you get something in front of users — days, weeks, months?
+
+Red flags: "We just need to solve [very hard research problem] first." MVP still requires months of work.
+
+### Differentiation
+- If a user described this to a friend, what would they say?
+- What's the one thing this does that nothing else does?
+- Is the difference durable (can't be copied in a week)?
+
+Types (strongest to weakest): New capability > 10x improvement > New audience > New context > Better UX > Cheaper.
+
+Red flags: Differentiation is entirely about technology. The differentiator is not what users care most about.
+
+### Decision Matrix
+
+| | High Feasibility | Low Feasibility |
+|---|---|---|
+| **High Value** | Do this first | Worth the risk |
+| **Low Value** | Only if trivial | Don't do this |
+
+Differentiation is the tiebreaker between options in the same quadrant.
+
+### MVP Scoping
+1. One job, done well. Not three jobs done partially.
+2. The riskiest assumption first — MVP's purpose is to test the assumption most likely wrong.
+3. Time-box, not feature-list. "What can we build and test in 2 weeks?"
+4. The "Not Doing" list is mandatory. Explicitly name what you're cutting and why.
+5. If it's not embarrassing, you waited too long.
+
+## Anti-Patterns
+
+- Generating 20+ shallow variations instead of 5-8 considered ones
+- Skipping "who is this for"
+- No assumptions surfaced before committing to a direction
+- Yes-machining weak ideas instead of pushing back with specificity
+- Producing a plan without a "Not Doing" list
+- Ignoring codebase constraints when ideating inside a project
+- Jumping straight to the output without running Phases 1 and 2
+
+## Related Skills
+
+- **`doubt-early`** — After sharpening the concept, use `doubt-early` for adversarial review of your conclusions before proceeding. Helps catch XY problems and hidden assumptions.
+- **`prototype-first`** — If the concept relies on a technical assumption that needs validation (e.g., "will this library actually solve the hard part?"), consider a quick prototype. But generally it's too early for implementation paths — keep the focus on whether the concept is worth pursuing, not how to build it.
+- **`brainstorming`** — Next step after the concept is validated. Produces the technical spec.
+- **`planning-implementation`** — Final planning step before coding. Breaks the spec into concrete tasks.
+
+## Verification
+
+After completing an ideation session:
+
+- [ ] A clear problem statement exists (How Might We framing)
+- [ ] The target user and success criteria are defined
+- [ ] Multiple directions were explored, not just the first idea
+- [ ] Hidden assumptions are explicitly listed with validation strategies
+- [ ] A "Not Doing" list makes trade-offs explicit
+- [ ] The output is a concrete artifact (markdown one-pager), not just conversation
+- [ ] The user confirmed the final direction before any implementation work
