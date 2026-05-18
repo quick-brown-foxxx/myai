@@ -85,16 +85,16 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 
 ## Philosophy Conflicts
 
-| Conflict         | Your position (Python PHILOSOPHY.md)                           | Third-party position                                                                 | Resolution                                                                                                             |
+| Conflict         | Your position (Python `.tmp/.../PHILOSOPHY.md`)                | Third-party position                                                                 | Resolution                                                                                                             |
 | ---------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
-| Testing priority | E2e first, real over mocked, 20/80, trustworthiness > coverage | Superpowers TDD: unit test first, always. Addy TDD: red-green-refactor default       | Your testing philosophy → core PHILOSOPHY.md. TDD is a technique within that philosophy                                |
+| Testing priority | E2e first, real over mocked, 20/80, trustworthiness > coverage | Superpowers TDD: unit test first, always. Addy TDD: red-green-refactor default       | Your testing philosophy → `ENGINEERING-PHILOSOPHY.md`. TDD is a technique within that philosophy                                |
 | Process gates    | prototype-first: "isolate, spike, capture outcome, move on"    | Superpowers: HARD GATE before implementation, 9-step brainstorming                   | Should check superpower's hard gate rules.                                                                             |
 | Ceremony level   | "Do not turn verification into ritual"                         | Superpowers: Iron Laws, rationalization tables, pressure tests, 300-line enforcement | Principles over enforcement. Keep useful core idea, drop persuasive apparatus                                          |
 | Agent autonomy   | After high-level agreement, agent should execute independently | Superpowers: agent stops to verify plan at every phase transition                    | Ceremony scales with task size. Clear high-level direction = less check-ins. Fails fast early if can't proceed clearly |
 
 ## Python Skills Generalization
 
-6 of 9 PHILOSOPHY.md principles are fully language-agnostic and move to core:
+6 of 9 principles from Python `.tmp/.../PHILOSOPHY.md` are fully language-agnostic and moved to `ENGINEERING-PHILOSOPHY.md`:
 
 | Principle                      | Moves to core? | Stays Python-specific            |
 | ------------------------------ | -------------- | -------------------------------- |
@@ -162,7 +162,7 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 | 31  | `documentation-and-adrs`   | ADRs, inline docs, API docs, README structure, changelog                                                  | Addy                       |
 | 32  | `test-driven-development`  | Red-green-refactor as recommended technique. When TDD adds value vs when other approaches are better      | Merge: addy + superpowers  |
 
-### Python-Specific Skills (reference core PHILOSOPHY.md)
+### Python-Specific Skills (reference core ENGINEERING-PHILOSOPHY.md and Python `.tmp/.../PHILOSOPHY.md`)
 
 | #   | Skill Name                    | Description                                                                                | Change from current                     |
 | --- | ----------------------------- | ------------------------------------------------------------------------------------------ | --------------------------------------- |
@@ -282,7 +282,7 @@ PYTHON-SPECIFIC (per-project):
 - [x] Skill relationship map
 - [x] Direct comparison: brainstorming vs idea-refine — resolved in skills-for-planning-design.md
 - [x] Direct comparison: writing-plans vs planning-and-task-breakdown — resolved in skills-for-planning-design.md
-- [ ] Write core PHILOSOPHY.md (generalized from Python)
+- [x] Write core ENGINEERING-PHILOSOPHY.md (generalized from Python)
 - [x] Batch 1: cross-cutting enrichers (prototype-first ✓, doubt-early ✓, source-driven ⛌, context-engineering ⛌, code-simplification ✓)
 - [x] Batch 2: domain skills (api-design ✓, security ✓, perf ✓, ci-cd ✓, shipping ✓, frontend ⛌, devtools ⛌, deprecation ⛌, docs ✓)
 - [x] Batch 3a: planning pipeline (idea-sharpening ✓, brainstorming ✓, planning-implementation ✓)
