@@ -3,8 +3,10 @@ name: bug-root-cause-tracing
 description: >-
   Use during debugging when the root cause isn't obvious, the error appears deep in a
   call chain, or you need to trace backward through a series of calls to find the
-  original trigger rather than fixing the surface symptom. Do not fix at the symptom
-  point — trace to the source first.
+  original trigger rather than fixing the surface symptom. Use for bad state, wrong files,
+  unexpected side effects, invalid values, or test pollution when you need to find which
+  caller, test, or code path introduced them. Do not fix at the symptom point — trace to
+  the source first.
 ---
 
 # Bug Root Cause Tracing
@@ -21,6 +23,7 @@ Bugs often manifest deep in the call stack — wrong directory, bad parameter, c
 - Stack trace shows a long call chain
 - Unclear where invalid data originated
 - You need to find which code path triggers the problem
+- Bad state, wrong files, unexpected side effects, or test pollution appear far from their origin
 - `systematic-debugging` Phase 2 investigation didn't immediately reveal the root cause
 
 ## The Tracing Process

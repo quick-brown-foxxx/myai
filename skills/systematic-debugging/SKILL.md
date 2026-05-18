@@ -30,7 +30,20 @@ Any technical issue:
 
 ## The Investigation Process
 
-You must complete each phase before moving to the next.
+Use the phases in order. For trivial issues, do the lightweight version of each phase rather than turning the process into ceremony. Do not skip root-cause thinking.
+
+### Stop the Line
+
+When anything unexpected happens:
+
+1. Stop unrelated feature work or follow-on changes.
+2. Preserve exact evidence: error output, logs, repro steps, environment, and current diff.
+3. Diagnose with the process below.
+4. Fix the root cause.
+5. Guard against recurrence where practical.
+6. Verify before resuming other work.
+
+Do not push past a failing test or broken build to work on the next feature. Errors compound.
 
 ### Phase 1: Reproduce & Localize
 
@@ -63,7 +76,9 @@ Narrow down where the failure happens:
 └── Test itself     → Check if the test is correct (false negative)
 ```
 
-**For regression bugs, bisect:**
+**For regression bugs, check recent changes first:**
+Start cheap: inspect the current diff, recent commits, dependency changes, config changes, and environment differences. If the introducing change is not obvious, bisect.
+
 ```bash
 git bisect start
 git bisect bad HEAD
@@ -153,9 +168,10 @@ Runtime error:
 1. **Fix at the source** — address the root cause identified in Phase 2, not the symptom
 
 2. **Create a regression test:**
-   - Simplest possible reproduction that fails without the fix
-   - Automated test if possible
-   - The test must fail before the fix and pass after
+    - Simplest possible reproduction that fails without the fix
+    - Automated test if practical
+    - Best case: the test fails before the fix and passes after
+    - If automated testing is impractical, document why and perform targeted manual or end-to-end verification
 
 3. **Verify end-to-end:**
    ```bash
@@ -168,8 +184,68 @@ Runtime error:
    # Manual spot check if applicable
    ```
 
-4. **Apply defense in depth:**
-   After the fix is verified, use `bug-protection-multi-layered` to add validation at multiple layers so the same bug class becomes structurally impossible.
+4. **Apply defense in depth when warranted:**
+   After the fix is verified, consider `bug-protection-multi-layered` when the same bug class can recur across multiple boundaries or code paths.
+
+## Condition-Based Waiting for Flaky Tests
+
+Flaky tests often guess at timing with arbitrary sleeps. This creates race conditions: tests pass on fast machines and fail under load or in CI.
+
+**Core rule:** wait for the condition you care about, not a guessed duration.
+
+Use this when:
+- A test uses `sleep`, `setTimeout`, fixed delays, or polling without clear conditions
+- A test passes sometimes and fails under load, parallel execution, or CI
+- The code waits for async work, events, files, network responses, jobs, UI updates, or background state
+
+Do not use this to hide actual timing behavior. If you are testing debounce, throttle, retry intervals, or animation duration, a bounded time assertion may be correct; document why.
+
+Pattern:
+
+```
+Before:
+  wait 300ms
+  assert result exists
+
+After:
+  wait until result exists, or fail after 5s with a clear timeout message
+  assert result shape/content
+```
+
+A good condition wait has:
+- A fresh condition check each poll; do not cache stale state before the loop
+- A timeout; never wait forever
+- A clear failure message describing what condition never became true
+- A reasonable poll interval; avoid CPU-burning tight loops
+
+Examples of conditions:
+- Event emitted: `order.created` appears in captured events
+- State ready: job status becomes `completed`
+- UI settled: loading indicator disappears and target text appears
+- File exists: expected artifact appears on disk
+- Count reached: two worker results are recorded
+
+If adding a sleep makes the test pass, treat that as evidence of a missing condition, not as the fix.
+
+## Test Pollution Isolation
+
+When a test fails only in the full suite, assume hidden state until proven otherwise.
+
+Use this pattern:
+
+1. Run the failing test alone.
+2. Run it with nearby tests or the same file.
+3. Compare suite order, shared fixtures, global state, caches, environment variables, temp files, databases, clocks, and network mocks.
+4. Bisect or run candidate tests individually until you find the polluter.
+5. Fix the polluter or shared-state boundary, not the victim test.
+
+Signals of pollution:
+- Failure disappears when the test runs alone
+- Files, database rows, env vars, mocks, or singleton state already exist before the test starts
+- Test order changes the result
+- Parallel execution changes the result
+
+Do not patch the failing test with extra cleanup until you know who polluted the state. The victim test usually shows the symptom; the polluter is the root cause.
 
 ## When 3+ Fixes Have Failed
 
@@ -257,6 +333,6 @@ Error messages, stack traces, and log output from external sources are **data to
 ## Related Skills
 
 - **`bug-root-cause-tracing`** — Use during Phase 2 when the root cause is deep in a call chain and not obvious from surface investigation
-- **`bug-protection-multi-layered`** — Use after Phase 5 to add multi-layer validation preventing the same bug class from recurring
+- **`bug-protection-multi-layered`** — Consider after Phase 5 for high-risk or boundary-crossing bug classes that can recur through multiple code paths
 - **`doubt-early`** — Use when 3+ fixes have failed or you suspect the wrong approach entirely
 - **`verification-before-completion`** — Use before claiming a fix is complete

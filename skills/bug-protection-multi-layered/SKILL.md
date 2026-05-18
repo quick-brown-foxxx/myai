@@ -1,10 +1,11 @@
 ---
 name: bug-protection-multi-layered
 description: >-
-  Use after fixing a bug to structurally prevent it from recurring. Adds validation at
-  multiple layers — entry points, business logic, environment guards, and instrumentation
-  — so the same class of bug becomes impossible elsewhere. Do not stop at one validation
-  point; layer defenses so the bug cannot reappear in different code paths.
+  Use after fixing recurring, high-risk, or boundary-crossing bugs to prevent the same
+  class from recurring. Adds validation at multiple layers — entry points, business logic,
+  environment guards, and forensic instrumentation — so invalid states are caught even
+  through different code paths. Skip for trivial one-off fixes where layered defenses would
+  add more complexity than protection.
 ---
 
 # Bug Protection: Multi-Layered
@@ -13,14 +14,27 @@ description: >-
 
 A single validation point is easy to bypass — different code paths, refactoring, or mocks can circumvent it. Real protection requires checks at every layer data passes through.
 
-**Core principle:** One fix removes the bug. Multiple layers make the bug structurally impossible.
+**Core principle:** One fix removes the bug. Validation layers make the invalid state structurally impossible; instrumentation makes missed failures diagnosable.
 
 ## When to Use
 
-- After any bug fix to prevent recurrence
+- After fixing a bug that can recur through multiple code paths or boundaries
 - When the same class of bug has appeared in different places
 - When a bug was caused by invalid data propagating through the system
+- When the bug involved dangerous side effects, destructive operations, security/safety boundaries, or production incidents
 - After running `systematic-debugging` Phase 5 (Guard & Verify)
+
+## When Not to Use
+
+Skip this skill when layered defenses would add more complexity than protection:
+
+- A typo, formatting issue, or obvious one-line mistake
+- A stale or incorrect test expectation
+- A one-off dependency/config/build issue with no recurring data path
+- A local development mistake already covered by existing tests or tooling
+- The fix does not cross subsystem, trust, safety, persistence, or side-effect boundaries
+
+In these cases, a regression test or targeted verification is usually enough. Use this skill when the bug class matters, not merely because a bug existed.
 
 ## The Four Layers
 
@@ -75,9 +89,9 @@ def git_init(directory: str) -> None:
 
 **What to check:** environment variables, platform, runtime mode (test/dev/prod), filesystem boundaries.
 
-### Layer 4: Instrumentation
+### Layer 4: Forensic Instrumentation
 
-Capture context for forensics when other layers would miss the issue.
+Capture context for forensics when other layers would miss the issue. Instrumentation does not prevent the bug by itself; it makes the next failure diagnosable.
 
 ```python
 def git_init(directory: str) -> None:
@@ -96,7 +110,7 @@ After finding the root cause of a bug:
 
 1. **Trace the data flow** — where does the bad value originate? What does it pass through?
 2. **Map all checkpoints** — list every layer and function the data crosses
-3. **Add validation at each layer** — entry, business logic, environment, instrumentation
+3. **Add protection at each layer** — entry validation, business validation, environment guards, forensic instrumentation
 4. **Test each layer** — try to bypass layer 1, verify layer 2 catches it
 
 ```python
@@ -114,16 +128,16 @@ def create_project(dir):
     # ...
     guard.git_init(dir)          # Layer 3: environment guard
     # ...
-    log.debug("git init in %s", dir)  # Layer 4: instrumentation
+    log.debug("git init in %s", dir)  # Layer 4: forensic instrumentation
 ```
 
 ## Why Multiple Layers Work
 
-Each layer catches what the others miss:
+The validation layers catch what the others miss:
 - **Entry validation** catches most bugs at the boundary
 - **Business logic** catches edge cases and semantic violations
 - **Environment guards** catch context-specific dangers
-- **Instrumentation** captures evidence when other layers fail
+- **Forensic instrumentation** captures evidence when other layers fail
 
 Different code paths may bypass one layer but not another. A mock may skip entry validation. Refactoring may skip business logic. Environment guards are context-aware. Instrumentation is always present.
 
@@ -141,13 +155,13 @@ Multi-layer validation is complementary to regression tests:
 
 ```
 Regression test:  "This specific bug will not recur"
-Multi-layer:      "This class of bug cannot exist in any code path"
+Multi-layer:      "This invalid state is rejected or diagnosed across code paths"
 ```
 
-Regression tests verify the fix. Multi-layer validation prevents the same mistake from being made elsewhere.
+Regression tests verify the fix. Multi-layer validation prevents the same mistake from being made elsewhere; instrumentation preserves evidence when prevention misses.
 
 ## Related Skills
 
-- **`systematic-debugging`** — Use before this skill to find the root cause. This skill is the guard step after fixing.
+- **`systematic-debugging`** — Use before this skill to find the root cause. Consider this skill as the guard step after high-risk or boundary-crossing fixes.
 - **`bug-root-cause-tracing`** — When tracing the data flow for multi-layer placement, this skill provides the technique.
 - **`verification-before-completion`** — Use before claiming the multi-layer fix is complete.
