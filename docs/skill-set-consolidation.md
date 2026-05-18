@@ -318,7 +318,7 @@ PYTHON-SPECIFIC (per-project):
   - [x] SP `defense-in-depth.md` → rewritten as standalone `skills/bug-protection-multi-layered/SKILL.md` (4-layer pattern, language-agnostic)
   - [x] SP `systematic-debugging/SKILL.md` + Addy `debugging-and-error-recovery/SKILL.md` → merged as `skills/systematic-debugging/SKILL.md`
   - [x] Discarded SP aux: condition-based-waiting.md + .ts, find-polluter.sh, CREATION-LOG.md, test-*.md
-  - [ ] Review all 3 skills: match quality bar of existing skills
+  - [x] Review all 3 skills: match quality bar of existing skills
 
   #### Group 3: `code-review` — three sources, critical quality gate
 
