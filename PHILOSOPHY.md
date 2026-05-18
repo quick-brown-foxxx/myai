@@ -1,7 +1,7 @@
-# Development Philosophy
+# Development Principles
 
-Foundational principles that drive all coding decisions.
-Every skill inherits from and applies these principles to specific domains.
+Principles that guide architecture, coding, testing, and project setup decisions.
+Process-oriented skills (bug reports, research, etc.) operate independently — they don't need to inherit from this.
 
 ---
 
@@ -90,7 +90,7 @@ Errors are a normal part of program execution, not exceptional events. The type 
 | Expected failures      | Result[T, E] (rusty-results)                                 | neverthrow Result<T, E>, discriminated unions           | React Query status + error fields, neverthrow in mutations |
 | Programming errors     | raise or assert for impossible states                        | throw for bugs, panic-equivalent                        | throw in dev, caught by error boundaries                   |
 | Third-party boundaries | catch library Exception → return Result                      | catch → Result pattern, wrap untyped callbacks          | wrap external API calls in typed hooks with error states   |
-| Error boundaries       | outer CLI try/except → user message, GUI try/except → dialog | Express error middleware, domain never catches          | <ErrorBoundary> per route, global fallback                 |
+| Error boundaries       | outer CLI try/except → user message, GUI try/except → dialog | NestJS exception filters, domain never catches          | <ErrorBoundary> per route, global fallback                 |
 | Early returns          | if error: return Err(...), success path unindented           | if (error) return failure(...), success path unindented | guard clauses before render                                |
 
 </details>
@@ -124,8 +124,9 @@ Separate what changes for different reasons. Separate what can be tested indepen
 
 - **Layered dependency flow**: Presentation (UI/CLI/API) → Domain (business logic) → Utilities. Never upward.
 - **Separate by expected change axis** — split code where domain rules, validation, transport, infrastructure, platform integration, or workflow orchestration will evolve for different reasons.
-- **UI is a plugin** — the same business logic serves any interface. The core never imports from UI. Adding a new interface should not require changing business logic.
+- **UI is a plugin** — the same business logic serves any interface. The core never imports from UI. The UI layer may be rewritten entirely, or the API may be switched — this should not affect unrelated layers or the domain core.
 - **Reusable core, thin adapters** — if CLI, GUI, API, or automation may share behavior, keep a composable core and treat each interface as a presentation adapter.
+- **State management is layered, not scattered** — in UI apps, separate server state (API data), client state (UI, form, navigation), and derived state (computed from other state). Use purpose-built tools for each layer. Don't scatter low-level state management across the app, but also don't put everything in one god store.
 - **Data vs. logic** — domain types carry data. Services operate on data. Utilities are stateless pure functions. Stateful classes exist for managing lifecycle — but their state is explicit, not hidden.
 - **Prefer composition over inheritance** — explicit data flow, small collaborating objects, protocols over deep class hierarchies. Inheritance only when genuinely stable and semantic, not to share code.
 - **Scale-appropriate separation** — in large projects: separate files, directories, layers. In single scripts: separate functions, clear sections within one file. The principle scales; the implementation doesn't need to.
@@ -135,12 +136,13 @@ Separate what changes for different reasons. Separate what can be tested indepen
 <details>
 <summary>Ecosystem examples</summary>
 
-| Concept                      | Python                                             | TypeScript / Node                         | Frontend (React)                                        |
-| ---------------------------- | -------------------------------------------------- | ----------------------------------------- | ------------------------------------------------------- |
-| Layered architecture         | UI → Domain → Utils, GUI never imports from domain | routes/controllers → use-cases → entities | pages → hooks → services → API layer                    |
-| UI is a plugin               | same core for CLI, GUI (Qt), API                   | same core for CLI, Express, serverless    | same data layer for web, React Native, CLI              |
-| Composition over inheritance | protocols / ABCs, dataclasses composited           | interfaces, functional composition, hooks | custom hooks compose behavior, context for shared state |
-| Wrap third-party             | typed wrappers + ruff banned-api                   | adapter interfaces around JS libs         | custom hooks wrapping libraries, prop interfaces        |
+| Concept                      | Python                                             | TypeScript / Node                                                | Frontend (React)                                                                                   |
+| ---------------------------- | -------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| Layered architecture         | UI → Domain → Utils, GUI never imports from domain | controllers → use-cases → entities, or event handlers → services | Zustand/Jotai for client state, TanStack Query for server state, React Hook Form for forms         |
+| UI is a plugin               | same core for CLI, GUI (Qt), API                   | same core for CLI, NestJS, serverless                            | same data layer for web, React Native, CLI                                                         |
+| State management             | n/a                                                | n/a                                                              | server state: TanStack Query; client state: Zustand/Jotai; derived: useMemo; form: react-hook-form |
+| Composition over inheritance | protocols / ABCs, dataclasses composited           | interfaces, functional composition, NestJS providers             | custom hooks compose behavior, context for shared state                                            |
+| Wrap third-party             | typed wrappers + ruff banned-api                   | adapter interfaces around JS libs                                | custom hooks wrapping libraries, prop interfaces                                                   |
 
 </details>
 
@@ -172,46 +174,57 @@ Use tools that enforce the philosophy automatically. Prefer tools that are fast,
 
 Each interface type gets one standard framework per ecosystem, chosen for quality and long-term viability.
 
-| Layer       | Python           | TypeScript / Node  | Frontend (React)    |
-| ----------- | ---------------- | ------------------ | ------------------- |
-| CLI         | typer            | commander / clack  | n/a                 |
-| HTTP client | httpx            | ky / ofetch        | ky / tanstack query |
-| Config      | YAML + msgspec   | cosmiconfig + zod  | same as Node        |
-| Logging     | colorlog         | pino               | pino (server-side)  |
-| Async       | asyncio          | native async/await | native async/await  |
-| GUI         | PySide6 + qasync | tauri / electron   | React itself        |
+| Layer         | Python           | TypeScript / Node  | Frontend (React)    |
+| ------------- | ---------------- | ------------------ | ------------------- |
+| Web framework | FastAPI / Django | NestJS             | Next.js / Remix     |
+| CLI           | typer            | commander / clack  | n/a                 |
+| HTTP client   | httpx            | ky / ofetch        | ky / TanStack Query |
+| Config        | YAML + msgspec   | cosmiconfig + zod  | same as Node        |
+| Logging       | colorlog         | pino               | pino (server-side)  |
+| Async         | asyncio          | native async/await | native async/await  |
+| GUI           | PySide6 + qasync | tauri / electron   | React itself        |
 
-## 9. Project Setup: Invest Early
+## 9. Frameworks: Adopt, Don't Reinvent
+
+Choose established batteries-included frameworks over ad-hoc architecture for core concerns.
+A framework codifies conventions, provides battle-tested infrastructure, and brings an ecosystem that individual developers can't replicate.
+
+- **Pick the framework for the job** — NestJS over Express, FastAPI/Django over Flask, Next.js over manual Vite+React+Router setup. The framework's conventions become your conventions. Don't fight them unless you chose the wrong framework.
+- **Standard library from day one** — don't reimplement ad-hoc state management, form handling, routing, or validation. Eg for React: TanStack Query + Zustand/Jotai + React Hook Form + zod. This is a non-negotiable starting point. For Python backend: FastAPI + SQLAlchemy/psycopg3 + alembic. This should be extended/adjust per project.
+- **Thin application code** — framework handles transport, serialization, routing, lifecycle. Your code handles business logic. When framework knowledge dominates your codebase, the separation is wrong.
+- **Exceptions prove the rule** — a small script or experimental prototype may skip frameworks. But if the project will be maintained, introduce the framework before ad-hoc patterns harden.
+
+## 10. Project Setup: Invest Early
 
 Every project, no matter how small, starts with the safety net configured:
 
 - **Single file**: inline metadata / dependencies, tool config at the top, shebang for direct execution
-- **Full project**: src layout, AGENTS.md, philosophy reference, linter + type checker + test runner configured, CI from day one
+- **Full project**: src layout, AGENTS.md, principles reference, linter + type checker + test runner configured, CI from day one
 - **Stronger scaffolding when complexity is real** — if the domain needs auth, background jobs, stateful workflows, migrations, or admin concerns, prefer stronger framework scaffolding early instead of bolting it on later
 - **The overhead is worth it** — spending 10 minutes on setup saves hours of debugging implicit failures later. This is the pit of success in action.
 
 <details>
 <summary>Ecosystem examples</summary>
 
-| Concept                | Python                                              | TypeScript / Node                                    | Frontend (React)                                |
-| ---------------------- | --------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------- |
-| Single file            | PEP 723 inline metadata, uv run --script            | node --experimental-strip-types, tsx, npx            | npx create-next-app, vite                       |
-| Full project bootstrap | uv init, pyproject.toml, ruff, basedpyright, pytest | pnpm init, tsconfig strict, eslint, prettier, vitest | create-next-app, Vite, FSD layout               |
-| CI from day one        | GitHub Actions: lint → typecheck → test             | GitHub Actions: lint → typecheck → test              | GitHub Actions: lint → typecheck → test → build |
+| Concept                | Python                                              | TypeScript / Node                                                | Frontend (React)                                |
+| ---------------------- | --------------------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------- |
+| Single file            | PEP 723 inline metadata, uv run --script            | node --experimental-strip-types, tsx, npx                        | npx create-next-app, vite                       |
+| Full project bootstrap | uv init, pyproject.toml, ruff, basedpyright, pytest | pnpm init, NestJS CLI, tsconfig strict, eslint, prettier, vitest | create-next-app, Vite, FSD layout               |
+| CI from day one        | GitHub Actions: lint → typecheck → test             | GitHub Actions: lint → typecheck → test                          | GitHub Actions: lint → typecheck → test → build |
 
 </details>
 
-## 10. Principle Over Prescription
+## 11. Principle Over Prescription
 
 Ceremony scales with task size. Not every project needs the full apparatus — but every project needs the principles.
 
 - **A 50-line script** — inline metadata, a shebang, quick manual verification. No pre-commit, no CI.
-- **A growing project** — type checking, strict configs, pre-commit, linter, tests, git hooks one at a time as value becomes clear.
+- **A growing project** — add type checking, strict configs, pre-commit, linter, tests, git hooks one at a time as value becomes clear.
 - **A production system** — full stack: CI with lint → typecheck → test, pre-merge CI e2e testing, complex release system with rollbacks.
 
 The same principles apply at every scale. The implementation scales down. Don't force heavyweight process on trivial work. Don't skip safety net on anything that will be maintained.
 
-## 11. Explicit Over Clever
+## 12. Explicit Over Clever
 
 Code is read far more often than it is written. Favor clarity, directness, and transparency over abstraction, metaprogramming, or conciseness tricks.
 
@@ -223,4 +236,6 @@ Code is read far more often than it is written. Favor clarity, directness, and t
 
 ## Applying This Document
 
-This PHILOSOPHY.md is the foundation. Skills reference it by and apply these principles to specific domains (testing, architecture, security, etc.). When a skill's guidance conflicts with philosophy, philosophy wins.
+Architecture and coding skills reference this document. Domain-specific skills (testing, security, performance, etc.) build on these principles. Process-oriented skills (bug reports, research, etc.) operate independently.
+
+When a skill's guidance conflicts with these principles, principles win.
