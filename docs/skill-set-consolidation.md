@@ -56,15 +56,15 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 
 ### Mutually exclusive (pick one or merge)
 
-| Topic         | Skills                                                                    | Conflict                                                                                                    | Resolution                                                                                              |
-| ------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| TDD           | Superpowers `test-driven-development` vs Addy `test-driven-development`   | Both define rigid red-green-refactor. Superpowers is dogmatic ("delete code before test"), Addy is moderate | Merge: Addy structure + Superpowers anti-rationalization, demote from Iron Law to recommended technique |
-| Ideation      | Superpowers `brainstorming` vs Addy `idea-refine`                         | Both 3-phase ideation but different flows. Superpowers has HARD GATE, Addy is flexible                      | Split into `idea-sharpening` for strategic ideation and `brainstorming` for technical specs             |
+| Topic         | Skills                                                                    | Conflict                                                                                                    | Resolution                                                                                                 |
+| ------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| TDD           | Superpowers `test-driven-development` vs Addy `test-driven-development`   | Both define rigid red-green-refactor. Superpowers is dogmatic ("delete code before test"), Addy is moderate | Merge: Addy structure + Superpowers anti-rationalization, demote from Iron Law to recommended technique    |
+| Ideation      | Superpowers `brainstorming` vs Addy `idea-refine`                         | Both 3-phase ideation but different flows. Superpowers has HARD GATE, Addy is flexible                      | Split into `idea-sharpening` for strategic ideation and `brainstorming` for technical specs                |
 | Planning      | Superpowers `writing-plans` vs Addy `planning-and-task-breakdown`         | Both break work into tasks. Superpowers is rigid, Addy is practical (vertical slicing, dependency graphs)   | Merge into `planning-implementation`: Addy structure plus selected Superpowers no-placeholder/review rules |
-| Debugging     | Superpowers `systematic-debugging` vs Addy `debugging-and-error-recovery` | Same domain, different depth. Superpowers is deep, Addy is broader/shallower                                | Merge: Superpowers root-cause-first + Addy triage + error patterns. Drop pressure tests                 |
-| Review        | Superpowers `requesting`+`receiving-code-review` vs Addy `code-review`    | Superpowers splits requesting/receiving + subagent pattern. Addy has 5-axis review in one skill             | Merge: Addy 5-axis + Superpowers verify-before-implementing-feedback. Drop mandatory subagent pattern   |
-| Meta          | Superpowers `using-superpowers` vs Addy `using-agent-skills`              | Both define how to discover/load skills                                                                     | Merge into one lightweight bootstrap skill                                                              |
-| Skill writing | Yours `how-to-write-skills` vs Superpowers `writing-skills`               | Yours is practical and portable. Superpowers is TDD-for-skills (655 lines)                                  | Keep yours as primary. Superpowers has some useful bits (discoverability, CSO) — cherry-pick if needed  |
+| Debugging     | Superpowers `systematic-debugging` vs Addy `debugging-and-error-recovery` | Same domain, different depth. Superpowers is deep, Addy is broader/shallower                                | Merge: Superpowers root-cause-first + Addy triage + error patterns. Drop pressure tests                    |
+| Review        | Superpowers `requesting`+`receiving-code-review` vs Addy `code-review`    | Superpowers splits requesting/receiving + subagent pattern. Addy has 5-axis review in one skill             | Merge: Addy 5-axis + Superpowers verify-before-implementing-feedback. Drop mandatory subagent pattern      |
+| Meta          | Superpowers `using-superpowers` vs Addy `using-agent-skills`              | Both define how to discover/load skills                                                                     | Merge into one lightweight bootstrap skill                                                                 |
+| Skill writing | Yours `how-to-write-skills` vs Superpowers `writing-skills`               | Yours is practical and portable. Superpowers is TDD-for-skills (655 lines)                                  | Keep yours as primary. Superpowers has some useful bits (discoverability, CSO) — cherry-pick if needed     |
 
 ### Complementary (coexist and enrich)
 
@@ -87,7 +87,7 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 
 | Conflict         | Your position (Python `.tmp/.../PHILOSOPHY.md`)                | Third-party position                                                                 | Resolution                                                                                                             |
 | ---------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
-| Testing priority | E2e first, real over mocked, 20/80, trustworthiness > coverage | Superpowers TDD: unit test first, always. Addy TDD: red-green-refactor default       | Your testing philosophy → `ENGINEERING-PHILOSOPHY.md`. TDD is a technique within that philosophy                                |
+| Testing priority | E2e first, real over mocked, 20/80, trustworthiness > coverage | Superpowers TDD: unit test first, always. Addy TDD: red-green-refactor default       | Your testing philosophy → `ENGINEERING-PHILOSOPHY.md`. TDD is a technique within that philosophy                       |
 | Process gates    | prototype-first: "isolate, spike, capture outcome, move on"    | Superpowers: HARD GATE before implementation, 9-step brainstorming                   | Should check superpower's hard gate rules.                                                                             |
 | Ceremony level   | "Do not turn verification into ritual"                         | Superpowers: Iron Laws, rationalization tables, pressure tests, 300-line enforcement | Principles over enforcement. Keep useful core idea, drop persuasive apparatus                                          |
 | Agent autonomy   | After high-level agreement, agent should execute independently | Superpowers: agent stops to verify plan at every phase transition                    | Ceremony scales with task size. Clear high-level direction = less check-ins. Fails fast early if can't proceed clearly |
@@ -112,20 +112,20 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 
 ### Core Workflow Skills
 
-| #   | Skill Name                       | Description                                                                                                                    | Primary Source                                                                           |
-| --- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
-| 1   | `using-skills`                   | Bootstrap: discover, load, combine skills. Lightweight, no Iron Laws                                                           | Merge: superpowers using-superpowers + addy using-agent-skills                           |
-| 2   | `how-to-write-skills`            | Author portable, discoverable, self-contained skills. Verification matched to complexity                                       | Personal                                                                                 |
-| 3   | `idea-sharpening`                | Complex ideation: expand → converge → sharpen. Flexible, no hard gates. Includes refinement criteria and frameworks            | Addy idea-refine                                                                         |
-| 4   | `brainstorming`                  | Technical spec creation for understood features: architecture, components, data flow, success criteria                         | Merge: superpowers brainstorming + Addy spec patterns                                    |
+| #   | Skill Name                       | Description                                                                                                                    | Primary Source                                                                               |
+| --- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| 1   | `using-skills`                   | Bootstrap: discover, load, combine skills. Lightweight, no Iron Laws                                                           | Merge: superpowers using-superpowers + addy using-agent-skills                               |
+| 2   | `how-to-write-skills`            | Author portable, discoverable, self-contained skills. Verification matched to complexity                                       | Personal                                                                                     |
+| 3   | `idea-sharpening`                | Complex ideation: expand → converge → sharpen. Flexible, no hard gates. Includes refinement criteria and frameworks            | Addy idea-refine                                                                             |
+| 4   | `brainstorming`                  | Technical spec creation for understood features: architecture, components, data flow, success criteria                         | Merge: superpowers brainstorming + Addy spec patterns                                        |
 | 5   | `planning-implementation`        | Break work into ordered, verifiable tasks. Dependency graphs, vertical slicing, task sizing                                    | Merge: addy planning + superpowers writing-plans (resolved in skills-for-planning-design.md) |
-| 6   | `architecting-changes`           | Boundary placement, reusable core, composition vs inheritance, framework vs custom, wrapper decisions. Routes to domain skills | Generalized from Python architecting-python-changes                                      |
-| 7   | `incremental-implementation`     | Thin vertical slices: implement → test → verify → commit → next. Scope discipline, one thing at a time                         | Addy                                                                                     |
-| 8   | `systematic-debugging`           | No fixes without root cause. 4 phases: investigate → analyze → hypothesize → implement. Plus triage checklist                  | Merge: superpowers + addy                                                                |
-| 9   | `code-review`                    | 5-axis review. Verify before implementing feedback. Honest assessment, push back on incorrect suggestions                      | Merge: addy + superpowers                                                                |
-| 10  | `verification-before-completion` | No completion claims without fresh evidence. Calibrated to task size                                                           | Superpowers, softened                                                                    |
-| 11  | `finishing-a-development-branch` | Verify tests → detect environment → present options → cleanup                                                                  | Superpowers                                                                              |
-| 12  | `git-workflow`                   | Trunk-based, atomic commits, worktree isolation, save points, change summaries                                                 | Merge: addy + superpowers                                                                |
+| 6   | `architecting-changes`           | Boundary placement, reusable core, composition vs inheritance, framework vs custom, wrapper decisions. Routes to domain skills | Generalized from Python architecting-python-changes                                          |
+| 7   | `incremental-implementation`     | Thin vertical slices: implement → test → verify → commit → next. Scope discipline, one thing at a time                         | Addy                                                                                         |
+| 8   | `systematic-debugging`           | No fixes without root cause. 4 phases: investigate → analyze → hypothesize → implement. Plus triage checklist                  | Merge: superpowers + addy                                                                    |
+| 9   | `code-review`                    | 5-axis review. Verify before implementing feedback. Honest assessment, push back on incorrect suggestions                      | Merge: addy + superpowers                                                                    |
+| 10  | `verification-before-completion` | No completion claims without fresh evidence. Calibrated to task size                                                           | Superpowers, softened                                                                        |
+| 11  | `finishing-a-development-branch` | Verify tests → detect environment → present options → cleanup                                                                  | Superpowers                                                                                  |
+| 12  | `git-workflow`                   | Trunk-based, atomic commits, worktree isolation, save points, change summaries                                                 | Merge: addy + superpowers                                                                    |
 
 ### Cross-Cutting Enricher Skills
 
@@ -180,24 +180,24 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 
 ### Removed / Merged Away
 
-| Removed                                            | Reason                                         |
-| -------------------------------------------------- | ---------------------------------------------- |
+| Removed                                            | Reason                                                                              |
+| -------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | Superpowers `brainstorming` hard-gate workflow     | Split/softened into `brainstorming`; visual companion extracted to `visual-mockups` |
-| Superpowers `writing-skills`                       | Personal how-to-write-skills is sufficient     |
-| Superpowers `using-superpowers`                    | Merged into using-skills                       |
-| Addy `using-agent-skills`                          | Merged into using-skills                       |
-| Addy `contect-engineering`                         | Generally not needed                           |
-| Addy `source-driven-development`                   | Too opinionated                                |
-| Addy `spec-driven-development` workflow governance | Too high level; spec patterns absorbed into `brainstorming` |
-| Superpowers `executing-plans`                      | Merged into incremental-implementation         |
-| Superpowers `writing-plans`                        | Merged into planning-implementation (resolved) |
-| Superpowers `test-driven-development` (standalone) | Merged into demoted test-driven-development    |
-| Addy `test-driven-development` (standalone)        | Same merge                                     |
-| Addy `browser-testing-with-devtools`               | Will enroll my own later                       |
-| Addy `deprecation-and-migration`                   | Not need for my cases                          |
-| Addy `frontend-ui-engineering`                     | Too opinionated, will enroll my own            |
-| Superpowers `requesting-code-review`               | Merged into code-review                        |
-| Superpowers `receiving-code-review`                | Merged into code-review                        |
+| Superpowers `writing-skills`                       | Personal how-to-write-skills is sufficient                                          |
+| Superpowers `using-superpowers`                    | Merged into using-skills                                                            |
+| Addy `using-agent-skills`                          | Merged into using-skills                                                            |
+| Addy `contect-engineering`                         | Generally not needed                                                                |
+| Addy `source-driven-development`                   | Too opinionated                                                                     |
+| Addy `spec-driven-development` workflow governance | Too high level; spec patterns absorbed into `brainstorming`                         |
+| Superpowers `executing-plans`                      | Merged into incremental-implementation                                              |
+| Superpowers `writing-plans`                        | Merged into planning-implementation (resolved)                                      |
+| Superpowers `test-driven-development` (standalone) | Merged into demoted test-driven-development                                         |
+| Addy `test-driven-development` (standalone)        | Same merge                                                                          |
+| Addy `browser-testing-with-devtools`               | Will enroll my own later                                                            |
+| Addy `deprecation-and-migration`                   | Not need for my cases                                                               |
+| Addy `frontend-ui-engineering`                     | Too opinionated, will enroll my own                                                 |
+| Superpowers `requesting-code-review`               | Merged into code-review                                                             |
+| Superpowers `receiving-code-review`                | Merged into code-review                                                             |
 
 ## Skill Relationship Map
 
@@ -290,15 +290,15 @@ PYTHON-SPECIFIC (per-project):
 
   ### Source skill inventory (across all 3b skills)
 
-  | Target Skill               | SP Source                      | Addy Source                        | Python Source         | SP Aux                         |
-  | -------------------------- | ------------------------------ | ---------------------------------- | --------------------- | ------------------------------ |
-  | verification-before-completion | verification-before-completion | —                                  | —                     | Clean                          |
-  | systematic-debugging       | systematic-debugging           | debugging-and-error-recovery       | —                     | 10 aux (3 useful, 7 discard)   |
-  | code-review                | requesting-code-review + receiving-code-review | code-review-and-quality | —                     | 1 aux (code-reviewer.md)       |
-  | incremental-implementation | executing-plans (thin, skip)   | incremental-implementation         | —                     | Clean                          |
-  | finishing-a-development-branch | finishing-a-development-branch | —                                  | —                     | Clean                          |
-  | git-workflow               | using-git-worktrees            | git-workflow-and-versioning        | —                     | Clean                          |
-  | architecting-changes       | —                              | —                                  | architecting-python-changes | Clean                          |
+  | Target Skill                   | SP Source                                      | Addy Source                  | Python Source               | SP Aux                       |
+  | ------------------------------ | ---------------------------------------------- | ---------------------------- | --------------------------- | ---------------------------- |
+  | verification-before-completion | verification-before-completion                 | —                            | —                           | Clean                        |
+  | systematic-debugging           | systematic-debugging                           | debugging-and-error-recovery | —                           | 10 aux (3 useful, 7 discard) |
+  | code-review                    | requesting-code-review + receiving-code-review | code-review-and-quality      | —                           | 1 aux (code-reviewer.md)     |
+  | incremental-implementation     | executing-plans (thin, skip)                   | incremental-implementation   | —                           | Clean                        |
+  | finishing-a-development-branch | finishing-a-development-branch                 | —                            | —                           | Clean                        |
+  | git-workflow                   | using-git-worktrees                            | git-workflow-and-versioning  | —                           | Clean                        |
+  | architecting-changes           | —                                              | —                            | architecting-python-changes | Clean                        |
 
   ### Subtask breakdown per group
 
