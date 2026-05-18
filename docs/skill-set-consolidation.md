@@ -302,29 +302,23 @@ PYTHON-SPECIFIC (per-project):
 
   ### Subtask breakdown per group
 
-  #### Group 1: `verification-before-completion` — quick win, build momentum
+  #### Group 1: `verification-before-completion` — quick win, build momentum ✓
 
-  - [ ] Read SP source skill, compare with existing engineering-philosophy.md (testing philosophy)
-  - [ ] Soften "Iron Law" → "Core Principle" per consolidation plan
-  - [ ] Generalize to be language-agnostic (SP is tool-agnostic already, good baseline)
-  - [ ] Write \`skills/verification-before-completion/SKILL.md\`
-  - [ ] No aux files to merge (SP source is clean)
-  - [ ] Review: matches style of existing skills (brainstorming, planning-implementation)
+  - [x] Read SP source skill, compare with existing engineering-philosophy.md (testing philosophy)
+  - [x] Reviewed options: tone (forceful vs technical), scope (standalone vs embedded), overlap with philosophy doc, gate function style
+  - [x] Added "When Verification Fails Repeatedly" section — converging vs diverging validation loop, escalation pattern, doubt-early reference
+  - [x] Updated Red Flags + Rationalization tables with diverging-loop patterns
+  - [x] Write final \`skills/verification-before-completion/SKILL.md\`
 
-  #### Group 2: `systematic-debugging` — highest ROI, most source material
+  #### Group 2: `systematic-debugging` — split into 3 skills ✓
 
-  - [ ] Compare SP vs Addy: 4-phase deep root cause vs triage decision trees
-  - [ ] Identify merge plan: SP's 3+ fixes → question architecture + backward tracing + rationalization tables + Addy's error-specific triage (test/build/runtime) + "error output as untrusted data"
-  - [ ] Absorb 3 useful SP aux files into main skill body:
-    - root-cause-tracing.md (backward tracing technique) → section within debugging skill
-    - defense-in-depth.md (multi-layer validation) → section within debugging skill
-    - condition-based-waiting.md + .ts → distill to a subsection within debugging skill
-  - [ ] Discard 7 SP aux files:
-    - find-polluter.sh — too SP-specific, script not portable
-    - CREATION-LOG.md — meta artifact, not useful
-    - test-academic.md, test-pressure-1/2/3.md — testing artifacts of the skill itself
-  - [ ] Write \`skills/systematic-debugging/SKILL.md\`
-  - [ ] Review: matches quality bar of existing skills
+  - [x] Decision: split into 3 skills (systematic-debugging + bug-root-cause-tracing + bug-protection-multi-layered)
+  - [x] Created design doc: `docs/debugging-skills-design.md`
+  - [x] SP `root-cause-tracing.md` → rewritten as standalone `skills/bug-root-cause-tracing/SKILL.md` (language-agnostic, cross-refs)
+  - [x] SP `defense-in-depth.md` → rewritten as standalone `skills/bug-protection-multi-layered/SKILL.md` (4-layer pattern, language-agnostic)
+  - [x] SP `systematic-debugging/SKILL.md` + Addy `debugging-and-error-recovery/SKILL.md` → merged as `skills/systematic-debugging/SKILL.md`
+  - [x] Discarded SP aux: condition-based-waiting.md + .ts, find-polluter.sh, CREATION-LOG.md, test-*.md
+  - [ ] Review all 3 skills: match quality bar of existing skills
 
   #### Group 3: `code-review` — three sources, critical quality gate
 
