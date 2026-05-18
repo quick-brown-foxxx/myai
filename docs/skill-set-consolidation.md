@@ -287,6 +287,87 @@ PYTHON-SPECIFIC (per-project):
 - [x] Batch 2: domain skills (api-design ✓, security ✓, perf ✓, ci-cd ✓, shipping ✓, frontend ⛌, devtools ⛌, deprecation ⛌, docs ✓)
 - [x] Batch 3a: planning pipeline (idea-sharpening ✓, brainstorming ✓, planning-implementation ✓)
 - [ ] Batch 3b: remaining core workflow skills
+
+  ### Source skill inventory (across all 3b skills)
+
+  | Target Skill               | SP Source                      | Addy Source                        | Python Source         | SP Aux                         |
+  | -------------------------- | ------------------------------ | ---------------------------------- | --------------------- | ------------------------------ |
+  | verification-before-completion | verification-before-completion | —                                  | —                     | Clean                          |
+  | systematic-debugging       | systematic-debugging           | debugging-and-error-recovery       | —                     | 10 aux (3 useful, 7 discard)   |
+  | code-review                | requesting-code-review + receiving-code-review | code-review-and-quality | —                     | 1 aux (code-reviewer.md)       |
+  | incremental-implementation | executing-plans (thin, skip)   | incremental-implementation         | —                     | Clean                          |
+  | finishing-a-development-branch | finishing-a-development-branch | —                                  | —                     | Clean                          |
+  | git-workflow               | using-git-worktrees            | git-workflow-and-versioning        | —                     | Clean                          |
+  | architecting-changes       | —                              | —                                  | architecting-python-changes | Clean                          |
+
+  ### Subtask breakdown per group
+
+  #### Group 1: `verification-before-completion` — quick win, build momentum
+
+  - [ ] Read SP source skill, compare with existing engineering-philosophy.md (testing philosophy)
+  - [ ] Soften "Iron Law" → "Core Principle" per consolidation plan
+  - [ ] Generalize to be language-agnostic (SP is tool-agnostic already, good baseline)
+  - [ ] Write \`skills/verification-before-completion/SKILL.md\`
+  - [ ] No aux files to merge (SP source is clean)
+  - [ ] Review: matches style of existing skills (brainstorming, planning-implementation)
+
+  #### Group 2: `systematic-debugging` — highest ROI, most source material
+
+  - [ ] Compare SP vs Addy: 4-phase deep root cause vs triage decision trees
+  - [ ] Identify merge plan: SP's 3+ fixes → question architecture + backward tracing + rationalization tables + Addy's error-specific triage (test/build/runtime) + "error output as untrusted data"
+  - [ ] Absorb 3 useful SP aux files into main skill body:
+    - root-cause-tracing.md (backward tracing technique) → section within debugging skill
+    - defense-in-depth.md (multi-layer validation) → section within debugging skill
+    - condition-based-waiting.md + .ts → distill to a subsection within debugging skill
+  - [ ] Discard 7 SP aux files:
+    - find-polluter.sh — too SP-specific, script not portable
+    - CREATION-LOG.md — meta artifact, not useful
+    - test-academic.md, test-pressure-1/2/3.md — testing artifacts of the skill itself
+  - [ ] Write \`skills/systematic-debugging/SKILL.md\`
+  - [ ] Review: matches quality bar of existing skills
+
+  #### Group 3: `code-review` — three sources, critical quality gate
+
+  - [ ] Compare Addy (what: 5-axis review, checklist, sizing) vs SP requesting (when/how: subagent dispatch) vs SP receiving (psychology: verify before implement, no performative agreement)
+  - [ ] Identify merge plan: Addy's 5-axis as core framework + SP receiving as "how to handle feedback" section + SP requesting distilled to "when to request review" (subagent boilerplate → generic pattern)
+  - [ ] Embed \`code-reviewer.md\` aux as a template block in the main skill body (not separate file)
+  - [ ] Note cross-link: security section references \`security-and-hardening\` skill, performance references \`performance-optimization\`
+  - [ ] Write \`skills/code-review/SKILL.md\`
+  - [ ] Review: matches quality bar of existing skills
+
+  #### Group 4: `incremental-implementation` — single real source, straightforward
+
+  - [ ] Read Addy \`incremental-implementation\` as primary source
+  - [ ] Verify SP \`executing-plans\` has no useful content to merge (thin meta-process, just delegation)
+  - [ ] Align with existing \`planning-implementation\` skill (they're adjacent: planning vs execution)
+  - [ ] Write \`skills/incremental-implementation/SKILL.md\`
+  - [ ] Review: matches quality bar
+
+  #### Group 5: `git-workflow` — two complementary sources
+
+  - [ ] Compare Addy (general: trunk-based, atomic commits, branching, hygiene) vs SP (specific: worktree isolation)
+  - [ ] Identify merge plan: Addy as core content + SP's worktree section absorbed as one technique chapter
+  - [ ] Note cross-link: commit message conventions reference code-review, pre-commit hygiene references CI-CD
+  - [ ] Write \`skills/git-workflow/SKILL.md\`
+  - [ ] Review: matches quality bar
+
+  #### Group 6: `finishing-a-development-branch` — needs de-SP-ification
+
+  - [ ] Read SP source, identify worktree-heavy dependencies
+  - [ ] Generalize: replace worktree-specific commands with generic git branch finish flow
+  - [ ] Ensure integration with \`git-workflow\` skill (they naturally chain)
+  - [ ] Write \`skills/finishing-a-development-branch/SKILL.md\`
+  - [ ] Review: matches quality bar
+
+  #### Group 7: `architecting-changes` — most complex, generalize from Python
+
+  - [ ] Read Python \`architecting-python-changes\` as base
+  - [ ] Split core heuristics vs router function: heuristics largely duplicate ENGINEERING-PHILOSOPHY.md → reference rather than restate
+  - [ ] Generalize Python-specific references (setting-up-python-projects, etc.) to language-agnostic (setting-up-projects, etc.) or drop them
+  - [ ] The real value: the "classify → route → deeper skill" pattern — make this the centerpiece
+  - [ ] Check which Batch 5 Python skills need to exist before this can route to them
+  - [ ] Write \`skills/architecting-changes/SKILL.md\`
+  - [ ] Review: matches quality bar
 - [ ] Batch 4: parallel/agent skills
 - [ ] Batch 5: Python skill set refactoring
 - [ ] Batch 6: using-skills bootstrap + how-to-write-skills review
