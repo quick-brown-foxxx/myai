@@ -303,7 +303,7 @@ PYTHON-SPECIFIC (per-project):
 
   Required before uninstall:
 
-  - [x] `architecting-changes` core exists, so later workflow skills inherit local philosophy instead of Superpowers-style hard gates.
+  - [ ] `architecting-changes` core exists, so later workflow skills inherit local philosophy instead of Superpowers-style hard gates. Partial: draft core exists, Python-specific routes are TODOs until Batch 5.
   - [ ] `incremental-implementation` exists as the lightweight execution discipline for multi-step work.
   - [ ] Minimal `git-workflow` exists, focused on local safety and atomic changes without duplicating platform git rules.
   - [ ] Minimal `finishing-a-development-branch` exists as a decision aid after work is verified.
@@ -356,7 +356,7 @@ PYTHON-SPECIFIC (per-project):
   - [x] Discarded SP aux: condition-based-waiting.md + .ts, find-polluter.sh, CREATION-LOG.md, test-*.md
   - [x] Review all 3 skills: match quality bar of existing skills
 
-  #### Group 1: `architecting-changes` core — low-medium complexity
+  #### Group 1: `architecting-changes` core — low-medium complexity, partial ✓
 
   Estimate:
 
@@ -364,6 +364,8 @@ PYTHON-SPECIFIC (per-project):
   - Workflow rigidity: low.
   - Philosophy mismatch: low if kept as a decision/router skill.
   - Dependencies: none for the core language-agnostic version.
+
+  Status: draft core is written and discoverable. It is good enough to shape the next workflow ports, but not final because Python-specific routes remain TODOs.
 
   Scope:
 
