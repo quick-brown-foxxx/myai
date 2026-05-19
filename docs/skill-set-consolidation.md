@@ -303,7 +303,7 @@ PYTHON-SPECIFIC (per-project):
 
   Required before uninstall:
 
-  - [ ] `architecting-changes` core exists, so later workflow skills inherit local philosophy instead of Superpowers-style hard gates.
+  - [x] `architecting-changes` core exists, so later workflow skills inherit local philosophy instead of Superpowers-style hard gates.
   - [ ] `incremental-implementation` exists as the lightweight execution discipline for multi-step work.
   - [ ] Minimal `git-workflow` exists, focused on local safety and atomic changes without duplicating platform git rules.
   - [ ] Minimal `finishing-a-development-branch` exists as a decision aid after work is verified.
@@ -367,14 +367,14 @@ PYTHON-SPECIFIC (per-project):
 
   Scope:
 
-  - [ ] Read Python `architecting-python-changes` as base.
-  - [ ] Split core architecture decision guidance from Python-specific routing.
-  - [ ] Reference `ENGINEERING-PHILOSOPHY.md` instead of duplicating its heuristics.
-  - [ ] Generalize the classify → identify architecture question → route pattern.
-  - [ ] Route to existing language-agnostic domain skills only (`api-design`, `security-and-hardening`, `performance-optimization`, `documentation-and-adrs`, etc.).
-  - [ ] Defer Python-specific routes to Batch 5.
-  - [ ] Write `skills/architecting-changes/SKILL.md`.
-  - [ ] Review: matches quality bar and does not become a high-level workflow controller.
+  - [x] Read Python `architecting-python-changes` as base.
+  - [x] Split core architecture decision guidance from Python-specific routing.
+  - [x] Reference `ENGINEERING-PHILOSOPHY.md` instead of duplicating its heuristics.
+  - [x] Generalize the classify → identify architecture question → route pattern.
+  - [x] Route to existing language-agnostic domain skills only (`api-design`, `security-and-hardening`, `performance-optimization`, `documentation-and-adrs`, etc.).
+  - [x] Defer Python-specific routes to Batch 5.
+  - [x] Write `skills/architecting-changes/SKILL.md`.
+  - [x] Review: matches quality bar and does not become a high-level workflow controller.
 
   #### Group 2: `incremental-implementation` — medium complexity
 
