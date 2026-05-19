@@ -286,9 +286,40 @@ PYTHON-SPECIFIC (per-project):
 - [x] Batch 1: cross-cutting enrichers (prototype-first ✓, doubt-early ✓, source-driven ⛌, context-engineering ⛌, code-simplification ✓)
 - [x] Batch 2: domain skills (api-design ✓, security ✓, perf ✓, ci-cd ✓, shipping ✓, frontend ⛌, devtools ⛌, deprecation ⛌, docs ✓)
 - [x] Batch 3a: planning pipeline (idea-sharpening ✓, brainstorming ✓, planning-implementation ✓)
-- [ ] Batch 3b: remaining core workflow skills
+- [ ] Batch 3b: remaining core workflow skills, ordered by complexity and dependencies
 
-  ### Source skill inventory (across all 3b skills)
+  ### Complexity model
+
+  Complexity is estimated by:
+
+  - **Source volume:** number and size of source/aux files to read and merge.
+  - **Workflow rigidity:** how much Superpowers-style mandatory process must be removed.
+  - **Philosophy mismatch:** conflict with `ENGINEERING-PHILOSOPHY.md` and `docs/my-workflow-draft.md`.
+  - **Dependencies:** whether other local skills must exist first.
+
+  The goal is not to port everything before uninstalling Superpowers. The goal is to remove Superpowers as a dependency safely. Some draft final-list skills are deferable if no active workflow or bootstrap references them.
+
+  ### Minimum Superpowers uninstall path
+
+  Required before uninstall:
+
+  - [ ] `architecting-changes` core exists, so later workflow skills inherit local philosophy instead of Superpowers-style hard gates.
+  - [ ] `incremental-implementation` exists as the lightweight execution discipline for multi-step work.
+  - [ ] Minimal `git-workflow` exists, focused on local safety and atomic changes without duplicating platform git rules.
+  - [ ] Minimal `finishing-a-development-branch` exists as a decision aid after work is verified.
+  - [ ] `code-review` exists in softened/split form, covering review and review-feedback handling without mandatory subagent ceremony.
+  - [ ] Final `using-skills` bootstrap exists after the local skill map is stable.
+  - [ ] `.agents/skills` and `.claude/skills` are synced from `skills/`.
+  - [ ] Superpowers-disabled dry run passes: bootstrap behavior works and no active docs/configs require `using-superpowers` or Superpowers-only skill names.
+
+  Defer unless proven active:
+
+  - `subagent-driven-development`
+  - Python skill refactoring batch
+  - deep `how-to-write-skills` review/cherry-pick from Superpowers `writing-skills`
+  - full TDD port
+
+  ### Source skill inventory (remaining core and uninstall-related groups)
 
   | Target Skill                   | SP Source                                      | Addy Source                  | Python Source               | SP Aux                       |
   | ------------------------------ | ---------------------------------------------- | ---------------------------- | --------------------------- | ---------------------------- |
@@ -299,18 +330,23 @@ PYTHON-SPECIFIC (per-project):
   | finishing-a-development-branch | finishing-a-development-branch                 | —                            | —                           | Clean                        |
   | git-workflow                   | using-git-worktrees                            | git-workflow-and-versioning  | —                           | Clean                        |
   | architecting-changes           | —                                              | —                            | architecting-python-changes | Clean                        |
+  | dispatching-parallel-agents    | dispatching-parallel-agents                    | —                            | —                           | Clean                        |
+  | subagent-driven-development    | subagent-driven-development                    | —                            | —                           | 3 prompt templates           |
+  | test-driven-development        | test-driven-development                        | test-driven-development      | —                           | testing-anti-patterns.md     |
+  | using-skills                   | using-superpowers                              | using-agent-skills           | —                           | tool mapping references      |
+  | how-to-write-skills review     | writing-skills                                 | —                            | —                           | 6 aux files                  |
 
-  ### Subtask breakdown per group
+  ### Complexity-ordered subtask breakdown
 
-  #### Group 1: `verification-before-completion` — quick win, build momentum ✓
+  #### Completed: `verification-before-completion` ✓
 
   - [x] Read SP source skill, compare with existing engineering-philosophy.md (testing philosophy)
   - [x] Reviewed options: tone (forceful vs technical), scope (standalone vs embedded), overlap with philosophy doc, gate function style
   - [x] Added "When Verification Fails Repeatedly" section — converging vs diverging validation loop, escalation pattern, doubt-early reference
   - [x] Updated Red Flags + Rationalization tables with diverging-loop patterns
-  - [x] Write final \`skills/verification-before-completion/SKILL.md\`
+  - [x] Write final `skills/verification-before-completion/SKILL.md`
 
-  #### Group 2: `systematic-debugging` — split into 3 skills ✓
+  #### Completed: `systematic-debugging` — split into 3 skills ✓
 
   - [x] Decision: split into 3 skills (systematic-debugging + bug-root-cause-tracing + bug-protection-multi-layered)
   - [x] Created design doc: `docs/debugging-skills-design.md`
@@ -320,50 +356,191 @@ PYTHON-SPECIFIC (per-project):
   - [x] Discarded SP aux: condition-based-waiting.md + .ts, find-polluter.sh, CREATION-LOG.md, test-*.md
   - [x] Review all 3 skills: match quality bar of existing skills
 
-  #### Group 3: `code-review` — three sources, critical quality gate
+  #### Group 1: `architecting-changes` core — low-medium complexity
+
+  Estimate:
+
+  - Source volume: low (`architecting-python-changes`, 118 lines + `ENGINEERING-PHILOSOPHY.md`).
+  - Workflow rigidity: low.
+  - Philosophy mismatch: low if kept as a decision/router skill.
+  - Dependencies: none for the core language-agnostic version.
+
+  Scope:
+
+  - [ ] Read Python `architecting-python-changes` as base.
+  - [ ] Split core architecture decision guidance from Python-specific routing.
+  - [ ] Reference `ENGINEERING-PHILOSOPHY.md` instead of duplicating its heuristics.
+  - [ ] Generalize the classify → identify architecture question → route pattern.
+  - [ ] Route to existing language-agnostic domain skills only (`api-design`, `security-and-hardening`, `performance-optimization`, `documentation-and-adrs`, etc.).
+  - [ ] Defer Python-specific routes to Batch 5.
+  - [ ] Write `skills/architecting-changes/SKILL.md`.
+  - [ ] Review: matches quality bar and does not become a high-level workflow controller.
+
+  #### Group 2: `incremental-implementation` — medium complexity
+
+  Estimate:
+
+  - Source volume: medium (Addy 245 lines + SP `executing-plans` 70 lines).
+  - Workflow rigidity: medium, because SP `executing-plans` implies execute-all and mandatory finish behavior.
+  - Philosophy mismatch: low-medium after softening.
+  - Dependencies: `planning-implementation` and `verification-before-completion` already exist.
+
+  Scope:
+
+  - [ ] Read Addy `incremental-implementation` as primary source.
+  - [ ] Verify SP `executing-plans` contributes only small useful ideas: critical plan review, stop on blockers, follow verification steps.
+  - [ ] Remove mandatory execute-all, mandatory commit, and mandatory finishing-branch semantics.
+  - [ ] Align with `planning-implementation` as execution discipline after a plan exists.
+  - [ ] Write `skills/incremental-implementation/SKILL.md`.
+  - [ ] Review: matches quality bar and keeps ceremony task-sized.
+
+  #### Group 3: `dispatching-parallel-agents` — low-medium complexity
+
+  Estimate:
+
+  - Source volume: low (SP 182 lines).
+  - Workflow rigidity: low-medium, because agent dispatch must remain optional and scoped.
+  - Philosophy mismatch: low; aligns with hierarchical context isolation.
+  - Dependencies: none unless `subagent-driven-development` is in scope.
+
+  Scope:
+
+  - [ ] Read SP `dispatching-parallel-agents`.
+  - [ ] Keep the core idea: one agent per independent problem domain with focused prompts.
+  - [ ] Make use conditional: only for independent work with no shared state or sequential dependency.
+  - [ ] Remove platform-specific examples where possible; keep OpenCode-compatible wording.
+  - [ ] Write `skills/dispatching-parallel-agents/SKILL.md`.
+  - [ ] Review: does not encourage parallelism when a single root cause is likely.
+
+  #### Group 4: `git-workflow` — medium complexity
+
+  Estimate:
+
+  - Source volume: medium-high (Addy 300 lines + SP `using-git-worktrees` 215 lines).
+  - Workflow rigidity: medium.
+  - Philosophy mismatch: low-medium; must avoid duplicating platform safety rules or forcing commits.
+  - Dependencies: needed by `finishing-a-development-branch`; optional for general implementation.
+
+  Scope:
+
+  - [ ] Compare Addy (atomic commits, trunk-based, branch hygiene, change summaries) vs SP (worktree isolation).
+  - [ ] Keep git workflow as guidance, not a hard requirement for every trivial edit.
+  - [ ] Absorb worktree guidance as one technique chapter, not a separate mandatory skill.
+  - [ ] Remove Superpowers path assumptions such as `~/.config/superpowers/worktrees/` except as legacy notes if needed.
+  - [ ] Avoid destructive command recipes unless guarded by explicit user confirmation.
+  - [ ] Write `skills/git-workflow/SKILL.md`.
+  - [ ] Review: does not conflict with OpenCode git safety instructions.
+
+  #### Group 5: `finishing-a-development-branch` — medium complexity, split recommended
+
+  Estimate:
+
+  - Source volume: medium (SP 251 lines).
+  - Workflow rigidity: medium-high, because the source prescribes exact menus and cleanup behavior.
+  - Philosophy mismatch: medium; should be a decision aid, not a forced branch lifecycle.
+  - Dependencies: `git-workflow`, `verification-before-completion`.
+
+  Scope:
+
+  - [ ] Read SP source and identify worktree-heavy assumptions.
+  - [ ] First port: lightweight finish options after implementation is verified.
+  - [ ] Present clear choices: keep branch, create PR, merge locally, cleanup/discard only with explicit confirmation.
+  - [ ] Defer detailed merge/worktree cleanup mechanics unless needed.
+  - [ ] Ensure integration with `git-workflow`.
+  - [ ] Write `skills/finishing-a-development-branch/SKILL.md`.
+  - [ ] Review: no Superpowers-owned cleanup assumptions, no destructive flow without confirmation.
+
+  #### Group 6: `code-review` — medium-high complexity, split recommended
+
+  Estimate:
+
+  - Source volume: high (Addy 347 + SP requesting 103 + SP receiving 213 + reviewer template 168).
+  - Workflow rigidity: medium-high, because SP requesting pushes subagent review checkpoints.
+  - Philosophy mismatch: medium; review should be calibrated, skeptical, and not performative.
+  - Dependencies: `security-and-hardening`, `performance-optimization`, `verification-before-completion` already exist. Useful before `subagent-driven-development`.
+
+  Scope:
 
   - [ ] Compare Addy (what: 5-axis review, checklist, sizing) vs SP requesting (when/how: subagent dispatch) vs SP receiving (psychology: verify before implement, no performative agreement)
-  - [ ] Identify merge plan: Addy's 5-axis as core framework + SP receiving as "how to handle feedback" section + SP requesting distilled to "when to request review" (subagent boilerplate → generic pattern)
-  - [ ] Embed \`code-reviewer.md\` aux as a template block in the main skill body (not separate file)
-  - [ ] Note cross-link: security section references \`security-and-hardening\` skill, performance references \`performance-optimization\`
-  - [ ] Write \`skills/code-review/SKILL.md\`
-  - [ ] Review: matches quality bar of existing skills
+  - [ ] Split conceptually into: reviewing code, receiving review feedback, and requesting fresh-context review.
+  - [ ] Identify merge plan: Addy's 5-axis as core framework + SP receiving as "how to handle feedback" section + SP requesting distilled to optional fresh-context/subagent pattern.
+  - [ ] Embed `code-reviewer.md` aux as a compact template block in the main skill body only if it stays useful after shortening.
+  - [ ] Note cross-link: security section references `security-and-hardening` skill, performance references `performance-optimization`
+  - [ ] Write `skills/code-review/SKILL.md`
+  - [ ] Review: matches quality bar, no mandatory review-after-every-task rule.
 
-  #### Group 4: `incremental-implementation` — single real source, straightforward
+  #### Group 7: `test-driven-development` — high complexity, do not direct-port
 
-  - [ ] Read Addy \`incremental-implementation\` as primary source
-  - [ ] Verify SP \`executing-plans\` has no useful content to merge (thin meta-process, just delegation)
-  - [ ] Align with existing \`planning-implementation\` skill (they're adjacent: planning vs execution)
-  - [ ] Write \`skills/incremental-implementation/SKILL.md\`
-  - [ ] Review: matches quality bar
+  Estimate:
 
-  #### Group 5: `git-workflow` — two complementary sources
+  - Source volume: high (SP 371 + SP anti-patterns 299 + Addy 383).
+  - Workflow rigidity: very high in SP source.
+  - Philosophy mismatch: high; local testing philosophy values trustworthy integration/e2e tests and treats TDD as a technique, not an Iron Law.
+  - Dependencies: `verification-before-completion`; may relate to future Python `testing-python`.
 
-  - [ ] Compare Addy (general: trunk-based, atomic commits, branching, hygiene) vs SP (specific: worktree isolation)
-  - [ ] Identify merge plan: Addy as core content + SP's worktree section absorbed as one technique chapter
-  - [ ] Note cross-link: commit message conventions reference code-review, pre-commit hygiene references CI-CD
-  - [ ] Write \`skills/git-workflow/SKILL.md\`
-  - [ ] Review: matches quality bar
+  Scope:
 
-  #### Group 6: `finishing-a-development-branch` — needs de-SP-ification
+  - [ ] Treat as a new testing-strategy / prove-it-pattern skill, not a direct TDD port.
+  - [ ] Keep red-green-refactor as recommended when it adds value.
+  - [ ] Preserve bug reproduction before fix where practical.
+  - [ ] Remove delete-production-code Iron Law and universal test-first requirement.
+  - [ ] Align with `ENGINEERING-PHILOSOPHY.md` testing section: trustworthy tests over coverage, integration/e2e first where they prove more.
+  - [ ] Decide final name later: keep `test-driven-development` for compatibility or rename to a broader testing skill.
 
-  - [ ] Read SP source, identify worktree-heavy dependencies
-  - [ ] Generalize: replace worktree-specific commands with generic git branch finish flow
-  - [ ] Ensure integration with \`git-workflow\` skill (they naturally chain)
-  - [ ] Write \`skills/finishing-a-development-branch/SKILL.md\`
-  - [ ] Review: matches quality bar
+  #### Group 8: `subagent-driven-development` — high complexity, conditional/deferable
 
-  #### Group 7: `architecting-changes` — most complex, generalize from Python
+  Estimate:
 
-  - [ ] Read Python \`architecting-python-changes\` as base
-  - [ ] Split core heuristics vs router function: heuristics largely duplicate ENGINEERING-PHILOSOPHY.md → reference rather than restate
-  - [ ] Generalize Python-specific references (setting-up-python-projects, etc.) to language-agnostic (setting-up-projects, etc.) or drop them
-  - [ ] The real value: the "classify → route → deeper skill" pattern — make this the centerpiece
-  - [ ] Check which Batch 5 Python skills need to exist before this can route to them
-  - [ ] Write \`skills/architecting-changes/SKILL.md\`
-  - [ ] Review: matches quality bar
-- [ ] Batch 4: parallel/agent skills
-- [ ] Batch 5: Python skill set refactoring
-- [ ] Batch 6: using-skills bootstrap + how-to-write-skills review
+  - Source volume: high (SP 279 + prompt templates totaling ~199 lines).
+  - Workflow rigidity: very high; two-stage review, continuous execution, commits, and final finishing flow are prescribed.
+  - Philosophy mismatch: high risk of turning skills into high-level workflow driver.
+  - Dependencies: `planning-implementation`, `incremental-implementation`, `dispatching-parallel-agents`, `code-review`, `git-workflow`, `verification-before-completion`.
+
+  Scope:
+
+  - [ ] Defer unless current workflow actively needs it.
+  - [ ] If ported, keep as an optional pattern for large implementation plans, not default execution.
+  - [ ] Rework prompt templates into compact inline examples or keep only if they remain reusable.
+  - [ ] Remove mandatory commits and mandatory final branch completion.
+  - [ ] Align with `docs/my-workflow-draft.md`: high-level workflow is orchestrated explicitly, not auto-triggered by skills.
+
+- [ ] Batch 4: parallel/agent skills (`dispatching-parallel-agents` first; `subagent-driven-development` conditional)
+- [ ] Batch 5: Python skill set refactoring (deferred from Superpowers uninstall path unless active workflows require it)
+- [ ] Batch 6: `using-skills` bootstrap + `how-to-write-skills` review
+
+  #### Batch 6a: `using-skills` — highest dependency sensitivity, do last
+
+  Estimate:
+
+  - Source volume: medium (SP bootstrap 117 + Addy 180 + tool mapping refs).
+  - Workflow rigidity: very high in SP source.
+  - Philosophy mismatch: high unless rewritten around local principles.
+  - Dependencies: final local skill map and decisions about deferred/retired skills.
+
+  Scope:
+
+  - [ ] Port after the replacement set is stable.
+  - [ ] Encode: skills are low-level aids; high-level workflow is explicit orchestration.
+  - [ ] Encode: ceremony scales with task size.
+  - [ ] Encode: fail fast on real ambiguity or invalid environment, but do not force every phase.
+  - [ ] Route common intents to local skill names only.
+  - [ ] Include tool mappings only if still needed for portability.
+  - [ ] Run Superpowers-disabled dry run before uninstall.
+
+  #### Batch 6b: `how-to-write-skills` review — deferable
+
+  Estimate:
+
+  - Source volume: high (SP `writing-skills` 655 + 6 aux files).
+  - Workflow rigidity: high; SP treats skill writing as TDD with pressure tests.
+  - Philosophy mismatch: medium-high; current local skill is already concise and practical.
+  - Dependencies: none.
+
+  Scope:
+
+  - [ ] Defer unless a concrete missing behavior is identified.
+  - [ ] Cherry-pick only targeted ideas such as discoverability, prompt pressure testing, or compact scenario verification.
+  - [ ] Do not import SP ceremony wholesale.
+
 - [ ] Workflow documentation (separate from skills)
 - [x] Extract `visual-mockups` as standalone aux skill (in-browser UI mockups for brainstorming/spec phase)
