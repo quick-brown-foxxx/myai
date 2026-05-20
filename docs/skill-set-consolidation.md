@@ -137,10 +137,10 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 
 ### Parallel/Agent Workflow Skills
 
-| #   | Skill Name                    | Description                                                            | Primary Source |
-| --- | ----------------------------- | ---------------------------------------------------------------------- | -------------- |
-| 18  | `dispatching-parallel-agents` | One agent per independent domain. Focused prompts, specific output     | Superpowers    |
-| 19  | `subagent-driven-development` | Dispatch fresh subagent per task with review. Optional for large tasks | Superpowers    |
+| #   | Skill Name                            | Description                                                                                       | Primary Source |
+| --- | ------------------------------------- | ------------------------------------------------------------------------------------------------- | -------------- |
+| 18  | `when-and-how-to-run-parallel-agents` | Decide when independent work can be parallelized; focused prompts, dependency checks, integration | Superpowers    |
+| 19  | `subagent-driven-development`         | Dispatch fresh subagent per task with review. Optional for large tasks                            | Superpowers    |
 
 ### Research Skills
 
@@ -222,7 +222,7 @@ PLANNING ───────────── planning-implementation ✓
 IMPLEMENTATION ─────── incremental-implementation
                       │               │
                       │               ├── subagent-driven-development (parallel)
-                      │               └── dispatching-parallel-agents (independent tasks)
+                      │               └── when-and-how-to-run-parallel-agents (independent tasks)
                       │
                       ├── enriched by: code-simplification (simplest thing first)
                       ├── enriched by: prototype-first (spike before commit)
@@ -321,20 +321,20 @@ PYTHON-SPECIFIC (per-project):
 
   ### Source skill inventory (remaining core and uninstall-related groups)
 
-  | Target Skill                   | SP Source                                      | Addy Source                  | Python Source               | SP Aux                       |
-  | ------------------------------ | ---------------------------------------------- | ---------------------------- | --------------------------- | ---------------------------- |
-  | verification-before-completion | verification-before-completion                 | —                            | —                           | Clean                        |
-  | systematic-debugging           | systematic-debugging                           | debugging-and-error-recovery | —                           | 10 aux (3 useful, 7 discard) |
-  | code-review                    | requesting-code-review + receiving-code-review | code-review-and-quality      | —                           | 1 aux (code-reviewer.md)     |
-  | incremental-implementation     | executing-plans (thin, skip)                   | incremental-implementation   | —                           | Clean                        |
-  | finishing-a-development-branch | finishing-a-development-branch                 | —                            | —                           | Clean                        |
-  | git-workflow                   | using-git-worktrees                            | git-workflow-and-versioning  | —                           | Clean                        |
-  | architecting-changes           | —                                              | —                            | architecting-python-changes | Clean                        |
-  | dispatching-parallel-agents    | dispatching-parallel-agents                    | —                            | —                           | Clean                        |
-  | subagent-driven-development    | subagent-driven-development                    | —                            | —                           | 3 prompt templates           |
-  | test-driven-development        | test-driven-development                        | test-driven-development      | —                           | testing-anti-patterns.md     |
-  | using-skills                   | using-superpowers                              | using-agent-skills           | —                           | tool mapping references      |
-  | how-to-write-skills review     | writing-skills                                 | —                            | —                           | 6 aux files                  |
+  | Target Skill                        | SP Source                                      | Addy Source                  | Python Source               | SP Aux                       |
+  | ----------------------------------- | ---------------------------------------------- | ---------------------------- | --------------------------- | ---------------------------- |
+  | verification-before-completion      | verification-before-completion                 | —                            | —                           | Clean                        |
+  | systematic-debugging                | systematic-debugging                           | debugging-and-error-recovery | —                           | 10 aux (3 useful, 7 discard) |
+  | code-review                         | requesting-code-review + receiving-code-review | code-review-and-quality      | —                           | 1 aux (code-reviewer.md)     |
+  | incremental-implementation          | executing-plans (thin, skip)                   | incremental-implementation   | —                           | Clean                        |
+  | finishing-a-development-branch      | finishing-a-development-branch                 | —                            | —                           | Clean                        |
+  | git-workflow                        | using-git-worktrees                            | git-workflow-and-versioning  | —                           | Clean                        |
+  | architecting-changes                | —                                              | —                            | architecting-python-changes | Clean                        |
+  | when-and-how-to-run-parallel-agents | dispatching-parallel-agents                    | —                            | —                           | Clean                        |
+  | subagent-driven-development         | subagent-driven-development                    | —                            | —                           | 3 prompt templates           |
+  | test-driven-development             | test-driven-development                        | test-driven-development      | —                           | testing-anti-patterns.md     |
+  | using-skills                        | using-superpowers                              | using-agent-skills           | —                           | tool mapping references      |
+  | how-to-write-skills review          | writing-skills                                 | —                            | —                           | 6 aux files                  |
 
   ### Complexity-ordered subtask breakdown
 
@@ -398,7 +398,7 @@ PYTHON-SPECIFIC (per-project):
   - [x] Write `skills/incremental-implementation/SKILL.md`.
   - [x] Review: matches quality bar and keeps ceremony task-sized.
 
-  #### Group 3: `dispatching-parallel-agents` — low-medium complexity
+  #### Group 3: `when-and-how-to-run-parallel-agents` — low-medium complexity ✓
 
   Estimate:
 
@@ -407,14 +407,17 @@ PYTHON-SPECIFIC (per-project):
   - Philosophy mismatch: low; aligns with hierarchical context isolation.
   - Dependencies: none unless `subagent-driven-development` is in scope.
 
+  Status: written as a dependency-aware parallelization decision skill. It keeps the core idea of one agent per independent problem domain, adds explicit dependency-chain checks, and requires orchestrator integration after agents return.
+
   Scope:
 
-  - [ ] Read SP `dispatching-parallel-agents`.
-  - [ ] Keep the core idea: one agent per independent problem domain with focused prompts.
-  - [ ] Make use conditional: only for independent work with no shared state or sequential dependency.
-  - [ ] Remove platform-specific examples where possible; keep OpenCode-compatible wording.
-  - [ ] Write `skills/dispatching-parallel-agents/SKILL.md`.
-  - [ ] Review: does not encourage parallelism when a single root cause is likely.
+  - [x] Read SP `dispatching-parallel-agents`.
+  - [x] Keep the core idea: one agent per independent problem domain with focused prompts.
+  - [x] Make use conditional: only for independent work with no shared state or sequential dependency.
+  - [x] Add dependency rule: if task 2 requires task 1's output or decision, they cannot run in parallel.
+  - [x] Remove platform-specific examples where possible; keep OpenCode-compatible wording.
+  - [x] Write `skills/when-and-how-to-run-parallel-agents/SKILL.md`.
+  - [x] Review: does not encourage parallelism when a single root cause is likely.
 
   #### Group 4: `git-workflow` — medium complexity
 
@@ -498,7 +501,7 @@ PYTHON-SPECIFIC (per-project):
   - Source volume: high (SP 279 + prompt templates totaling ~199 lines).
   - Workflow rigidity: very high; two-stage review, continuous execution, commits, and final finishing flow are prescribed.
   - Philosophy mismatch: high risk of turning skills into high-level workflow driver.
-  - Dependencies: `planning-implementation`, `incremental-implementation`, `dispatching-parallel-agents`, `code-review`, `git-workflow`, `verification-before-completion`.
+  - Dependencies: `planning-implementation`, `incremental-implementation`, `when-and-how-to-run-parallel-agents`, `code-review`, `git-workflow`, `verification-before-completion`.
 
   Scope:
 
@@ -508,7 +511,7 @@ PYTHON-SPECIFIC (per-project):
   - [ ] Remove mandatory commits and mandatory final branch completion.
   - [ ] Align with `docs/my-workflow-draft.md`: high-level workflow is orchestrated explicitly, not auto-triggered by skills.
 
-- [ ] Batch 4: parallel/agent skills (`dispatching-parallel-agents` first; `subagent-driven-development` conditional)
+- [ ] Batch 4: parallel/agent skills (`when-and-how-to-run-parallel-agents` first ✓; `subagent-driven-development` conditional)
 - [ ] Batch 5: Python skill set refactoring (deferred from Superpowers uninstall path unless active workflows require it)
 - [ ] Batch 6: `using-skills` bootstrap + `how-to-write-skills` review
 

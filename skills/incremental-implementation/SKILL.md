@@ -269,7 +269,7 @@ workflow level, it can mean:
 
 ## Working With Agents
 
-TODO: This section will reference `dispatching-parallel-agents`,
+TODO: This section will reference `when-and-how-to-run-parallel-agents`,
 `subagent-driven-development`, and `git-workflow` after those skills are ported.
 
 For now, remember that this skill can be used at multiple levels:
@@ -308,7 +308,7 @@ Future references after porting:
 
 ```text
 git-workflow
-dispatching-parallel-agents
+when-and-how-to-run-parallel-agents
 subagent-driven-development
 finishing-a-development-branch
 ```
