@@ -25,6 +25,10 @@
   - merge `browser-testing-with-devtools` from addy with POLZA's skill
   - merge addy's `frontend-ui-engineering` with my nextjs template/skills
 
+- copy from wikipedia and put in all proper places: offensive programming instead of defensive
+
 - run over all borrowed skills to check if we can enrich them with our PHILOSOPHY or practices
 - ensure all our skills are consistent
 - double check discovery/invocation of all skills' descriptions
+
+- later: decouple skills from main workflow, make them complementary but skills should be useful even without workflow. For cases when a system already has own workflow (GasTown)

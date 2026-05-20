@@ -304,7 +304,7 @@ PYTHON-SPECIFIC (per-project):
   Required before uninstall:
 
   - [ ] `architecting-changes` core exists, so later workflow skills inherit local philosophy instead of Superpowers-style hard gates. Partial: draft core exists, Python-specific routes are TODOs until Batch 5.
-  - [ ] `incremental-implementation` exists as the lightweight execution discipline for multi-step work.
+  - [x] `incremental-implementation` exists as the lightweight execution discipline for multi-step work.
   - [ ] Minimal `git-workflow` exists, focused on local safety and atomic changes without duplicating platform git rules.
   - [ ] Minimal `finishing-a-development-branch` exists as a decision aid after work is verified.
   - [ ] `code-review` exists in softened/split form, covering review and review-feedback handling without mandatory subagent ceremony.
@@ -378,7 +378,7 @@ PYTHON-SPECIFIC (per-project):
   - [x] Write `skills/architecting-changes/SKILL.md`.
   - [x] Review: matches quality bar and does not become a high-level workflow controller.
 
-  #### Group 2: `incremental-implementation` — medium complexity
+  #### Group 2: `incremental-implementation` — medium complexity ✓
 
   Estimate:
 
@@ -387,14 +387,16 @@ PYTHON-SPECIFIC (per-project):
   - Philosophy mismatch: low-medium after softening.
   - Dependencies: `planning-implementation` and `verification-before-completion` already exist.
 
+  Status: written as an Addy-primary execution discipline with local adjustments. Fast feedback favors lint/typecheck over running full tests too often; tests/manual checks happen at meaningful checkpoints. Simplicity is bounded by plan and architecture. Safe-defaults section was intentionally omitted. Agent-workflow references remain TODO until related skills are ported.
+
   Scope:
 
-  - [ ] Read Addy `incremental-implementation` as primary source.
-  - [ ] Verify SP `executing-plans` contributes only small useful ideas: critical plan review, stop on blockers, follow verification steps.
-  - [ ] Remove mandatory execute-all, mandatory commit, and mandatory finishing-branch semantics.
-  - [ ] Align with `planning-implementation` as execution discipline after a plan exists.
-  - [ ] Write `skills/incremental-implementation/SKILL.md`.
-  - [ ] Review: matches quality bar and keeps ceremony task-sized.
+  - [x] Read Addy `incremental-implementation` as primary source.
+  - [x] Verify SP `executing-plans` contributes only small useful ideas: critical plan review, stop on blockers, follow verification steps.
+  - [x] Remove mandatory execute-all, mandatory commit, and mandatory finishing-branch semantics.
+  - [x] Align with `planning-implementation` as execution discipline after a plan exists.
+  - [x] Write `skills/incremental-implementation/SKILL.md`.
+  - [x] Review: matches quality bar and keeps ceremony task-sized.
 
   #### Group 3: `dispatching-parallel-agents` — low-medium complexity
 
