@@ -305,7 +305,7 @@ PYTHON-SPECIFIC (per-project):
 
   - [ ] `architecting-changes` core exists, so later workflow skills inherit local philosophy instead of Superpowers-style hard gates. Partial: draft core exists, Python-specific routes are TODOs until Batch 5.
   - [x] `incremental-implementation` exists as the lightweight execution discipline for multi-step work.
-  - [ ] Minimal `git-workflow` exists, focused on local safety and atomic changes without duplicating platform git rules.
+  - [x] Minimal `git-workflow` exists, focused on local safety and atomic changes without duplicating platform git rules.
   - [ ] Minimal `finishing-a-development-branch` exists as a decision aid after work is verified.
   - [ ] `code-review` exists in softened/split form, covering review and review-feedback handling without mandatory subagent ceremony.
   - [ ] Final `using-skills` bootstrap exists after the local skill map is stable.
@@ -419,7 +419,7 @@ PYTHON-SPECIFIC (per-project):
   - [x] Write `skills/when-and-how-to-run-parallel-agents/SKILL.md`.
   - [x] Review: does not encourage parallelism when a single root cause is likely.
 
-  #### Group 4: `git-workflow` — medium complexity
+  #### Group 4: `git-workflow` — medium complexity ✓
 
   Estimate:
 
@@ -428,15 +428,17 @@ PYTHON-SPECIFIC (per-project):
   - Philosophy mismatch: low-medium; must avoid duplicating platform safety rules or forcing commits.
   - Dependencies: needed by `finishing-a-development-branch`; optional for general implementation.
 
+  Status: written as a merged git change-management skill. Addy provides broad branch/commit/history discipline; Superpowers provides isolation detection and harness-aware worktree rules. Local notes added repository-init policy, worktree location policy, baseline health-check nuance, generated-file/hook scope, and parallel-agent worktree guidance.
+
   Scope:
 
-  - [ ] Compare Addy (atomic commits, trunk-based, branch hygiene, change summaries) vs SP (worktree isolation).
-  - [ ] Keep git workflow as guidance, not a hard requirement for every trivial edit.
-  - [ ] Absorb worktree guidance as one technique chapter, not a separate mandatory skill.
-  - [ ] Remove Superpowers path assumptions such as `~/.config/superpowers/worktrees/` except as legacy notes if needed.
-  - [ ] Avoid destructive command recipes unless guarded by explicit user confirmation.
-  - [ ] Write `skills/git-workflow/SKILL.md`.
-  - [ ] Review: does not conflict with OpenCode git safety instructions.
+  - [x] Compare Addy (atomic commits, trunk-based, branch hygiene, change summaries) vs SP (worktree isolation).
+  - [x] Keep git workflow as guidance, not a hard requirement for every trivial edit.
+  - [x] Absorb worktree guidance as one technique chapter, not a separate mandatory skill.
+  - [x] Remove Superpowers path assumptions such as `~/.config/superpowers/worktrees/`; use `~/.config/myai/worktrees` for external worktrees.
+  - [x] Avoid destructive command recipes unless guarded by explicit user confirmation.
+  - [x] Write `skills/git-workflow/SKILL.md`.
+  - [x] Review: does not conflict with OpenCode git safety instructions.
 
   #### Group 5: `finishing-a-development-branch` — medium complexity, split recommended
 

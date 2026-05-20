@@ -29,6 +29,10 @@
 
 - later: decouple skills from main workflow, make them complementary but skills should be useful even without workflow. For cases when a system already has own workflow (GasTown)
 
+- "**Announce at start:** using `skill-name` to do XXX" form superpowers is nice pattern, will copy it
+
+- later add <https://github.com/anomalyco/opencode/tree/dev/.opencode/skills/improve-codebase-architecture> as another skill copy source to .tmp/
+
 - run over all borrowed skills to check if we can enrich them with our PHILOSOPHY or practices
 - ensure all our skills are consistent
 - double check discovery/invocation of all skills' descriptions
