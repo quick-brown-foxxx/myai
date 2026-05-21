@@ -122,10 +122,11 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 | 6   | `architecting-changes`           | Boundary placement, reusable core, composition vs inheritance, framework vs custom, wrapper decisions. Routes to domain skills | Generalized from Python architecting-python-changes                                          |
 | 7   | `incremental-implementation`     | Thin vertical slices: implement → test → verify → commit → next. Scope discipline, one thing at a time                         | Addy                                                                                         |
 | 8   | `systematic-debugging`           | No fixes without root cause. 4 phases: investigate → analyze → hypothesize → implement. Plus triage checklist                  | Merge: superpowers + addy                                                                    |
-| 9   | `code-review`                    | 5-axis review. Verify before implementing feedback. Honest assessment, push back on incorrect suggestions                      | Merge: addy + superpowers                                                                    |
-| 10  | `verification-before-completion` | No completion claims without fresh evidence. Calibrated to task size                                                           | Superpowers, softened                                                                        |
-| 11  | `finishing-a-development-branch` | Verify tests → detect environment → present options → cleanup                                                                  | Superpowers                                                                                  |
-| 12  | `git-workflow`                   | Trunk-based, atomic commits, worktree isolation, save points, change summaries                                                 | Merge: addy + superpowers                                                                    |
+| 9   | `doing-code-review`              | 5-axis review, fresh-context review prompts, calibrated severity, and merge/readiness verdicts                                 | Merge: addy + superpowers requesting                                                         |
+| 10  | `receiving-code-review`          | Verify review feedback before implementing. Clarify ambiguity, push back with evidence, avoid performative agreement           | Superpowers receiving, softened                                                              |
+| 11  | `verification-before-completion` | No completion claims without fresh evidence. Calibrated to task size                                                           | Superpowers, softened                                                                        |
+| 12  | `finishing-a-development-branch` | Verify tests → detect environment → present options → cleanup                                                                  | Superpowers                                                                                  |
+| 13  | `git-workflow`                   | Trunk-based, atomic commits, worktree isolation, save points, change summaries                                                 | Merge: addy + superpowers                                                                    |
 
 ### Cross-Cutting Enricher Skills
 
@@ -196,8 +197,8 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 | Addy `browser-testing-with-devtools`               | Will enroll my own later                                                            |
 | Addy `deprecation-and-migration`                   | Not need for my cases                                                               |
 | Addy `frontend-ui-engineering`                     | Too opinionated, will enroll my own                                                 |
-| Superpowers `requesting-code-review`               | Merged into code-review                                                             |
-| Superpowers `receiving-code-review`                | Merged into code-review                                                             |
+| Superpowers `requesting-code-review`               | Merged into `doing-code-review`                                                     |
+| Superpowers `receiving-code-review`                | Rewritten as `receiving-code-review`                                                |
 
 ## Skill Relationship Map
 
@@ -231,7 +232,7 @@ DEBUGGING ──────────── systematic-debugging
                       │
                       ├── enriched by: prototype-first (3+ fixes → spike)
                       │
-REVIEW ─────────────── code-review
+REVIEW ─────────────── doing-code-review
                       │
                       ├── enriched by: doubt-early (adversarial review)
                       │
@@ -307,7 +308,7 @@ PYTHON-SPECIFIC (per-project):
   - [x] `incremental-implementation` exists as the lightweight execution discipline for multi-step work.
   - [x] Minimal `git-workflow` exists, focused on local safety and atomic changes without duplicating platform git rules.
   - [ ] Minimal `finishing-a-development-branch` exists as a decision aid after work is verified.
-  - [ ] `code-review` exists in softened/split form, covering review and review-feedback handling without mandatory subagent ceremony.
+  - [x] `doing-code-review` and `receiving-code-review` exist, covering review and review-feedback handling without mandatory subagent ceremony.
   - [ ] Final `using-skills` bootstrap exists after the local skill map is stable.
   - [ ] `.agents/skills` and `.claude/skills` are synced from `skills/`.
   - [ ] Superpowers-disabled dry run passes: bootstrap behavior works and no active docs/configs require `using-superpowers` or Superpowers-only skill names.
@@ -321,20 +322,20 @@ PYTHON-SPECIFIC (per-project):
 
   ### Source skill inventory (remaining core and uninstall-related groups)
 
-  | Target Skill                        | SP Source                                      | Addy Source                  | Python Source               | SP Aux                       |
-  | ----------------------------------- | ---------------------------------------------- | ---------------------------- | --------------------------- | ---------------------------- |
-  | verification-before-completion      | verification-before-completion                 | —                            | —                           | Clean                        |
-  | systematic-debugging                | systematic-debugging                           | debugging-and-error-recovery | —                           | 10 aux (3 useful, 7 discard) |
-  | code-review                         | requesting-code-review + receiving-code-review | code-review-and-quality      | —                           | 1 aux (code-reviewer.md)     |
-  | incremental-implementation          | executing-plans (thin, skip)                   | incremental-implementation   | —                           | Clean                        |
-  | finishing-a-development-branch      | finishing-a-development-branch                 | —                            | —                           | Clean                        |
-  | git-workflow                        | using-git-worktrees                            | git-workflow-and-versioning  | —                           | Clean                        |
-  | architecting-changes                | —                                              | —                            | architecting-python-changes | Clean                        |
-  | when-and-how-to-run-parallel-agents | dispatching-parallel-agents                    | —                            | —                           | Clean                        |
-  | subagent-driven-development         | subagent-driven-development                    | —                            | —                           | 3 prompt templates           |
-  | test-driven-development             | test-driven-development                        | test-driven-development      | —                           | testing-anti-patterns.md     |
-  | using-skills                        | using-superpowers                              | using-agent-skills           | —                           | tool mapping references      |
-  | how-to-write-skills review          | writing-skills                                 | —                            | —                           | 6 aux files                  |
+  | Target Skill                              | SP Source                                      | Addy Source                  | Python Source               | SP Aux                       |
+  | ----------------------------------------- | ---------------------------------------------- | ---------------------------- | --------------------------- | ---------------------------- |
+  | verification-before-completion            | verification-before-completion                 | —                            | —                           | Clean                        |
+  | systematic-debugging                      | systematic-debugging                           | debugging-and-error-recovery | —                           | 10 aux (3 useful, 7 discard) |
+  | doing-code-review + receiving-code-review | requesting-code-review + receiving-code-review | code-review-and-quality      | —                           | Inlined prompt               |
+  | incremental-implementation                | executing-plans (thin, skip)                   | incremental-implementation   | —                           | Clean                        |
+  | finishing-a-development-branch            | finishing-a-development-branch                 | —                            | —                           | Clean                        |
+  | git-workflow                              | using-git-worktrees                            | git-workflow-and-versioning  | —                           | Clean                        |
+  | architecting-changes                      | —                                              | —                            | architecting-python-changes | Clean                        |
+  | when-and-how-to-run-parallel-agents       | dispatching-parallel-agents                    | —                            | —                           | Clean                        |
+  | subagent-driven-development               | subagent-driven-development                    | —                            | —                           | 3 prompt templates           |
+  | test-driven-development                   | test-driven-development                        | test-driven-development      | —                           | testing-anti-patterns.md     |
+  | using-skills                              | using-superpowers                              | using-agent-skills           | —                           | tool mapping references      |
+  | how-to-write-skills review                | writing-skills                                 | —                            | —                           | 6 aux files                  |
 
   ### Complexity-ordered subtask breakdown
 
@@ -459,7 +460,7 @@ PYTHON-SPECIFIC (per-project):
   - [ ] Write `skills/finishing-a-development-branch/SKILL.md`.
   - [ ] Review: no Superpowers-owned cleanup assumptions, no destructive flow without confirmation.
 
-  #### Group 6: `code-review` — medium-high complexity, split recommended
+  #### Completed: `doing-code-review` + `receiving-code-review` ✓
 
   Estimate:
 
@@ -468,15 +469,18 @@ PYTHON-SPECIFIC (per-project):
   - Philosophy mismatch: medium; review should be calibrated, skeptical, and not performative.
   - Dependencies: `security-and-hardening`, `performance-optimization`, `verification-before-completion` already exist. Useful before `subagent-driven-development`.
 
+  Status: split into two self-contained skills. `doing-code-review` owns review execution, fresh-context/subagent prompt, review axes, severity, and verdict. `receiving-code-review` owns feedback intake, verification before implementation, pushback, YAGNI checks, and reply format. Prompt templates are kept inline; no aux file is needed.
+
   Scope:
 
-  - [ ] Compare Addy (what: 5-axis review, checklist, sizing) vs SP requesting (when/how: subagent dispatch) vs SP receiving (psychology: verify before implement, no performative agreement)
-  - [ ] Split conceptually into: reviewing code, receiving review feedback, and requesting fresh-context review.
-  - [ ] Identify merge plan: Addy's 5-axis as core framework + SP receiving as "how to handle feedback" section + SP requesting distilled to optional fresh-context/subagent pattern.
-  - [ ] Embed `code-reviewer.md` aux as a compact template block in the main skill body only if it stays useful after shortening.
-  - [ ] Note cross-link: security section references `security-and-hardening` skill, performance references `performance-optimization`
-  - [ ] Write `skills/code-review/SKILL.md`
-  - [ ] Review: matches quality bar, no mandatory review-after-every-task rule.
+  - [x] Compare Addy (what: 5-axis review, checklist, sizing) vs SP requesting (when/how: subagent dispatch) vs SP receiving (psychology: verify before implement, no performative agreement)
+  - [x] Split into: doing review and receiving review feedback.
+  - [x] Use Addy's 5-axis as core review framework, with security/performance conditional rather than ceremonial.
+  - [x] Keep SP requesting as inline fresh-context/subagent prompt inside `doing-code-review`.
+  - [x] Keep SP receiving as a separate skill with softened tone and technical pushback rules.
+  - [x] Cross-link security section to `security-and-hardening`, performance to `performance-optimization`, complexity to `code-simplification`, and verification to `verification-before-completion`.
+  - [x] Remove old combined `skills/code-review/SKILL.md` to avoid duplicate triggering.
+  - [x] Review: matches quality bar, no mandatory review-after-every-task rule.
 
   #### Group 7: `test-driven-development` — high complexity, do not direct-port
 
@@ -503,7 +507,7 @@ PYTHON-SPECIFIC (per-project):
   - Source volume: high (SP 279 + prompt templates totaling ~199 lines).
   - Workflow rigidity: very high; two-stage review, continuous execution, commits, and final finishing flow are prescribed.
   - Philosophy mismatch: high risk of turning skills into high-level workflow driver.
-  - Dependencies: `planning-implementation`, `incremental-implementation`, `when-and-how-to-run-parallel-agents`, `code-review`, `git-workflow`, `verification-before-completion`.
+  - Dependencies: `planning-implementation`, `incremental-implementation`, `when-and-how-to-run-parallel-agents`, `doing-code-review`, `receiving-code-review`, `git-workflow`, `verification-before-completion`.
 
   Scope:
 
