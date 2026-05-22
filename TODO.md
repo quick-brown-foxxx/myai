@@ -31,7 +31,9 @@
 
 - "**Announce at start:** using `skill-name` to do XXX" form superpowers is nice pattern, will copy it
 
-- later add <https://github.com/anomalyco/opencode/tree/dev/.opencode/skills/improve-codebase-architecture> as another skill copy source to .tmp/
+- later new collections to .tmp/:
+  - <https://github.com/anomalyco/opencode/tree/dev/.opencode/skills/improve-codebase-architecture>
+  - <https://github.com/GoogleChrome/modern-web-guidance-src>
 
 - run over all borrowed skills to check if we can enrich them with our PHILOSOPHY or practices
 - ensure all our skills are consistent

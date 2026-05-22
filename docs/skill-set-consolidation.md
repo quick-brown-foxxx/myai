@@ -125,8 +125,7 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 | 9   | `doing-code-review`              | 5-axis review, fresh-context review prompts, calibrated severity, and merge/readiness verdicts                                 | Merge: addy + superpowers requesting                                                         |
 | 10  | `receiving-code-review`          | Verify review feedback before implementing. Clarify ambiguity, push back with evidence, avoid performative agreement           | Superpowers receiving, softened                                                              |
 | 11  | `verification-before-completion` | No completion claims without fresh evidence. Calibrated to task size                                                           | Superpowers, softened                                                                        |
-| 12  | `finishing-a-development-branch` | Verify tests → detect environment → present options → cleanup                                                                  | Superpowers                                                                                  |
-| 13  | `git-workflow`                   | Trunk-based, atomic commits, worktree isolation, save points, change summaries                                                 | Merge: addy + superpowers                                                                    |
+| 12  | `git-workflow`                   | Trunk-based, atomic commits, worktree isolation, save points, change summaries                                                 | Merge: addy + superpowers                                                                    |
 
 ### Cross-Cutting Enricher Skills
 
@@ -199,6 +198,7 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 | Addy `frontend-ui-engineering`                     | Too opinionated, will enroll my own                                                 |
 | Superpowers `requesting-code-review`               | Merged into `doing-code-review`                                                     |
 | Superpowers `receiving-code-review`                | Rewritten as `receiving-code-review`                                                |
+| Superpowers `finishing-a-development-branch`       | Not needed; `git-workflow` and platform git rules cover branch/PR/cleanup decisions |
 
 ## Skill Relationship Map
 
@@ -238,8 +238,7 @@ REVIEW ─────────────── doing-code-review
                       │
 VERIFICATION ───────── verification-before-completion
                       │
-FINISHING ──────────── finishing-a-development-branch
-                                   git-workflow
+FINISHING ──────────── git-workflow
 
 ALWAYS AVAILABLE (cross-cutting):
   ├── using-skills (bootstrap/meta)
@@ -304,13 +303,13 @@ PYTHON-SPECIFIC (per-project):
 
   Required before uninstall:
 
-  - [ ] `architecting-changes` core exists, so later workflow skills inherit local philosophy instead of Superpowers-style hard gates. Partial: draft core exists, Python-specific routes are TODOs until Batch 5.
+  - [x] `architecting-changes` core exists, so later workflow skills inherit local philosophy instead of Superpowers-style hard gates. Python-specific routes are deferred to Batch 5.
   - [x] `incremental-implementation` exists as the lightweight execution discipline for multi-step work.
   - [x] Minimal `git-workflow` exists, focused on local safety and atomic changes without duplicating platform git rules.
-  - [ ] Minimal `finishing-a-development-branch` exists as a decision aid after work is verified.
+  - [x] `finishing-a-development-branch` intentionally dropped; `git-workflow` and platform git rules cover this need.
   - [x] `doing-code-review` and `receiving-code-review` exist, covering review and review-feedback handling without mandatory subagent ceremony.
   - [ ] Final `using-skills` bootstrap exists after the local skill map is stable.
-  - [ ] `.agents/skills` and `.claude/skills` are synced from `skills/`.
+  - [x] `.agents/skills` and `.claude/skills` are synced from `skills/`.
   - [ ] Superpowers-disabled dry run passes: bootstrap behavior works and no active docs/configs require `using-superpowers` or Superpowers-only skill names.
 
   Defer unless proven active:
@@ -328,7 +327,6 @@ PYTHON-SPECIFIC (per-project):
   | systematic-debugging                      | systematic-debugging                           | debugging-and-error-recovery | —                           | 10 aux (3 useful, 7 discard) |
   | doing-code-review + receiving-code-review | requesting-code-review + receiving-code-review | code-review-and-quality      | —                           | Inlined prompt               |
   | incremental-implementation                | executing-plans (thin, skip)                   | incremental-implementation   | —                           | Clean                        |
-  | finishing-a-development-branch            | finishing-a-development-branch                 | —                            | —                           | Clean                        |
   | git-workflow                              | using-git-worktrees                            | git-workflow-and-versioning  | —                           | Clean                        |
   | architecting-changes                      | —                                              | —                            | architecting-python-changes | Clean                        |
   | when-and-how-to-run-parallel-agents       | dispatching-parallel-agents                    | —                            | —                           | Clean                        |
@@ -427,7 +425,7 @@ PYTHON-SPECIFIC (per-project):
   - Source volume: medium-high (Addy 300 lines + SP `using-git-worktrees` 215 lines).
   - Workflow rigidity: medium.
   - Philosophy mismatch: low-medium; must avoid duplicating platform safety rules or forcing commits.
-  - Dependencies: needed by `finishing-a-development-branch`; optional for general implementation.
+  - Dependencies: optional for general implementation and final branch/change handling.
 
   Status: written as a merged git change-management skill. Addy provides broad branch/commit/history discipline; Superpowers provides isolation detection and harness-aware worktree rules. Local notes added repository-init policy, worktree location policy, baseline health-check nuance, generated-file/hook scope, and parallel-agent worktree guidance.
 
@@ -441,24 +439,9 @@ PYTHON-SPECIFIC (per-project):
   - [x] Write `skills/git-workflow/SKILL.md`.
   - [x] Review: does not conflict with OpenCode git safety instructions.
 
-  #### Group 5: `finishing-a-development-branch` — medium complexity, split recommended
+  #### Dropped: `finishing-a-development-branch`
 
-  Estimate:
-
-  - Source volume: medium (SP 251 lines).
-  - Workflow rigidity: medium-high, because the source prescribes exact menus and cleanup behavior.
-  - Philosophy mismatch: medium; should be a decision aid, not a forced branch lifecycle.
-  - Dependencies: `git-workflow`, `verification-before-completion`.
-
-  Scope:
-
-  - [ ] Read SP source and identify worktree-heavy assumptions.
-  - [ ] First port: lightweight finish options after implementation is verified.
-  - [ ] Present clear choices: keep branch, create PR, merge locally, cleanup/discard only with explicit confirmation.
-  - [ ] Defer detailed merge/worktree cleanup mechanics unless needed.
-  - [ ] Ensure integration with `git-workflow`.
-  - [ ] Write `skills/finishing-a-development-branch/SKILL.md`.
-  - [ ] Review: no Superpowers-owned cleanup assumptions, no destructive flow without confirmation.
+  Decision: do not port. The skill mostly duplicates existing platform git safety rules and the local `git-workflow` skill. Branch finish choices are better handled by explicit user intent: keep branch, commit, create PR, merge, or clean up with confirmation.
 
   #### Completed: `doing-code-review` + `receiving-code-review` ✓
 
