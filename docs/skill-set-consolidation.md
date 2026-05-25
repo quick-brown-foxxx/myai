@@ -100,7 +100,7 @@ remaining blockers, and deferred work only.
 | Skill | Status | Notes |
 | --- | --- | --- |
 | `when-and-how-to-run-parallel-agents` | done | Dependency-aware parallelization decision skill. |
-| `subagent-driven-development` | deferred | Optional pattern for large implementation plans; not needed for uninstall path. |
+| `executing-plans-with-subagents` | done | Optional plan execution pattern for large delegated implementation work. |
 
 ### Research
 
@@ -178,6 +178,7 @@ remaining blockers, and deferred work only.
 | Review skills | done | `doing-code-review`, `receiving-code-review`. |
 | Testing family | done | Strategy, TDD, manual testing, test infra. |
 | Parallel-agent decision | done | `when-and-how-to-run-parallel-agents`. |
+| Subagent plan execution | done | `executing-plans-with-subagents`. |
 | Bootstrap replacement | todo | `using-skills` is the remaining uninstall-path blocker. |
 | Python skill refactor | deferred | Not required before Superpowers uninstall unless active workflows need it. |
 
@@ -195,7 +196,6 @@ Required before uninstall:
 
 Defer unless proven active:
 
-- `subagent-driven-development`
 - Python skill refactoring batch
 
 ## Remaining Work
@@ -211,17 +211,7 @@ Goal: replace `using-superpowers` with a local bootstrap skill.
 - [ ] Include tool mappings only if still needed for portability.
 - [ ] Run Superpowers-disabled dry run before uninstall.
 
-### 2. Optional `subagent-driven-development`
-
-Goal: keep only if large implementation plans need a reusable subagent workflow.
-
-- [ ] Keep as optional, not default execution.
-- [ ] Depend on `planning-implementation`, `incremental-implementation`, `when-and-how-to-run-parallel-agents`, review skills, `git-workflow`, and `verification-before-completion`.
-- [ ] Rework prompt templates into compact inline examples or omit them.
-- [ ] Remove mandatory commits and mandatory branch completion.
-- [ ] Align with `docs/my-workflow-draft.md`: high-level workflow is orchestrated explicitly, not auto-triggered by skills.
-
-### 3. Python Skill Refactor
+### 2. Python Skill Refactor
 
 Goal: slim Python skills so they reference core philosophy and keep only Python-specific guidance.
 
@@ -230,7 +220,7 @@ Goal: slim Python skills so they reference core philosophy and keep only Python-
 - [ ] Refactor `architecting-python-changes`.
 - [ ] Review backend, Qt, logging, setup, shortcut, and script skills for duplicated generic philosophy.
 
-### 4. Workflow Documentation
+### 3. Workflow Documentation
 
 Goal: keep high-level orchestration separate from skill docs.
 

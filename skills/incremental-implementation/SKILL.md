@@ -269,10 +269,7 @@ workflow level, it can mean:
 
 ## Working With Agents
 
-TODO: This section will reference `when-and-how-to-run-parallel-agents`,
-`subagent-driven-development`, and `git-workflow` after those skills are ported.
-
-For now, remember that this skill can be used at multiple levels:
+This skill can be used at multiple levels:
 
 ```text
 Main agent on small/medium task
@@ -287,6 +284,11 @@ Higher-level orchestrator
 
 Subagents should not silently expand their slice. If a delegated slice is wrong
 or blocked, report that precisely instead of improvising a larger plan.
+
+For plan-driven execution with delegated implementation tasks, use
+`executing-plans-with-subagents`. For parallel fan-out decisions, use
+`when-and-how-to-run-parallel-agents`. For isolation, commits, and handoff, use
+`git-workflow`.
 
 ---
 
@@ -304,14 +306,9 @@ or blocked, report that precisely instead of improvising a larger plan.
 | Public interface/API shape matters | `api-design` |
 | User input, auth, secrets, or external data involved | `security-and-hardening` |
 
-Future references after porting:
-
-```text
-git-workflow
-when-and-how-to-run-parallel-agents
-subagent-driven-development
-finishing-a-development-branch
-```
+| Need plan-driven subagent execution | `executing-plans-with-subagents` |
+| Need independent parallel work | `when-and-how-to-run-parallel-agents` |
+| Need git isolation, commits, or handoff | `git-workflow` |
 
 ---
 

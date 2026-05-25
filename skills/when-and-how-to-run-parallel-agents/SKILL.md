@@ -252,6 +252,5 @@ Final success claim needed
   -> verification-before-completion
 ```
 
-Future TODO: when `subagent-driven-development` is ported, this skill remains
-the lower-level decision rule for whether tasks are independent enough to fan
-out.
+When using `executing-plans-with-subagents`, this skill remains the lower-level
+decision rule for whether tasks are independent enough to fan out.

@@ -31,6 +31,11 @@
 
 - "**Announce at start:** using `skill-name` to do XXX" form superpowers is nice pattern, will copy it
 
+- subagents dispatching skills: list relevant/useful skills for the task in prompt of a subagent
+  - reviewer subagents should use relevant architecting/test-strategy and so on skills
+
+- meta-workflow and lower-level sub-workflows that connect skills
+
 - later new collections to .tmp/:
   - <https://github.com/anomalyco/opencode/tree/dev/.opencode/skills/improve-codebase-architecture>
   - <https://github.com/GoogleChrome/modern-web-guidance-src>
