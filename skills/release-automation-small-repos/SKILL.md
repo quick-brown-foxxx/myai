@@ -98,10 +98,20 @@ Python automation defaults:
 
 - Use `uv`, `pyproject.toml`, `typer`, `ruff`, `basedpyright`, and `pytest` for maintained Python projects.
 - Use PEP 723 inline metadata if only one or two simple single-file scripts are needed.
-- Prefere proper pyproject.toml when multiple distinct scripts exist.
+- Prefer proper pyproject.toml when multiple distinct scripts exist.
 - Validate external JSON/config at the boundary with typed models or explicit schema checks.
 - Return structured results from core functions; CLI adapters print concise human output and set exit codes.
 - Make destructive or publishing actions explicit and idempotent where possible.
+
+## Testing Guidance
+
+Tests should prove the release path works, not maximize green checkmarks.
+
+- Prefer a few smoke, CLI, integration, or end-to-end tests that exercise real commands, real files, real processes, and real artifact flow.
+- Avoid unit-test abuse: tests that mock away fetch/build/package/publish behavior do not prove release automation.
+- Unit-test the most important isolated logic only: version parsing, metadata normalization, checksum decisions, manifest transforms, no-op detection, and package filename construction.
+- Use temporary directories/explicit environment overrides/docker so tests do not depend on developer machine state or execution order.
+- Skip tests for trivial glue, framework wiring, and getters unless they protect a release-critical invariant.
 
 ## Workflow Patterns
 
@@ -148,6 +158,8 @@ When applying fork patches, keep the patch layer explicit. Either patch in a scr
 ## Documentation Pattern
 
 The README should be high level and explain what the repo publishes, whether it is official or unofficial, how to install/use it, and how releases are produced.
+
+Prefer rich markdown structure that makes the operational model obvious: short sections, tables, ASCII diagrams, command blocks, checklists, and callout-style paragraphs where each format clarifies a different kind of information. Do not abuse only one or two shapes such as deeply nested lists or giant tables. Rich structure should make knowledge simpler and more apparent, not inflate the document with unnecessary lines.
 
 `AGENTS.md` should include most important technical info:
 
@@ -206,6 +218,54 @@ no unintended tags, releases, branches, or open PRs remain
 ```
 
 Capture workflow run IDs immediately after dispatch or push. Inspect the actual run logs rather than a previous green run.
+
+## Artifact Install Verification
+
+For complex packaging logic such as Flatpak, DEB, RPM, Nix, or multi-distro packages, add a separate artifact install verification step. Good pattern: build the package artifact, then run an install test script inside a target-like Docker/container image before publishing.
+
+The install verification should prove the artifact is usable, not merely built:
+
+```text
+build artifact
+        |
+        v
+fresh target container
+        |
+        v
+install through the real package manager or ecosystem installer
+        |
+        v
+verify installed files, dependency resolution, runtime linkage, and basic command/plugin behavior
+```
+
+For DEB/RPM packages, install through `apt`, `dnf`, or `zypper` rather than raw `dpkg -i` or `rpm -i` so dependency resolution is tested. For Flatpak, install the built bundle or repo output in an isolated environment and run the cheapest meaningful smoke command. Keep this as a reusable script or callable workflow so every distro/architecture target can run the same validation pattern before release upload.
+
+Brief DEB/RPM example:
+
+```text
+build-package.yml
+  matrix/callable inputs: distro, docker_image, package_manager, cpack_generator, arch
+  run inside target container: ubuntu:25.04, debian:trixie, fedora:42, opensuse/tumbleweed
+  build with CMake + CPack
+  upload artifact: myplugin-<distro>-<arch>.deb or .rpm
+
+validate-package.yml
+  run inside the same target container family
+  download package artifact
+  apt install ./dist/myplugin-ubuntu-amd64.deb
+  dnf install -y ./dist/myplugin-fedora-amd64.rpm
+  zypper --non-interactive --no-gpg-checks install ./dist/myplugin-opensuse-amd64.rpm
+  verify key installed plugin/binary files exist in expected system paths
+  check commands like -v or --help
+  run ldd or ecosystem equivalent and fail on "not found"
+
+release.yml
+  build each distro/arch in parallel
+  validate each artifact before release
+  publish only after all validate jobs pass
+```
+
+The important shape is separate build and validate jobs: build proves the archive can be produced; validate proves a fresh target system can install it, resolve dependencies, find installed files, and load required shared libraries.
 
 ## Rollback And Clean Release Verification
 
@@ -272,6 +332,7 @@ Do not “greenwash” by manually creating missing release assets unless the go
 - Marketplace publish is irreversible but tested directly without sandbox or manual approval.
 - PRs from automation tokens are expected to trigger PR CI when the platform suppresses those events.
 - Tests mock away the build, fetch, or publish behavior they claim to verify.
+- Complex packages are built but never installed in a fresh target environment before release.
 - Synthetic downgrade tags/releases are accidentally created during rollback tests.
 - Final report claims success without checking release assets, tags, open PRs, and workflow logs.
 
@@ -285,6 +346,7 @@ Before calling the repo “shaped” or “verified”:
 - Generated or mirrored metadata records upstream identity and hashes.
 - Sync/generation opens reviewable PRs or has a documented reason not to.
 - Tag creation and release publication handle existing and missing tags/releases.
+- Complex package artifacts have install verification in a fresh target environment.
 - Clean release creation was tested, or the reason it was not tested is explicit.
 - README and AGENTS.md explain operations for future humans and agents.
 - Final local and remote checks have fresh evidence.
