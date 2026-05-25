@@ -39,3 +39,4 @@
 - ensure all our skills are consistent
 - double check discovery/invocation of all skills' descriptions
 - maybe pick validate-skills.js from addy
+- cover commenting code. rule: required for business logic, complex tricks/hacks required to bypass a bug or needed by framework. Not needed for simple boilerplate code like controllers/react configuration and so on
