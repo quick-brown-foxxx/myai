@@ -152,26 +152,29 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 
 ### Domain Skills (language-agnostic, per-project selection)
 
-| #   | Skill Name                 | Description                                                                                               | Primary Source             |
-| --- | -------------------------- | --------------------------------------------------------------------------------------------------------- | -------------------------- |
-| 23  | `api-and-interface-design` | Contract-first, consistent errors, validate at boundaries, addition over modification, predictable naming | Addy (generalize examples) |
-| 24  | `security-and-hardening`   | Three-tier boundary system. OWASP Top 10 prevention. Input validation, secrets, rate limiting             | Addy (generalize examples) |
-| 25  | `performance-optimization` | Measure before optimizing. Workflow: measure → identify → fix → verify → guard. Common anti-patterns      | Addy                       |
-| 26  | `ci-cd-and-automation`     | Quality gate pipelines, feature flags, staged rollouts, rollback plans, dependabot                        | Addy                       |
-| 27  | `shipping-and-launch`      | Pre-launch checklist, feature flag strategy, staged rollout with thresholds, monitoring, rollback         | Addy                       |
-| 31  | `documentation-and-adrs`   | ADRs, inline docs, API docs, README structure, changelog                                                  | Addy                       |
-| 32  | `test-driven-development`  | Red-green-refactor as recommended technique. When TDD adds value vs when other approaches are better      | Merge: addy + superpowers  |
+| #   | Skill Name                    | Description                                                                                                 | Primary Source                          |
+| --- | ----------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| 23  | `api-and-interface-design`    | Contract-first, consistent errors, validate at boundaries, addition over modification, predictable naming   | Addy (generalize examples)              |
+| 24  | `security-and-hardening`      | Three-tier boundary system. OWASP Top 10 prevention. Input validation, secrets, rate limiting               | Addy (generalize examples)              |
+| 25  | `performance-optimization`    | Measure before optimizing. Workflow: measure → identify → fix → verify → guard. Common anti-patterns        | Addy                                    |
+| 26  | `ci-cd-and-automation`        | Quality gate pipelines, feature flags, staged rollouts, rollback plans, dependabot                          | Addy                                    |
+| 27  | `shipping-and-launch`         | Pre-launch checklist, feature flag strategy, staged rollout with thresholds, monitoring, rollback           | Addy                                    |
+| 31  | `documentation-and-adrs`      | ADRs, inline docs, API docs, README structure, changelog                                                    | Addy                                    |
+| 32  | `high-level-testing-strategy` | BDD-first test strategy: decide what behavior to prove, automated vs manual scope, and infra readiness      | Merge: addy + Python philosophy         |
+| 33  | `test-driven-development`     | BDD/test-first red-green-refactor implementation for selected automated test cases                          | Merge: addy + superpowers, softened     |
+| 34  | `manual-testing`              | Realistic browser/API/CLI/infra smoke and e2e verification when automation is insufficient or complementary | Addy browser testing + local philosophy |
+| 35  | `architecting-test-infra`     | Architecture for BDD frameworks, fixtures, state isolation, seeds, local services, and preflight checks     | Python testing + local philosophy       |
 
 ### Python-Specific Skills (reference core ENGINEERING-PHILOSOPHY.md and Python `.tmp/.../PHILOSOPHY.md`)
 
 | #   | Skill Name                    | Description                                                                                | Change from current                     |
 | --- | ----------------------------- | ------------------------------------------------------------------------------------------ | --------------------------------------- |
-| 33  | `writing-python-code`         | basedpyright strict, msgspec, rusty-results, async, type narrowing, ruff rules, banned-api | Remove generic philosophy (ref core)    |
-| 34  | `testing-python`              | pytest config, fixtures, mock servers, containerized testing, CLI/e2e patterns             | Remove generic testing philosophy       |
-| 35  | `architecting-python-changes` | Router to Python architecture skills. Python-specific layering decisions                   | Remove generic heuristics (ref core)    |
-| 36  | `building-python-backends`    | Thin transport, Result-to-HTTP, transactions, auth boundaries, workers, idempotency        | No change                               |
-| 37  | `building-multi-ui-apps`      | Multi-interface: reusable core, thin adapters, composition root, entry point router        | Generalize arch concept, keep Python ex |
-| 38  | `building-qt-apps`            | PySide6 + qasync, Manager→Service→Wrapper, signals, system tray, testing                   | No change                               |
+| 36  | `writing-python-code`         | basedpyright strict, msgspec, rusty-results, async, type narrowing, ruff rules, banned-api | Remove generic philosophy (ref core)    |
+| 37  | `testing-python`              | pytest config, fixtures, mock servers, containerized testing, CLI/e2e patterns             | Remove generic testing philosophy       |
+| 38  | `architecting-python-changes` | Router to Python architecture skills. Python-specific layering decisions                   | Remove generic heuristics (ref core)    |
+| 39  | `building-python-backends`    | Thin transport, Result-to-HTTP, transactions, auth boundaries, workers, idempotency        | No change                               |
+| 40  | `building-multi-ui-apps`      | Multi-interface: reusable core, thin adapters, composition root, entry point router        | Generalize arch concept, keep Python ex |
+| 41  | `building-qt-apps`            | PySide6 + qasync, Manager→Service→Wrapper, signals, system tray, testing                   | No change                               |
 | 39  | `setting-up-logging`          | colorlog, rotating file logs, CLI vs GUI vs server modes                                   | No change                               |
 | 40  | `setting-up-python-backends`  | Backend bootstrap: FastAPI vs Django, layout, app factory, config, migrations              | No change                               |
 | 41  | `setting-up-python-projects`  | General project bootstrap: shape, directory structure, pyproject.toml, pre-commit, uv sync | No change                               |
@@ -180,25 +183,25 @@ The workflow is hierarchical, explicit, and deterministic. It is skill-driven. W
 
 ### Removed / Merged Away
 
-| Removed                                            | Reason                                                                              |
-| -------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| Superpowers `brainstorming` hard-gate workflow     | Split/softened into `brainstorming`; visual companion extracted to `visual-mockups` |
-| Superpowers `writing-skills`                       | Personal how-to-write-skills is sufficient                                          |
-| Superpowers `using-superpowers`                    | Merged into using-skills                                                            |
-| Addy `using-agent-skills`                          | Merged into using-skills                                                            |
-| Addy `contect-engineering`                         | Generally not needed                                                                |
-| Addy `source-driven-development`                   | Too opinionated                                                                     |
-| Addy `spec-driven-development` workflow governance | Too high level; spec patterns absorbed into `brainstorming`                         |
-| Superpowers `executing-plans`                      | Merged into incremental-implementation                                              |
-| Superpowers `writing-plans`                        | Merged into planning-implementation (resolved)                                      |
-| Superpowers `test-driven-development` (standalone) | Merged into demoted test-driven-development                                         |
-| Addy `test-driven-development` (standalone)        | Same merge                                                                          |
-| Addy `browser-testing-with-devtools`               | Will enroll my own later                                                            |
-| Addy `deprecation-and-migration`                   | Not need for my cases                                                               |
-| Addy `frontend-ui-engineering`                     | Too opinionated, will enroll my own                                                 |
-| Superpowers `requesting-code-review`               | Merged into `doing-code-review`                                                     |
-| Superpowers `receiving-code-review`                | Rewritten as `receiving-code-review`                                                |
-| Superpowers `finishing-a-development-branch`       | Not needed; `git-workflow` and platform git rules cover branch/PR/cleanup decisions |
+| Removed                                            | Reason                                                                                                   |
+| -------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Superpowers `brainstorming` hard-gate workflow     | Split/softened into `brainstorming`; visual companion extracted to `visual-mockups`                      |
+| Superpowers `writing-skills`                       | Personal how-to-write-skills is sufficient                                                               |
+| Superpowers `using-superpowers`                    | Merged into using-skills                                                                                 |
+| Addy `using-agent-skills`                          | Merged into using-skills                                                                                 |
+| Addy `contect-engineering`                         | Generally not needed                                                                                     |
+| Addy `source-driven-development`                   | Too opinionated                                                                                          |
+| Addy `spec-driven-development` workflow governance | Too high level; spec patterns absorbed into `brainstorming`                                              |
+| Superpowers `executing-plans`                      | Merged into incremental-implementation                                                                   |
+| Superpowers `writing-plans`                        | Merged into planning-implementation (resolved)                                                           |
+| Superpowers `test-driven-development` (standalone) | Merged into demoted test-driven-development                                                              |
+| Addy `test-driven-development` (standalone)        | Same merge                                                                                               |
+| Addy `browser-testing-with-devtools`               | Runtime/browser verification absorbed into `manual-testing`; deeper browser skill remains optional later |
+| Addy `deprecation-and-migration`                   | Not need for my cases                                                                                    |
+| Addy `frontend-ui-engineering`                     | Too opinionated, will enroll my own                                                                      |
+| Superpowers `requesting-code-review`               | Merged into `doing-code-review`                                                                          |
+| Superpowers `receiving-code-review`                | Rewritten as `receiving-code-review`                                                                     |
+| Superpowers `finishing-a-development-branch`       | Not needed; `git-workflow` and platform git rules cover branch/PR/cleanup decisions                      |
 
 ## Skill Relationship Map
 
@@ -228,6 +231,12 @@ IMPLEMENTATION ─────── incremental-implementation
                       ├── enriched by: code-simplification (simplest thing first)
                       ├── enriched by: prototype-first (spike before commit)
                       │
+TESTING ────────────── high-level-testing-strategy ✓
+                      │
+                      ├── architecting-test-infra ✓
+                      ├── test-driven-development ✓
+                      └── manual-testing ✓
+                      │
 DEBUGGING ──────────── systematic-debugging
                       │
                       ├── enriched by: prototype-first (3+ fixes → spike)
@@ -255,7 +264,11 @@ DOMAIN-SPECIFIC (per-project):
   ├── performance-optimization ✓
   ├── ci-cd-and-automation ✓
   ├── shipping-and-launch ✓
-  └── documentation-and-adrs ✓
+  ├── documentation-and-adrs ✓
+  ├── high-level-testing-strategy ✓
+  ├── test-driven-development ✓
+  ├── manual-testing ✓
+  └── architecting-test-infra ✓
 
 PYTHON-SPECIFIC (per-project):
   ├── writing-python-code
@@ -317,23 +330,22 @@ PYTHON-SPECIFIC (per-project):
   - `subagent-driven-development`
   - Python skill refactoring batch
   - deep `how-to-write-skills` review/cherry-pick from Superpowers `writing-skills`
-  - full TDD port
 
   ### Source skill inventory (remaining core and uninstall-related groups)
 
-  | Target Skill                              | SP Source                                      | Addy Source                  | Python Source               | SP Aux                       |
-  | ----------------------------------------- | ---------------------------------------------- | ---------------------------- | --------------------------- | ---------------------------- |
-  | verification-before-completion            | verification-before-completion                 | —                            | —                           | Clean                        |
-  | systematic-debugging                      | systematic-debugging                           | debugging-and-error-recovery | —                           | 10 aux (3 useful, 7 discard) |
-  | doing-code-review + receiving-code-review | requesting-code-review + receiving-code-review | code-review-and-quality      | —                           | Inlined prompt               |
-  | incremental-implementation                | executing-plans (thin, skip)                   | incremental-implementation   | —                           | Clean                        |
-  | git-workflow                              | using-git-worktrees                            | git-workflow-and-versioning  | —                           | Clean                        |
-  | architecting-changes                      | —                                              | —                            | architecting-python-changes | Clean                        |
-  | when-and-how-to-run-parallel-agents       | dispatching-parallel-agents                    | —                            | —                           | Clean                        |
-  | subagent-driven-development               | subagent-driven-development                    | —                            | —                           | 3 prompt templates           |
-  | test-driven-development                   | test-driven-development                        | test-driven-development      | —                           | testing-anti-patterns.md     |
-  | using-skills                              | using-superpowers                              | using-agent-skills           | —                           | tool mapping references      |
-  | how-to-write-skills review                | writing-skills                                 | —                            | —                           | 6 aux files                  |
+  | Target Skill                                                                                     | SP Source                                      | Addy Source                                             | Python Source               | SP Aux                       |
+  | ------------------------------------------------------------------------------------------------ | ---------------------------------------------- | ------------------------------------------------------- | --------------------------- | ---------------------------- |
+  | verification-before-completion                                                                   | verification-before-completion                 | —                                                       | —                           | Clean                        |
+  | systematic-debugging                                                                             | systematic-debugging                           | debugging-and-error-recovery                            | —                           | 10 aux (3 useful, 7 discard) |
+  | doing-code-review + receiving-code-review                                                        | requesting-code-review + receiving-code-review | code-review-and-quality                                 | —                           | Inlined prompt               |
+  | incremental-implementation                                                                       | executing-plans (thin, skip)                   | incremental-implementation                              | —                           | Clean                        |
+  | git-workflow                                                                                     | using-git-worktrees                            | git-workflow-and-versioning                             | —                           | Clean                        |
+  | architecting-changes                                                                             | —                                              | —                                                       | architecting-python-changes | Clean                        |
+  | when-and-how-to-run-parallel-agents                                                              | dispatching-parallel-agents                    | —                                                       | —                           | Clean                        |
+  | subagent-driven-development                                                                      | subagent-driven-development                    | —                                                       | —                           | 3 prompt templates           |
+  | high-level-testing-strategy + test-driven-development + manual-testing + architecting-test-infra | test-driven-development                        | test-driven-development + browser-testing-with-devtools | testing-python              | testing-anti-patterns.md     |
+  | using-skills                                                                                     | using-superpowers                              | using-agent-skills                                      | —                           | tool mapping references      |
+  | how-to-write-skills review                                                                       | writing-skills                                 | —                                                       | —                           | 6 aux files                  |
 
   ### Complexity-ordered subtask breakdown
 
@@ -465,23 +477,27 @@ PYTHON-SPECIFIC (per-project):
   - [x] Remove old combined `skills/code-review/SKILL.md` to avoid duplicate triggering.
   - [x] Review: matches quality bar, no mandatory review-after-every-task rule.
 
-  #### Group 7: `test-driven-development` — high complexity, do not direct-port
+  #### Completed: testing skill group — split into 4 skills ✓
 
   Estimate:
 
   - Source volume: high (SP 371 + SP anti-patterns 299 + Addy 383).
   - Workflow rigidity: very high in SP source.
   - Philosophy mismatch: high; local testing philosophy values trustworthy integration/e2e tests and treats TDD as a technique, not an Iron Law.
-  - Dependencies: `verification-before-completion`; may relate to future Python `testing-python`.
+  - Dependencies: `verification-before-completion`; later Python-specific `testing-python` refactor.
+
+  Status: split into four skills. `high-level-testing-strategy` owns BDD-first case design and proof-type choice. `test-driven-development` owns red-green-refactor implementation for selected automated cases. `manual-testing` owns realistic browser/API/CLI/infra runtime verification. `architecting-test-infra` owns test framework, fixture, seed, state isolation, local service, and preflight architecture.
 
   Scope:
 
-  - [ ] Treat as a new testing-strategy / prove-it-pattern skill, not a direct TDD port.
-  - [ ] Keep red-green-refactor as recommended when it adds value.
-  - [ ] Preserve bug reproduction before fix where practical.
-  - [ ] Remove delete-production-code Iron Law and universal test-first requirement.
-  - [ ] Align with `ENGINEERING-PHILOSOPHY.md` testing section: trustworthy tests over coverage, integration/e2e first where they prove more.
-  - [ ] Decide final name later: keep `test-driven-development` for compatibility or rename to a broader testing skill.
+  - [x] Treat as a testing skill family, not a direct TDD port.
+  - [x] Keep red-green-refactor as the `test-driven-development` process skill.
+  - [x] Preserve bug reproduction before fix where practical.
+  - [x] Remove delete-production-code Iron Law and universal Superpowers TDD absolutism.
+  - [x] Align with `ENGINEERING-PHILOSOPHY.md`: trustworthy tests over coverage, realistic behavior over mocked green checks.
+  - [x] Add BDD-first strategy and BDD scenario fallback for non-BDD suites.
+  - [x] Split browser/API/CLI/infra runtime checks into `manual-testing`.
+  - [x] Split test framework/fixtures/state/preflight design into `architecting-test-infra`.
 
   #### Group 8: `subagent-driven-development` — high complexity, conditional/deferable
 

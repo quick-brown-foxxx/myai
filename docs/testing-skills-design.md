@@ -296,21 +296,26 @@ The exact mechanism depends on ecosystem and project size.
 - Fix test infra before piling ad hoc patches into individual tests.
 - Include language-agnostic patterns; defer Python/TS specifics to later skills.
 
-## Open Decisions
+## Settled Decisions
 
-| Decision | Current Leaning |
+| Decision | Outcome |
 | --- | --- |
 | Exact names | Use `high-level-testing-strategy`, `test-driven-development`, `manual-testing`, `architecting-test-infra`. |
-| Browser skill | Defer as separate browser/manual runtime verification skill unless `manual-testing` grows too large. |
+| Browser skill | Browser/runtime verification is included in `manual-testing`; a deeper browser-specific skill can still be extracted later if needed. |
 | BDD docs location | Medium/big/risky cases should save docs under `docs/`; exact subdirectory can be chosen when writing `high-level-testing-strategy`. |
 | Language-specific skills | Defer until generic skills exist, then refactor `testing-python`. |
 
-## Implementation Order
+## Implementation Status
 
-1. `high-level-testing-strategy`
-2. `test-driven-development`
-3. `manual-testing`
-4. `architecting-test-infra`
-5. Update `docs/skill-set-consolidation.md`
-6. Sync skill mirrors
-7. Later: refactor `testing-python` and optionally add `testing-typescript`
+Implemented first four generic skills:
+
+- `high-level-testing-strategy`
+- `test-driven-development`
+- `manual-testing`
+- `architecting-test-infra`
+
+Remaining later work:
+
+- refactor `testing-python`
+- optionally add `testing-typescript`
+- run a Superpowers-disabled dry run after `using-skills` exists
