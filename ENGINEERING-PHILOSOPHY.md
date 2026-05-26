@@ -1,7 +1,7 @@
 # Development Principles
 
 Principles that guide architecture, coding, testing, and project setup decisions.
-Process-oriented skills (bug reports, research, etc.) operate independently — they don't need to inherit from this.
+Agent management rules live in `SKILLS-PHILOSOPHY.md`.
 
 ---
 
@@ -236,6 +236,4 @@ Code is read far more often than it is written. Favor clarity, directness, and t
 
 ## Applying This Document
 
-Architecture and coding skills reference this document. Domain-specific skills (testing, security, performance, etc.) build on these principles. Process-oriented skills (bug reports, research, etc.) operate independently.
-
-When a skill's guidance conflicts with these principles, principles win.
+Architecture, coding, testing, security, performance, and other engineering-facing skills build on this document. Skill invocation, workflow composition, delegation, and agent orchestration are governed by `SKILLS-PHILOSOPHY.md`.
