@@ -1,3 +1,14 @@
+# Personal Workflow Draft
+
+This is a draft for the future high-level autonomous workflow layer. It is not
+the current skill map. The current skill catalog and short composable workflows
+live in `../skills/README.md`.
+
+The future long-running controller described here is the `mega-workflow` layer in
+`../SKILLS-PHILOSOPHY.md`.
+
+---
+
 And I have a special personal workflow now.
 
 It is sort of composing all sub skills and sub steps of existing workflow from superpowers and creates a more high level workflow.
@@ -42,13 +53,13 @@ After this teammate usually finishes and exits , but after this I respawn new tr
 Then I triage found issues and ask agent to enter same "verification-fixing loop".
 After this I close verification agent and start new one with exactly same process. So I enter again high level verification fixing loop, but with fresh agent context each time until satisfy I will be satisfied with quality and new found issues will be minor.
 
-I want to say that all this workflow is very high level. It should not be driven by skills because skills are invoked progressively/nondeterministic, and I don't want agent occasionally to invoke the step when it really should not come.
+I want to say that all this workflow is very high level. It should not be driven by accidental skill invocation because skills are invoked progressively/nondeterministic, and I don't want agent occasionally to invoke the step when it really should not come.
 
-Instead I want this process not to be controlled by random skill invocation, but more like by xplicit prompting or commands (like skills but they can't be auto read by agents, they can be only started by human/teamlead). So it stays controlled.
+Instead I want this process to be controlled by explicit prompting or commands (like skills but they can't be auto read by agents, they can be only started by human/teamlead). So it stays controlled.
 
 Teammate receives description of its high level step that it should proceed now and implement entire step. Once agent finishes the step, I may invoke the next command for the same teammate or may exit it and start a new agent with next command.
 
-So the workflow should be reflected in the skills, but skills do not drive the workflow. They should be aligned with it. But skills are more low level than the workflow.
+So the workflow should be reflected in the skills, but individual skills do not drive the high-level phase changes. They should be aligned with it. Short workflows can compose skills for one coherent unit of work, while this future mega-workflow remains the upper orchestration layer.
 
 ---
 

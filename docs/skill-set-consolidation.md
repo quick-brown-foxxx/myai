@@ -139,7 +139,7 @@ remaining blockers, and deferred work only.
 | `setting-up-python-backends` | deferred | Backend bootstrap, app factory, migrations. |
 | `setting-up-python-projects` | deferred | uv, pyproject, ruff, basedpyright, pytest, pre-commit. |
 | `setting-up-shortcuts` | deferred | PySide6 shortcut conventions. |
-| `writing-python-scripts` | done | PEP 723 scripts with uv and typer. |
+| `writing-python-scripts` | external | PEP 723 scripts with uv and typer. Lives in a separate repo for now; planned to port later. |
 
 ## Removed Or Merged Away
 
@@ -204,7 +204,8 @@ Defer unless proven active:
 
 Goal: replace `using-superpowers` with a local bootstrap skill.
 
-- [ ] Encode that skills are low-level aids; high-level workflow is explicit orchestration.
+- [ ] Encode the three-layer model: atomic skills, composable short workflows,
+      and future autonomous mega-workflow orchestration.
 - [ ] Encode that ceremony scales with task size.
 - [ ] Encode fail-fast rules for true ambiguity, missing environment, or invalid source state.
 - [ ] Route common intents to local skill names only.
@@ -222,7 +223,19 @@ Goal: slim Python skills so they reference core philosophy and keep only Python-
 
 ### 3. Workflow Documentation
 
-Goal: keep high-level orchestration separate from skill docs.
+Goal: keep workflow composition explicit without making individual skills hidden
+controllers.
 
-- [ ] Continue `docs/my-workflow-draft.md` as the future composition layer.
-- [ ] Keep skills focused on reusable local workflow pieces, not full autonomous process governance.
+- [x] Create `skills/README.md` as the current skill map and workflow catalog.
+- [ ] Keep `skills/README.md` current when skill roles or relationships change.
+- [ ] Continue `docs/my-workflow-draft.md` as the future `mega-workflow` sketch.
+- [ ] Keep individual skills focused on atomic capabilities or bounded local
+      workflows, not full autonomous process governance.
+
+### 4. Skill Reference Cleanup
+
+Goal: remove stale references without hiding intentional external dependencies.
+
+- [x] Replace removed `finishing-a-development-branch` references in `git-workflow`.
+- [x] Replace missing `debugging-and-error-recovery` references in `ci-cd-and-automation`.
+- [ ] Keep `writing-python-scripts` referenced by `release-automation-small-repos` until it is ported from the external repo.
