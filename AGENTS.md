@@ -69,5 +69,6 @@ Keep current work focused on atomic skills and composable short workflows.
 ## Documentation And Skill Writing Style
 
 Prefer reach markdown structure with diagrams, maps and so on over long flat
-tables or deeply nested bullets. Reach formatting and structure helps both humans
-and AI agents to better expose and understand ideas.
+tables or deeply nested bullets when writing any messages/texts/docs.
+Reach formatting and structure helps both humans and AI agents to better
+expose and understand ideas.
