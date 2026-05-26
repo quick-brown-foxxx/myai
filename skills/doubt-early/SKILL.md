@@ -6,6 +6,8 @@ description: >-
   when fixing something that "shouldn't exist", or when adding complexity to work around
   uncertainty. Catches both wrong solutions AND wrong problems (XY).
 license: MIT
+metadata:
+  tags: planning, review, risk-reduction
 ---
 
 # Doubt Early

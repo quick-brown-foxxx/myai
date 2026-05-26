@@ -8,6 +8,7 @@ description: >-
 license: MIT
 metadata:
   focus: realistic-runtime-verification
+  tags: testing, verification, operations
 ---
 
 # Manual Testing

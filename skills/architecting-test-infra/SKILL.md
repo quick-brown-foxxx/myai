@@ -8,6 +8,7 @@ description: >-
 license: MIT
 metadata:
   focus: test-infrastructure-architecture
+  tags: testing, architecture, verification
 ---
 
 # Architecting Test Infrastructure

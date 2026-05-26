@@ -5,6 +5,8 @@ description: >-
   during brainstorming. Use when discussing layouts, visual design decisions,
   architecture diagrams, or any question where seeing options is better than
   describing them in text. Not for purely conceptual or text-based questions.
+metadata:
+  tags: planning, design
 ---
 
 ## When to Use

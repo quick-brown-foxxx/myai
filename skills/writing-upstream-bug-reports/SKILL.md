@@ -4,6 +4,8 @@ description: >-
   Use when investigating a bug, regression, crash, Linux/system issue, package
   problem, or third-party library defect and you need a structured upstream bug
   report ready for maintainer issue trackers.
+metadata:
+  tags: debugging, upstream, documentation
 ---
 
 # Writing Bug Reports

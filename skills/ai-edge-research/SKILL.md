@@ -5,6 +5,8 @@ description: >-
   practitioner signal rather than SEO or marketing. Use when the user asks what
   builders are actually adopting, what is trending in AI, or what is new in AI
   tooling and wants recency-aware, hype-resistant research.
+metadata:
+  tags: research
 ---
 
 # AI Edge Research

@@ -5,6 +5,8 @@ description: >-
   and publish to GitHub Releases, package registries, extension marketplaces, or
   packaging ecosystems. Use for release workflows, upstream sync automation,
   update PRs, version tags, generated artifacts, and end-to-end release verification.
+metadata:
+  tags: domain, automation, release
 ---
 
 # Release Automation Repos

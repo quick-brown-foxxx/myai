@@ -5,6 +5,8 @@ description: >-
   same class from recurring. Adds entry validation, business checks, environment
   guards, and forensic instrumentation. Skip trivial one-off fixes where layered
   defenses add more complexity than protection.
+metadata:
+  tags: debugging, hardening, verification
 ---
 
 # Bug Protection: Multi-Layered

@@ -8,6 +8,7 @@ description: >-
 license: MIT
 metadata:
   focus: subagent-plan-execution
+  tags: orchestration, subagents, implementation
 ---
 
 # Executing Plans With Subagents

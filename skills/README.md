@@ -108,6 +108,14 @@ Rules:
 - Prefer workflow and relationship tags over product or technology labels.
 - Do not use tags to reference skills that are not canonical in this repo.
 
+Store tags in skill frontmatter as `metadata.tags`, using a comma-separated
+string to stay compatible with platforms that treat `metadata` as a string map:
+
+```yaml
+metadata:
+  tags: planning, implementation, verification
+```
+
 Shared workflow tags:
 
 | Workflow area | Shared tag | Core skills |

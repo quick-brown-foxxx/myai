@@ -5,6 +5,8 @@ description: >-
   requirements are clear but you need architecture, component design, data flow,
   or approach decisions before implementing. Not for vague ideas (use
   idea-sharpening first) or for trivially implementable changes.
+metadata:
+  tags: planning, ideation, design
 ---
 
 ## Planning Pipeline

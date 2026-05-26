@@ -5,6 +5,8 @@ description: >-
   a bug, test failure, CI failure, flaky behavior, or unexpected behavior.
   Systematic root-cause debugging with structured triage, error-specific patterns,
   and evidence-based investigation before proposing fixes.
+metadata:
+  tags: debugging, root-cause, verification
 ---
 
 # Systematic Debugging

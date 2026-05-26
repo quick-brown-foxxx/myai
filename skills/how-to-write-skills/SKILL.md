@@ -7,6 +7,7 @@ description: >-
 license: MIT
 metadata:
   focus: portable-skill-authoring
+  tags: documentation, quality
 ---
 
 # How To Write AI Skills

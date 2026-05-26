@@ -7,6 +7,7 @@ description: >-
 license: MIT
 metadata:
   focus: parallel-agent-dispatch
+  tags: orchestration, subagents, planning
 ---
 
 # When And How To Run Parallel Agents

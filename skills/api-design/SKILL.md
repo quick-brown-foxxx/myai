@@ -1,6 +1,8 @@
 ---
 name: api-design
 description: Guides stable API and protocols/interfaces design. Use when designing APIs, module boundaries, or any public programmable interface. Use when creating REST or GraphQL endpoints, defining type contracts between modules, or establishing boundaries between frontend and backend.
+metadata:
+  tags: domain, architecture, boundaries
 ---
 
 # API and Interface Design

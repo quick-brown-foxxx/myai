@@ -5,6 +5,8 @@ description: >-
   in a call chain, or bad state must be traced back to the caller, test, or code
   path that introduced it. Backward tracing for invalid values, wrong files,
   unexpected side effects, and test pollution.
+metadata:
+  tags: debugging, root-cause
 ---
 
 # Bug Root Cause Tracing

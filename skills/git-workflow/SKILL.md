@@ -7,6 +7,7 @@ description: >-
 license: MIT
 metadata:
   focus: git-change-management
+  tags: implementation, orchestration, quality
 ---
 
 # Git Workflow

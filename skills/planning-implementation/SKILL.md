@@ -6,6 +6,8 @@ description: >-
   into concrete steps with dependencies, file paths, and checkpoints. Not for simple
   single-file changes with obvious scope or specs with sufficient implementation
   detail built in.
+metadata:
+  tags: planning, implementation, verification
 ---
 
 # Planning Implementation

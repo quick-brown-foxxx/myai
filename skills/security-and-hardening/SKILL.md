@@ -4,6 +4,8 @@ description: >-
   Hardens code against vulnerabilities with environment-aware guardrails. Use when
   handling user input, authentication, data storage, external integrations,
   sessions, third-party services, webhooks, file uploads, payment data, or PII.
+metadata:
+  tags: domain, hardening, boundaries
 ---
 
 # Security and Hardening

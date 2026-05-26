@@ -6,6 +6,8 @@ description: >-
   asks to ideate or refine an idea, or when exploring options before converging
   on what to build. Not for clear implementation tasks or adversarial review of
   an existing plan.
+metadata:
+  tags: planning, ideation, risk-reduction
 ---
 
 ## Planning Pipeline

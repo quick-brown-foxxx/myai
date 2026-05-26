@@ -8,6 +8,7 @@ description: >-
 license: MIT
 metadata:
   focus: bdd-test-first-implementation
+  tags: testing, implementation, verification
 ---
 
 # Test-Driven Development

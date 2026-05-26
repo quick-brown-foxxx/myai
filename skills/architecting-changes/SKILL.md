@@ -7,6 +7,7 @@ description: >-
 license: MIT
 metadata:
   focus: architecture-decision-routing
+  tags: planning, architecture, boundaries
 ---
 
 # Architecting Changes

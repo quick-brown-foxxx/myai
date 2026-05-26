@@ -9,6 +9,7 @@ description: >-
 license: MIT
 metadata:
   focus: early-risk-validation
+  tags: planning, implementation, risk-reduction
 ---
 
 # Prototype First

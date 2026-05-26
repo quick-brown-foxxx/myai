@@ -7,6 +7,7 @@ description: >-
 license: MIT
 metadata:
   focus: evidence-based-code-review
+  tags: review, verification, quality
 ---
 
 # Doing Code Review

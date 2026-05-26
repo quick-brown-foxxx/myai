@@ -8,6 +8,7 @@ description: >-
 license: MIT
 metadata:
   focus: upstream-repo-inspection
+  tags: research, upstream
 ---
 
 # Upstream Source Research

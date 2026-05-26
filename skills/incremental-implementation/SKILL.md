@@ -7,6 +7,7 @@ description: >-
 license: MIT
 metadata:
   focus: implementation-discipline
+  tags: implementation, verification, quality
 ---
 
 # Incremental Implementation

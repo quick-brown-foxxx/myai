@@ -8,6 +8,7 @@ description: >-
 license: MIT
 metadata:
   focus: bdd-first-test-strategy
+  tags: testing, planning, verification
 ---
 
 # High-Level Testing Strategy

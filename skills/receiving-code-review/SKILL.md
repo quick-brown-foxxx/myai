@@ -7,6 +7,7 @@ description: >-
 license: MIT
 metadata:
   focus: review-feedback-handling
+  tags: review, implementation, quality
 ---
 
 # Receiving Code Review
