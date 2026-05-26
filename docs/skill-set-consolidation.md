@@ -223,8 +223,7 @@ Goal: slim Python skills so they reference core philosophy and keep only Python-
 
 ### 3. Workflow Documentation
 
-Goal: keep workflow composition explicit without making individual skills hidden
-controllers.
+Goal: keep workflow composition explicit
 
 - [x] Create `skills/README.md` as the current skill map and workflow catalog.
 - [ ] Keep `skills/README.md` current when skill roles or relationships change.

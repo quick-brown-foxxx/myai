@@ -4,7 +4,7 @@ This is a draft for the future high-level autonomous workflow layer. It is not
 the current skill map. The current skill catalog and short composable workflows
 live in `../skills/README.md`.
 
-The future long-running controller described here is the `mega-workflow` layer in
+The future long-running workflow described here is the `mega-workflow` layer in
 `../SKILLS-PHILOSOPHY.md`.
 
 ---

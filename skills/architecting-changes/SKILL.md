@@ -14,9 +14,9 @@ metadata:
 
 This skill is the first stop for non-trivial architecture decisions.
 
-It is both a compact guide and a router to deeper project docs and domain skills.
-It should not become the high-level workflow controller. Use it to decide shape and
-boundaries, then continue through the normal planning or implementation flow.
+It is both a compact guide and a router to deeper project docs and domain skills. 
+Use it to decide shape and boundaries, then continue through the normal planning
+or implementation flow.
 
 > Draft status: Python-specific routes are intentionally left as TODOs until the
 > Python skill batch is ported.
