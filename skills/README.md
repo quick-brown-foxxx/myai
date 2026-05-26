@@ -114,7 +114,7 @@ Shared workflow tags:
 | --- | --- | --- |
 | Planning / Ideation | `planning` | `idea-sharpening`, `brainstorming`, `planning-implementation` |
 | Implementation loop | `implementation` | `incremental-implementation`, `verification-before-completion`, `git-workflow` |
-| Testing proof | `testing` | `high-level-testing-strategy`, `architecting-test-infra`, `test-driven-development`, `manual-testing` |
+| Testing | `testing` | `high-level-testing-strategy`, `architecting-test-infra`, `test-driven-development`, `manual-testing` |
 | Debugging / Bug prevention | `debugging` | `systematic-debugging`, `bug-root-cause-tracing`, `bug-protection-multi-layered` |
 | Review / Feedback | `review` | `doing-code-review`, `receiving-code-review`, `verification-before-completion` |
 | Parallel / Subagent work | `orchestration` | `when-and-how-to-run-parallel-agents`, `executing-plans-with-subagents` |
@@ -291,7 +291,7 @@ Soft handoff arrows mean "consider this next if the work calls for it", not
 ```mermaid
 flowchart TD
   P[Planning / Ideation] -. soft next .-> I[Implementation Verification-Fixing]
-  P -. proof design .-> T[Testing Proof]
+  P -. proof design .-> T[Testing]
   I -. often paired .-> T
   I -. review when warranted .-> R[Review / Feedback]
   B[Bugfix / Debugging] --> T
@@ -354,7 +354,7 @@ flowchart TD
   B -->|fails| C[fix, escalate, or systematic-debugging]
   C --> B
   B -->|passes| D[behavior proof]
-  D -. proof unclear .-> E[Testing Proof]
+  D -. proof unclear .-> E[Testing]
   D -->|fails| C
   D -->|passes| F{review warranted?}
   F -- yes --> G[doing-code-review]
