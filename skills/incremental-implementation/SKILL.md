@@ -19,13 +19,17 @@ This skill is the execution discipline after a direction or plan exists.
 planning-implementation / clear task
         │
         ▼
-incremental-implementation
+incremental-implementation  (you are here)
         │
         ├── choose next slice
         ├── implement only that slice
         ├── run fast feedback checks
-        ├── verify bigger behavior at checkpoints
-        └── stop or continue based on evidence
+        ├── behavior verification
+        │     ├── high-level-testing-strategy  (if approach is unclear)
+        │     ├── test-driven-development      (for automated verification)
+        │     └── manual-testing               (for runtime verification)
+        ├── doing-code-review                  (when warranted)
+        └── verification-before-completion     (before success claims)
 ```
 
 ---
@@ -298,14 +302,19 @@ For plan-driven execution with delegated implementation tasks, use
 | --- | --- |
 | Need to decide boundaries, layering, wrappers, or framework direction | `architecting-changes` |
 | Need to break a spec/task into ordered steps | `planning-implementation` |
+| Need to decide BDD cases or automated vs manual proof | `high-level-testing-strategy` |
+| Need shared fixtures, state isolation, services, or test preflights | `architecting-test-infra` |
+| Need automated behavior or regression tests | `test-driven-development` |
+| Need browser/API/CLI/runtime proof | `manual-testing` |
 | Repeated failure or unknown root cause | `systematic-debugging` |
 | Risky assumption needs a spike | `prototype-first` |
 | Plan or approach may be wrong | `doubt-early` |
+| Need fresh review before merge, handoff, or trust | `doing-code-review` |
+| Need to handle review findings | `receiving-code-review` |
 | About to claim completion or success | `verification-before-completion` |
 | Refactor is becoming clarity work | `code-simplification` |
 | Public interface/API shape matters | `api-design` |
 | User input, auth, secrets, or external data involved | `security-and-hardening` |
-
 | Need plan-driven subagent execution | `executing-plans-with-subagents` |
 | Need independent parallel work | `when-and-how-to-run-parallel-agents` |
 | Need git isolation, commits, or handoff | `git-workflow` |

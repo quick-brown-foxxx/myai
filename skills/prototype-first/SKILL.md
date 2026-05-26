@@ -4,8 +4,8 @@ description: >-
   Helps fail fast on risky implementation steps by prototyping before committing
   to full code changes. Use during planning or implementation when a step is
   ambiguous, depends on multiple subsystems or flaky tools, may invalidate the
-  current plan, or when repeated fix attempts suggest a doom loop. 
-  Useful both at planning step and during implementation.
+  current plan, or repeated fix attempts suggest a doom loop. Useful during both
+  planning and implementation.
 license: MIT
 metadata:
   focus: early-risk-validation

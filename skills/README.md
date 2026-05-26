@@ -321,7 +321,8 @@ Planning commonly recommends the implementation loop as the next phase, but it
 does not require that transition. Planning should also route to testing strategy
 when the plan's proof or verification approach is non-trivial.
 
-### Testing 
+### Testing
+
 Use when deciding how to prove behavior.
 
 ```mermaid

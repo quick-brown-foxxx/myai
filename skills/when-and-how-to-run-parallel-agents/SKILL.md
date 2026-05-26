@@ -18,14 +18,16 @@ Use this skill to decide whether work can be split safely, then define focused
 agent tasks with clear contracts and integrate their results deliberately.
 
 ```text
-Orchestrator / team lead
-        │
-        ├── Agent A: independent subsystem / research / check
-        ├── Agent B: independent subsystem / research / check
-        └── Agent C: independent subsystem / research / check
-                  │
-                  ▼
-          Integration by orchestrator
+planning-implementation / clear task batch
+  -> when-and-how-to-run-parallel-agents  (you are here)
+       -> independent?
+            ├── no  -> sequence work
+            └── yes -> executing-plans-with-subagents
+                         -> inspect reports and changed files
+                         -> doing-code-review       (when warranted)
+                         -> receiving-code-review   (if findings need handling)
+                         -> integrated verification
+                         -> verification-before-completion
 ```
 
 ---
@@ -237,7 +239,7 @@ Use this skill to decide and dispatch. Then hand off based on outcome:
 
 ```text
 Independent findings integrated cleanly
-  -> continue incremental-implementation or verification
+  -> continue incremental-implementation or integrated verification
 
 Shared root cause discovered
   -> systematic-debugging

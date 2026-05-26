@@ -1,7 +1,10 @@
 ---
 name: release-automation-small-repos
 description: >-
-  Helps bootstrap or reshape small GitHub repositories that build artifacts from source and publish to GitHub Releases, npm, extension marketplaces, package registries, or packaging ecosystems. Use for custom CLI tools, wrappers, forks, republishers, Flatpak/Nix packaging, generated-source repos, upstream sync automation, update PRs, version tags, release workflows, and clean end-to-end release verification. Suitable both when bootstrapping new repo from scratch or improving existing repo.
+  Helps bootstrap or reshape small repositories that build artifacts from source
+  and publish to GitHub Releases, package registries, extension marketplaces, or
+  packaging ecosystems. Use for release workflows, upstream sync automation,
+  update PRs, version tags, generated artifacts, and end-to-end release verification.
 ---
 
 # Release Automation Repos
@@ -10,7 +13,9 @@ description: >-
 
 Design small repos so the correct release path is the easiest path. The repo should expose a clear data flow from source or upstream input to validated generated files, build artifacts, tags, and published releases. Prefer explicit scripts, reviewable update PRs, reproducible builds, and verification that exercises the real automation rather than assuming it works.
 
-When creating standalone Python automation scripts, load and follow the `writing-python-scripts` skill first. Prefer Python for sync, generation, build orchestration, metadata validation, and release helpers unless the target ecosystem strongly favors another language.
+Prefer simple, reviewable automation scripts for sync, generation, build
+orchestration, metadata validation, and release helpers unless the target
+ecosystem strongly favors another language.
 
 ## Recommended Repo Shape
 

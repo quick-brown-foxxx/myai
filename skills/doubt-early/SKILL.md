@@ -82,7 +82,7 @@ Check for:
 - Existing conventions this might break
 - Failure modes under unexpected input
 
-Do NOT validate. Do NOT summarize. Find issues, or state explicitly 
+Do NOT validate. Do NOT summarize. Find issues, or state explicitly
 that you cannot find any after thorough examination.
 
 ARTIFACT: <paste artifact>

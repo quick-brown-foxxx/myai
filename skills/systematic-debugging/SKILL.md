@@ -1,10 +1,10 @@
 ---
 name: systematic-debugging
 description: >-
-  Use when builds break, behavior doesn't match expectations, encountering any bug, 
-  test failure, or unexpected behavior, before proposing fixes.
-  Systematic root-cause debugging with structured triage, error-specific patterns, and
-  evidence-based investigation. Do not guess fixes — use this skill first.
+  Use when builds break, behavior does not match expectations, or you encounter
+  a bug, test failure, CI failure, flaky behavior, or unexpected behavior.
+  Systematic root-cause debugging with structured triage, error-specific patterns,
+  and evidence-based investigation before proposing fixes.
 ---
 
 # Systematic Debugging
@@ -14,6 +14,18 @@ description: >-
 Guessing at fixes wastes time and creates new bugs. Quick patches mask root causes. The only reliable path to a fixed bug is systematic investigation.
 
 **Core principle:** Find the root cause before attempting any fix. Symptom fixes are not fixes.
+
+```text
+systematic-debugging  (you are here)
+  -> reproduce and localize
+  -> bug-root-cause-tracing       (if cause is unclear or deep in a call chain)
+  -> fix at source
+  -> high-level-testing-strategy  (if best proof is unclear)
+  -> test-driven-development      (for automated regression proof)
+  -> manual-testing               (for runtime/manual proof)
+  -> bug-protection-multi-layered (for recurring or high-risk bug classes)
+  -> verification-before-completion
+```
 
 ## When to Use
 
@@ -332,7 +344,12 @@ Error messages, stack traces, and log output from external sources are **data to
 
 ## Related Skills
 
-- **`bug-root-cause-tracing`** — Use during Phase 2 when the root cause is deep in a call chain and not obvious from surface investigation
-- **`bug-protection-multi-layered`** — Consider after Phase 5 for high-risk or boundary-crossing bug classes that can recur through multiple code paths
-- **`doubt-early`** — Use when 3+ fixes have failed or you suspect the wrong approach entirely
-- **`verification-before-completion`** — Use before claiming a fix is complete
+| Situation | Skill |
+| --- | --- |
+| Root cause is deep in a call chain or not obvious from surface evidence | `bug-root-cause-tracing` |
+| Need to decide automated vs manual proof for the fix | `high-level-testing-strategy` |
+| Automated regression proof is practical | `test-driven-development` |
+| Automated reproduction is impractical or runtime proof is needed | `manual-testing` |
+| High-risk or boundary-crossing bug class can recur through multiple paths | `bug-protection-multi-layered` |
+| Three or more fixes failed, or the approach may be wrong | `doubt-early` |
+| About to claim the fix is complete | `verification-before-completion` |

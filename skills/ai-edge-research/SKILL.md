@@ -1,15 +1,10 @@
 ---
 name: ai-edge-research
-description: >
-  Research what's actually trending in AI among practitioners — not what SEO and marketing say is trending.
-  Use this skill whenever the user wants to research current AI trends, tools, frameworks, agents, models,
-  techniques, or practices and wants results that reflect what real builders are adopting, not what content
-  farms and listicles promote. Trigger on any request like "what's trending in AI", "what are people
-  actually using for X", "what's the latest in AI agents/frameworks/models", "research current AI tools",
-  "what should I look at in the AI space", or any AI topic research where recency and practitioner signal
-  matter. Also trigger when the user mentions "edge research", "cutting edge AI", "what's new in AI",
-  or wants to avoid SEO-biased results. This skill is specifically designed to cut through the AI hype
-  machine and find what practitioners on the bleeding edge are actually building with.
+description: >-
+  Research current AI tools, frameworks, agents, models, and practices from
+  practitioner signal rather than SEO or marketing. Use when the user asks what
+  builders are actually adopting, what is trending in AI, or what is new in AI
+  tooling and wants recency-aware, hype-resistant research.
 ---
 
 # AI Edge Research

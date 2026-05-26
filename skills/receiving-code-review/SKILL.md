@@ -16,7 +16,14 @@ Do not chase perfection: apply feedback that makes the change safer, clearer, or
 speculative, or not worth the complexity it adds.
 
 ```text
-feedback -> read all -> verify -> classify -> fix / push back / clarify -> verify
+doing-code-review
+  -> findings or reviewer comments
+  -> receiving-code-review  (you are here)
+       -> verify and classify feedback
+       -> focused fixes / documented pushback / clarification
+       -> focused verification
+       -> doing-code-review          (if fixes are non-trivial)
+       -> verification-before-completion
 ```
 
 ---

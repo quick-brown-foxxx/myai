@@ -6,7 +6,6 @@ description: >-
   composition roots, shared logic, or where code should live.
 license: MIT
 metadata:
-  status: draft
   focus: architecture-decision-routing
 ---
 
@@ -14,12 +13,18 @@ metadata:
 
 This skill is the first stop for non-trivial architecture decisions.
 
-It is both a compact guide and a router to deeper project docs and domain skills. 
+It is both a compact guide and a router to deeper project docs and domain skills.
 Use it to decide shape and boundaries, then continue through the normal planning
 or implementation flow.
 
-> Draft status: Python-specific routes are intentionally left as TODOs until the
-> Python skill batch is ported.
+```text
+brainstorming / planning-implementation / unclear implementation task
+  -> architecting-changes  (you are here, when boundaries or ownership matter)
+       -> api-design / security-and-hardening / performance-optimization
+       -> documentation-and-adrs       (if decision should be durable)
+       -> planning-implementation      (if work needs decomposition)
+       -> incremental-implementation   (if direction is clear enough to execute)
+```
 
 ---
 
@@ -66,7 +71,7 @@ Route to deeper skills only when needed
 2. Ask what is actually expected to change later.
 3. Identify the real architecture question.
 4. Apply the heuristics below.
-5. Load the matching deeper skill or TODO route when available.
+5. Load the matching deeper skill when available.
 6. Continue to planning or implementation.
 
 ---
@@ -186,7 +191,7 @@ repo and deployment model make that coupling intentional.
 
 Use this table to decide whether to stay in this skill or load a deeper one.
 
-| Architecture question | Use now | Later / TODO |
+| Architecture question | Use now | Notes |
 | --- | --- | --- |
 | Public API, protocol, module contract, or component props | `api-design` | — |
 | User input, auth, secrets, PII, files, webhooks, sessions, external services | `security-and-hardening` | — |
@@ -195,15 +200,11 @@ Use this table to decide whether to stay in this skill or load a deeper one.
 | Production launch, rollout, monitoring, rollback strategy | `shipping-and-launch` | — |
 | ADR-worthy decision or context future agents must preserve | `documentation-and-adrs` | — |
 | Implementation order or task decomposition after architecture direction is clear | `planning-implementation` | — |
-| Python project structure, packaging, tooling, repo bootstrap | TODO | `setting-up-python-projects` |
-| Python backend/API/worker architecture | TODO | `setting-up-python-backends`, `building-python-backends` |
-| Python reusable core shared by CLI, GUI, API, or automation | TODO | `building-multi-ui-apps` |
-| PySide6/Qt manager-service-wrapper decisions | TODO | `building-qt-apps` |
-| Python implementation details, typed wrappers, import cycles | TODO | `writing-python-code` |
+| Python-specific project, backend, GUI, or implementation concerns | Use this skill plus `ENGINEERING-PHILOSOPHY.md` | Record follow-up if a future language-specific skill is needed |
 
-If the needed route is still TODO, make the architecture decision with this
-skill and `ENGINEERING-PHILOSOPHY.md`, then note the missing follow-up skill in
-the handoff.
+If a language-specific route is missing, make the architecture decision with this
+skill and `ENGINEERING-PHILOSOPHY.md`, then note any needed follow-up in the
+handoff.
 
 ---
 
@@ -260,5 +261,5 @@ Risky assumption          -> prototype-first or doubt-early
 ADR-worthy decision       -> documentation-and-adrs
 ```
 
-If Python-specific routing is needed before Batch 5 is ported, record the TODO
-explicitly rather than pretending the local skill exists.
+If language-specific routing is needed but no canonical skill exists, record the
+gap explicitly rather than pretending the local skill exists.

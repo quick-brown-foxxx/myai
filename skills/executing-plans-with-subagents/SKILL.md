@@ -160,7 +160,7 @@ Sequence tasks when:
 - the plan needs one shared mental model
 
 The orchestrator owns integration. Subagents do not coordinate with each other
-unless the  current platform and the task explicitly define that protocol.
+unless the current platform and the task explicitly define that protocol.
 
 ---
 

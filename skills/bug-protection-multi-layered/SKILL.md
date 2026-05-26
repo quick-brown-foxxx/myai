@@ -1,11 +1,10 @@
 ---
 name: bug-protection-multi-layered
 description: >-
-  Use after fixing recurring, high-risk, or boundary-crossing bugs to prevent the same
-  class from recurring. Adds validation at multiple layers — entry points, business logic,
-  environment guards, and forensic instrumentation — so invalid states are caught even
-  through different code paths. Skip for trivial one-off fixes where layered defenses would
-  add more complexity than protection.
+  Use after fixing recurring, high-risk, or boundary-crossing bugs to prevent the
+  same class from recurring. Adds entry validation, business checks, environment
+  guards, and forensic instrumentation. Skip trivial one-off fixes where layered
+  defenses add more complexity than protection.
 ---
 
 # Bug Protection: Multi-Layered
@@ -15,6 +14,16 @@ description: >-
 A single validation point is easy to bypass — different code paths, refactoring, or mocks can circumvent it. Real protection requires checks at every layer data passes through.
 
 **Core principle:** One fix removes the bug. Validation layers make the invalid state structurally impossible; instrumentation makes missed failures diagnosable.
+
+```text
+systematic-debugging
+  -> fix at source and prove original symptom
+  -> bug-protection-multi-layered  (you are here, for high-risk bug classes)
+       -> add entry validation / business checks / environment guards
+       -> add forensic instrumentation where useful
+       -> test-driven-development / manual-testing  (prove protections)
+       -> verification-before-completion
+```
 
 ## When to Use
 
@@ -162,6 +171,10 @@ Regression tests verify the fix. Multi-layer validation prevents the same mistak
 
 ## Related Skills
 
-- **`systematic-debugging`** — Use before this skill to find the root cause. Consider this skill as the guard step after high-risk or boundary-crossing fixes.
-- **`bug-root-cause-tracing`** — When tracing the data flow for multi-layer placement, this skill provides the technique.
-- **`verification-before-completion`** — Use before claiming the multi-layer fix is complete.
+| Situation | Skill |
+| --- | --- |
+| Need to find and fix the root cause first | `systematic-debugging` |
+| Need to trace the data flow for layer placement | `bug-root-cause-tracing` |
+| Need automated proof that protections catch the bug class | `test-driven-development` |
+| Need runtime/manual proof of boundary or environment guards | `manual-testing` |
+| About to claim the multi-layer fix is complete | `verification-before-completion` |

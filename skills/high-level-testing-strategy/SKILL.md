@@ -21,10 +21,13 @@ This skill is the strategy step for testing. It decides **what should be proven*
 ## Testing Skill Map
 
 ```text
-high-level-testing-strategy
-  -> architecting-test-infra    (if framework/fixtures/state/env are missing or weak)
-  -> test-driven-development    (for automated test implementation)
-  -> manual-testing             (for runtime/e2e/smoke verification)
+high-level-testing-strategy  (you are here)
+  -> architecting-test-infra       (if framework/fixtures/state/env are weak)
+  -> selected proof type?
+       ├── automated      -> test-driven-development
+       ├── manual/runtime -> manual-testing
+       └── both           -> test-driven-development -> manual-testing if needed
+  -> planning-implementation       (if strategy must become plan tasks)
   -> verification-before-completion
 ```
 
@@ -34,6 +37,7 @@ high-level-testing-strategy
 | Implement automated tests and code changes | `test-driven-development` |
 | Verify real browser/API/CLI/runtime behavior manually | `manual-testing` |
 | Design test framework, fixtures, data builders, isolation, services, preflights | `architecting-test-infra` |
+| Embed testing strategy into implementation tasks | `planning-implementation` |
 | Claim work is passing or complete | `verification-before-completion` |
 
 | Role | Uses |
@@ -286,6 +290,18 @@ Return a compact test strategy:
 | Bootstrapping a huge test stack for one tiny change | Use manual verification or cheap focused tests. |
 | Ignoring weak fixtures/state because the current test can be hacked green | Fix test infrastructure first. |
 | Treating coverage number as success | Ask what user-visible risk is actually proven. |
+
+---
+
+## Related Skills
+
+| Situation | Skill |
+| --- | --- |
+| Chosen strategy should become implementation tasks | `planning-implementation` |
+| Test infrastructure is missing, weak, flaky, or hard to extend | `architecting-test-infra` |
+| Automated behavior or regression tests should be implemented | `test-driven-development` |
+| Runtime/browser/API/CLI proof is needed | `manual-testing` |
+| About to claim tests or work are passing | `verification-before-completion` |
 
 ---
 

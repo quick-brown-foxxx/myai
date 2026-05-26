@@ -22,9 +22,11 @@ Use this when automated tests are insufficient, too costly, too fake, or just pa
 
 ```text
 high-level-testing-strategy
-  -> architecting-test-infra    (if framework/fixtures/state/env are missing or weak)
-  -> test-driven-development    (for automated test implementation)
-  -> manual-testing             (you are here: runtime/e2e/smoke verification)
+  -> selected proof type?
+       ├── automated      -> test-driven-development
+       ├── manual/runtime -> manual-testing       (you are here)
+       └── both           -> test-driven-development -> manual-testing
+  -> architecting-test-infra       (if env/fixtures/preflights are weak)
   -> verification-before-completion
 ```
 
@@ -267,6 +269,18 @@ Report is needed to make results reproducible and verifiable.
 | Testing against dirty personal state | Use isolated temp/test state. |
 | Saying "manually tested" without evidence | Report steps, outputs, screenshots/logs where useful. |
 | Automating a fake flow because manual feels less formal | Use the proof that best matches reality. |
+
+---
+
+## Related Skills
+
+| Situation | Skill |
+| --- | --- |
+| Need to decide automated vs manual proof first | `high-level-testing-strategy` |
+| Manual setup requires reusable fixtures, envs, services, or preflights | `architecting-test-infra` |
+| Manual proof should be complemented by automated regression tests | `test-driven-development` |
+| Manual check exposes an unexpected bug | `systematic-debugging` |
+| About to claim manual verification proves the work | `verification-before-completion` |
 
 ---
 

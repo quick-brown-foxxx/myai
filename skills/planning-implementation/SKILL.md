@@ -8,21 +8,35 @@ description: >-
   detail built in.
 ---
 
+# Planning Implementation
+
+Break a validated spec or clear task into ordered implementation work,
+acceptance criteria, dependencies, and verification checkpoints.
+
 ## Planning Pipeline
 
-This skill is part of a scalable planning pipeline. Each step is optional depending on work size:
+This skill is part of a scalable planning pipeline. Each step is optional
+depending on work size.
 
+```text
+idea-sharpening        (if the idea is vague)
+  -> brainstorming     (if spec or design is needed)
+  -> planning-implementation  (you are here)
+       -> high-level-testing-strategy       (if proof strategy is unclear)
+       -> when-and-how-to-run-parallel-agents (if work may fan out)
+       -> incremental-implementation        (soft next execution loop)
+       -> executing-plans-with-subagents    (if delegating bounded tasks)
+       -> verification-before-completion    (before completion claims)
 ```
-idea-sharpening → brainstorming → planning-implementation → code
-```
 
-- **Tiny** (typo, single-file fix): skip all → code directly
-- **Small** (obvious small change in known codebase): quick inline plan → code
-- **Moderate** (medium-sized feature in several files): brainstorming → here → code
-- **Big** (vague idea and/or big/multi-feature): full pipeline
+- **Tiny** (typo, single-file fix): skip all and code directly.
+- **Small** (obvious small change in known codebase): quick inline plan, then code.
+- **Moderate** (medium-sized feature in several files): brainstorming, then this skill.
+- **Big** (vague idea and/or big/multi-feature): full pipeline.
 
-**You are here:** planning-implementation (task breakdown).
-**Next:** code — use the plan to drive implementation task by task.
+Planning commonly recommends implementation workflow next, but the transition is a soft
+handoff. Stop after planning when the human or orchestrator needs to review,
+defer, split, or delegate the work.
 
 ## When to Use
 
@@ -242,10 +256,18 @@ When multiple agents or sessions are available:
 
 ## Related Skills
 
-- **`idea-sharpening`** — Run this first if you don't know what to build yet.
-- **`brainstorming`** — Run this before planning-implementation if you need a spec.
-- **`prototype-first`** — If a task involves a technically risky or ambiguous approach, prototype the critical path first before committing the full plan.
-- **`doubt-early`** — After writing the plan, use `doubt-early` for adversarial review before starting implementation.
+| Situation | Skill |
+| --- | --- |
+| Idea is vague or still needs product/concept sharpening | `idea-sharpening` |
+| Need a technical spec before task decomposition | `brainstorming` |
+| Plan needs an architecture boundary or ownership decision | `architecting-changes` |
+| Verification strategy, BDD cases, or automated/manual proof is unclear | `high-level-testing-strategy` |
+| Task involves a risky or ambiguous technical assumption | `prototype-first` |
+| Plan or assumptions need adversarial review | `doubt-early` |
+| Plan may be parallelized across independent work domains | `when-and-how-to-run-parallel-agents` |
+| Plan will be delegated to bounded subagents | `executing-plans-with-subagents` |
+| Plan is ready for direct execution | `incremental-implementation` |
+| About to claim the plan or checkpoint is complete | `verification-before-completion` |
 
 ## Review
 

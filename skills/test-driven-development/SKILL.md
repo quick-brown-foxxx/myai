@@ -22,9 +22,9 @@ This is an implementation skill, not the place to design a whole test suite. Use
 
 ```text
 high-level-testing-strategy
-  -> architecting-test-infra    (if framework/fixtures/state/env are missing or weak)
-  -> test-driven-development    (you are here: automated implementation)
-  -> manual-testing             (for runtime/e2e/smoke verification)
+  -> architecting-test-infra       (if framework/fixtures/state/env are weak)
+  -> test-driven-development       (you are here: automated implementation)
+       -> manual-testing           (if runtime/e2e/smoke proof is still needed)
   -> verification-before-completion
 ```
 
@@ -230,6 +230,18 @@ Do not rerun the same command repeatedly without changing code or state. It adds
 | Writing broad code before one case is green | Implement the current scenario only. |
 | Hacking fixtures inside every test | Use `architecting-test-infra`. |
 | Calling manual clicking "tested" without evidence | Use `manual-testing` and record steps/results. |
+
+---
+
+## Related Skills
+
+| Situation | Skill |
+| --- | --- |
+| Test cases, scope, or proof type are unclear | `high-level-testing-strategy` |
+| Fixtures, state isolation, services, or preflights are weak | `architecting-test-infra` |
+| Runtime/browser/API/CLI proof is still needed | `manual-testing` |
+| Debugging a failing test or bug before writing a fix | `systematic-debugging` |
+| About to claim tests or implementation are complete | `verification-before-completion` |
 
 ---
 

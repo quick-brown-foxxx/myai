@@ -2,8 +2,8 @@
 name: doing-code-review
 description: >-
   Reviews code changes, PRs, diffs, branches, and agent-written code. Use when
-  finished work, checking whether work is ready to merge, commit, or hand off; 
-  when requesting fresh-context or subagent review.
+  reviewing finished work, checking whether work is ready to merge, commit, or
+  hand off, or requesting fresh-context or subagent review.
 license: MIT
 metadata:
   focus: evidence-based-code-review
@@ -17,16 +17,12 @@ The goal is not perfection. Approve a change when it definitely improves overall
 code health, even if it is not exactly how you would have written it.
 
 ```text
-change / PR / agent output
-        │
-        ▼
-understand the contract
-        │
-        ▼
-fresh reviewer inspects evidence
-        │
-        ├── findings -> request changes / clarify
-        └── no findings -> approve with residual risks
+doing-code-review  (you are here)
+  -> understand contract and verification story
+  -> inspect diff, tests, and applicable risk axes
+  -> findings?
+       ├── yes -> receiving-code-review -> focused fixes -> focused verification
+       └── no  -> verification-before-completion / approve with residual risks
 ```
 
 ---
@@ -348,6 +344,8 @@ that makes review materially clearer.
 | --- | --- |
 | Need to handle requested changes or reviewer comments | `receiving-code-review` |
 | Need proof before approval or completion claims | `verification-before-completion` |
+| Need independent specialist review or parallel review passes | `when-and-how-to-run-parallel-agents` |
+| Boundary/design question affects review verdict | `architecting-changes` |
 | Security-sensitive change | `security-and-hardening` |
 | Performance-sensitive change | `performance-optimization` |
 | Complexity/readability cleanup | `code-simplification` |

@@ -1,12 +1,10 @@
 ---
 name: bug-root-cause-tracing
 description: >-
-  Use during debugging when the root cause isn't obvious, the error appears deep in a
-  call chain, or you need to trace backward through a series of calls to find the
-  original trigger rather than fixing the surface symptom. Use for bad state, wrong files,
-  unexpected side effects, invalid values, or test pollution when you need to find which
-  caller, test, or code path introduced them. Do not fix at the symptom point — trace to
-  the source first.
+  Use during debugging when the root cause is not obvious, the error appears deep
+  in a call chain, or bad state must be traced back to the caller, test, or code
+  path that introduced it. Backward tracing for invalid values, wrong files,
+  unexpected side effects, and test pollution.
 ---
 
 # Bug Root Cause Tracing
@@ -16,6 +14,16 @@ description: >-
 Bugs often manifest deep in the call stack — wrong directory, bad parameter, corrupted data — far from where the invalid value originated. Fixing where the error appears treats the symptom. Tracing backward to find the original trigger fixes the cause.
 
 **Core principle:** Never fix where the error surfaces. Trace back until you find what actually caused it.
+
+```text
+systematic-debugging
+  -> bug-root-cause-tracing  (you are here, when root cause is unclear/deep)
+       -> trace backward to original trigger
+       -> fix at source
+       -> test-driven-development / manual-testing  (prove original symptom)
+       -> bug-protection-multi-layered              (if class can recur)
+       -> verification-before-completion
+```
 
 ## When to Use
 
@@ -170,6 +178,11 @@ Once you have a stack trace showing the full chain:
 
 ## Related Skills
 
-- **`systematic-debugging`** — Core debugging process. Use this skill when you need tracing capabilities during Phase 2 investigation.
-- **`bug-protection-multi-layered`** — After tracing and fixing the root cause, add validation at each layer traced to prevent recurrence.
-- **`doubt-early`** — If tracing reveals a fundamental design issue, use for adversarial review.
+| Situation | Skill |
+| --- | --- |
+| Need the full debugging process before or around tracing | `systematic-debugging` |
+| Automated regression proof is practical after the root cause is fixed | `test-driven-development` |
+| Runtime/manual proof is the right verification path | `manual-testing` |
+| Bug class can recur across layers or paths | `bug-protection-multi-layered` |
+| Tracing reveals a fundamental design issue | `doubt-early` |
+| About to claim the fix is complete | `verification-before-completion` |

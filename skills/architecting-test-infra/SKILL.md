@@ -22,9 +22,10 @@ Use this before writing individual tests when the test runner, BDD framework, fi
 
 ```text
 high-level-testing-strategy
-  -> architecting-test-infra    (you are here: test infrastructure architecture)
-  -> test-driven-development    (for automated test implementation)
-  -> manual-testing             (for runtime/e2e/smoke verification)
+  -> architecting-test-infra       (you are here: test infrastructure architecture)
+       -> prove infra with one representative test
+       -> test-driven-development  (for automated test implementation)
+       -> manual-testing           (for runtime/e2e/smoke verification)
   -> verification-before-completion
 ```
 
@@ -277,6 +278,18 @@ Keep dependent steps sequential: define framework and state model before paralle
 | No preflight checks | Fail fast with clear environment errors. |
 | Bootstrapping too much for one small change | Use smallest useful infra slice or manual testing. |
 | Treating BDD as heavyweight ceremony | Pick lightweight BDD-style tooling. |
+
+---
+
+## Related Skills
+
+| Situation | Skill |
+| --- | --- |
+| Need to decide scenarios, proof type, or automation scope first | `high-level-testing-strategy` |
+| Automated tests can be implemented after infra is ready | `test-driven-development` |
+| Runtime/manual proof is the right or complementary path | `manual-testing` |
+| Infra work should be decomposed into implementation tasks | `planning-implementation` |
+| About to claim test infrastructure is ready | `verification-before-completion` |
 
 ---
 

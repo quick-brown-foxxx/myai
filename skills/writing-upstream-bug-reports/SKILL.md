@@ -1,6 +1,9 @@
 ---
 name: writing-upstream-bug-reports
-description: Use when investigating a software bug in third-party libraries, systems, packages and so on; linux/system/environment issue, crashes, or regressions and need to produce a structured bug report ready for submission for maintainers into issue trackers
+description: >-
+  Use when investigating a bug, regression, crash, Linux/system issue, package
+  problem, or third-party library defect and you need a structured upstream bug
+  report ready for maintainer issue trackers.
 ---
 
 # Writing Bug Reports
@@ -15,11 +18,11 @@ A bug report is a **self-contained folder** with a structured issue description,
 - User asks to "prepare a bug report", "file an issue", or "document this bug"
 - System investigation reveals a reportable defect
 
-**Not for:** 
+**Not for:**
 - internal TODOs
 - feature requests
 - or project-specific issues that are tracked in team-level internal trackers
-- known limitations that do not require submiting a bug report to upstream
+- known limitations that do not require submitting a bug report to upstream
 
 ## Deliverable: Folder Structure
 
