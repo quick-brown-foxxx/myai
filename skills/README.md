@@ -116,6 +116,13 @@ metadata:
   tags: planning, implementation, verification
 ```
 
+This is intentionally not YAML-native `tags: [planning, implementation]`.
+Some skill formats use top-level tag arrays, but OpenCode and the Agent Skills
+spec currently treat `metadata` as the portable extension point and expect its
+values to be strings. If this repository later targets a consumer that supports
+first-class tag arrays, migrate deliberately instead of keeping duplicate tag
+sources in sync.
+
 Shared workflow tags:
 
 | Workflow area | Shared tag | Core skills |
