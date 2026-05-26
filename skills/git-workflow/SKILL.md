@@ -433,10 +433,11 @@ Use related skills depending on where the work goes next:
 ```text
 Need incremental execution discipline -> incremental-implementation
 Need independent parallel work         -> when-and-how-to-run-parallel-agents
-Need branch completion options         -> finishing-a-development-branch
+Need diff/PR readiness review          -> doing-code-review
 Need verification before commit/PR     -> verification-before-completion
 Need CI hooks or quality gates         -> ci-cd-and-automation
 ```
 
-`finishing-a-development-branch` owns merge/PR/cleanup decisions. This skill only
-sets up sane git discipline and isolation.
+This skill sets up sane git discipline and isolation. Use platform git safety
+rules, `doing-code-review`, and `verification-before-completion` for final
+handoff readiness.
