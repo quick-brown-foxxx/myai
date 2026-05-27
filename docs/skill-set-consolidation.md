@@ -30,7 +30,6 @@ remaining blockers, and deferred work only.
   isolated tasks -> focused subagents for small independent actions.
 - Workflow phases are explicit: design -> implementation planning -> execution
   -> verification/fixing loop -> fresh-context re-verification -> finish.
-- `ENGINEERING-PHILOSOPHY.md` wins when a skill conflicts with local principles.
 
 ## Philosophy Decisions
 
@@ -41,19 +40,6 @@ remaining blockers, and deferred work only.
 | Agent autonomy | After clear high-level direction, agents execute independently until a real blocker appears. |
 | Explicitness | Prefer typed boundaries, validation, Result-style expected failures, and simple readable code. |
 | Architecture | Layer by responsibility; share stable contracts across applications before sharing implementation. |
-
-## Conflict Resolutions
-
-| Topic | Sources | Resolution |
-| --- | --- | --- |
-| TDD | Superpowers + Addy | Merge into softened `test-driven-development`; BDD/test-first for selected automated cases. |
-| Ideation | Superpowers brainstorming + Addy idea-refine | Split into `idea-sharpening` and `brainstorming`. |
-| Planning | Superpowers writing-plans + Addy planning | Merge into `planning-implementation`. |
-| Debugging | Superpowers + Addy | Split/merge into debugging family: main workflow, root-cause tracing, multilayer protection. |
-| Review | Superpowers requesting/receiving + Addy review | Split into `doing-code-review` and `receiving-code-review`. |
-| Meta bootstrap | Superpowers using-superpowers + Addy using-agent-skills | Planned replacement: lightweight `using-skills`. |
-| Skill writing | Local + Superpowers writing-skills | `how-to-write-skills` created. |
-| Finishing branch | Superpowers finishing-development-branch | Dropped; covered by `git-workflow` plus platform git safety rules. |
 
 ## Python Generalization
 
@@ -140,27 +126,6 @@ remaining blockers, and deferred work only.
 | `setting-up-python-projects` | deferred | uv, pyproject, ruff, basedpyright, pytest, pre-commit. |
 | `setting-up-shortcuts` | deferred | PySide6 shortcut conventions. |
 | `writing-python-scripts` | external | PEP 723 scripts with uv and typer. Lives in a separate repo for now; planned to port later. |
-
-## Removed Or Merged Away
-
-| Removed source skill | Resolution |
-| --- | --- |
-| Superpowers `brainstorming` hard gate | Split/softened into `brainstorming`; visual piece extracted to `visual-mockups`. |
-| Superpowers `writing-skills` | Keep local `how-to-write-skills`; cherry-pick only if needed. |
-| Superpowers `using-superpowers` | Replace with planned `using-skills`. |
-| Addy `using-agent-skills` | Merge into planned `using-skills`. |
-| Addy `context-engineering` | Not needed as standalone. |
-| Addy `source-driven-development` | Too opinionated as standalone. |
-| Addy `spec-driven-development` | Spec patterns absorbed into `brainstorming`. |
-| Superpowers `executing-plans` | Useful pieces merged into `incremental-implementation`. |
-| Superpowers `writing-plans` | Merged into `planning-implementation`. |
-| Superpowers/Addy standalone TDD | Merged into softened `test-driven-development`. |
-| Addy `browser-testing-with-devtools` | Runtime checks absorbed into `manual-testing`; deeper browser skill deferred. |
-| Addy `deprecation-and-migration` | Not needed for current cases. |
-| Addy `frontend-ui-engineering` | Dropped; local frontend skill may be authored later. |
-| Superpowers `requesting-code-review` | Merged into `doing-code-review`. |
-| Superpowers `receiving-code-review` | Rewritten as `receiving-code-review`. |
-| Superpowers `finishing-a-development-branch` | Dropped; covered by `git-workflow` and platform git rules. |
 
 ## Progress Summary
 
