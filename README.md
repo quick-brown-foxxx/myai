@@ -1,6 +1,6 @@
 # myai
 
-This repo is a personal opinionated skill set for coding agents. Helps to make AI agents more senior and trustable.
+This repo is a personal, opinionated skill set for coding agents. It helps make AI agents more senior and trustworthy.
 
 ## What This Is
 
@@ -10,23 +10,17 @@ This repo is a personal opinionated skill set for coding agents. Helps to make A
 - Composable workflows that connect multiple skills for larger tasks, eg planning, implementation, and review.
 - Philosophy docs that define the rules and core ideas behind the skills and workflows.
 
-Those skills are distilled from personal experience in software development, problem solving and AI orchestration. This helps to reduce baby-sitting and make agents solutions aligned with the author's preferences.
+Those skills are distilled from personal experience in software development, problem solving and AI orchestration. This helps reduce babysitting and align agent solutions with the author's preferences.
 
 > NOTE! This repo contains opinionated rules. You might find them useful or not aligned with your preferences. Cherry pick and modify if needed.
 
 ## Why Use It
 
-By default AI agents approach given tasks and problems within generic patterns they were trained on. This requires lot's of time spent on planning, orchestrating and manual human reviews.
+By default, AI agents approach tasks and problems through generic patterns they were trained on. This forces humans to spend lots of time on planning, orchestration, and manual review.
 
-```text
-human intent
-  -> skill reading
-  -> workflow learning and selection
-  -> implementation / research / review
-  -> evidence-backed completion
-```
+This repo helps reduce that overhead by providing agents with guidance and verified patterns.
 
-Examples of reusable habits that this repo helps to establish:
+Examples of reusable habits in this repo:
 
 - Design before implementing when requirements are unclear.
 - Debug from symptoms to root cause, not from guess to patch.
@@ -52,12 +46,9 @@ npx -y skills add quick-brown-foxxx/myai
 
 ```bash
 npx -y skills add quick-brown-foxxx/myai \
-  # global
-  -g \
-  # all skills
-  -s "*" \
-  # list agents you need
-  -a claude-code universal kilo codex opencode \
+  --global \
+  --skill "*" \
+  --agent claude-code universal kilo codex opencode \
   -y
 ```
 
@@ -65,51 +56,14 @@ npx -y skills add quick-brown-foxxx/myai \
 
 Those files help to understand philosophies behind this repo and author's approaches to engineering and AI orchestration.
 
-- `skills/README.md` - canonical skill catalog, workflow map, tag policy, and
+- `skills/README.md` - skill catalog, workflow map, tag policy, and
   compatibility notes.
 - `SKILLS-PHILOSOPHY.md` - how skills, workflows, agent roles, and orchestration
   layers fit together.
 - `ENGINEERING-PHILOSOPHY.md` - coding, architecture, testing, tooling, and
   project setup principles.
 
-## Catalog
-
-The repository separates reusable guidance into three layers:
-
-```mermaid
-flowchart TD
-  M[Future mega-workflow] --> W[Composable workflows]
-  W --> S[Atomic skills]
-
-  M -. out of scope today .-> M1[Long-running autonomous orchestration]
-  W --> W1[Short recipes for one coherent step of work such as implementation or research]
-  S --> S1[Focused capability loaded for a concrete need]
-```
-
-| Layer | Purpose |
-| --- | --- | --- |
-| Mega-workflow | Long-running multi-epic autonomy, not yet ready |
-| Composable workflows | Explicit recipes made from several skills |
-| Atomic skills | Focused reusable capabilities | Simple task-specific instructions |
-
-The important boundary: current skills and workflows do not silently advance a
-session. A human, team lead agent, or orchestrator decides the next phase.
-
-TODO list all skill sets here
-
-### Planning
-
-TODO short description
-
-To install:
-
-```bash
-npx -y skills add quick-brown-foxxx/myai \
-  -s 'idea-sharpening' \
-  # ... TODO
-```
-
-## Workflow Recipes
+## Workflows
 
 Workflows are short maps, not mandatory rituals.
 
@@ -160,6 +114,220 @@ The engineering philosophy is about software substance:
 - Prefer real integration and runtime evidence over mocked confidence.
 - Separate code by responsibility and change axis.
 - Use one strict tool per job.
+
+## Catalog
+
+The repository separates reusable guidance into three layers:
+
+```mermaid
+flowchart TD
+  M[Future mega-workflow] --> W[Composable workflows]
+  W --> S[Atomic skills]
+
+  M -. out of scope today .-> M1[Long-running autonomous orchestration]
+  W --> W1[Short recipes for one coherent step of work such as implementation or research]
+  S --> S1[Focused capability loaded for a concrete need]
+```
+
+| Layer | Purpose | Current status |
+| --- | --- | --- |
+| Mega-workflow | Long-running multi-epic autonomy | Not yet ready |
+| Composable workflows | Explicit recipes made from several skills | Documented below |
+| Atomic skills | Focused task-specific capabilities | Implemented as `skills/*/SKILL.md` |
+
+The important boundary: current skills and workflows do not silently advance a
+session. A human, team lead agent, or orchestrator decides the next phase.
+
+The full canonical map lives in `skills/README.md`. This root catalog is the
+install-oriented summary for quickly choosing a skill set.
+
+### Planning And Design
+
+Use when the goal is vague, large, visual, or needs design before implementation.
+
+| Skill | Primary role | Notes |
+| --- | --- | --- |
+| `idea-sharpening` | Refine vague ideas into sharper concepts | - |
+| `brainstorming` | Turn understood features into technical specs | - |
+| `planning-implementation` | Break specs into ordered, verifiable tasks | - |
+| `architecting-changes` | Decide boundaries, ownership, and routing | May look opinionated! |
+| `visual-mockups` | Explore UI layouts and diagrams visually with the human | - |
+| `documentation-and-adrs` | Preserve durable decisions and agent-facing context | - |
+
+To install:
+
+```bash
+npx -y skills add quick-brown-foxxx/myai \
+  -s 'idea-sharpening' \
+  -s 'brainstorming' \
+  -s 'planning-implementation' \
+  -s 'architecting-changes' \
+  -s 'visual-mockups' \
+  -s 'documentation-and-adrs'
+```
+
+### Implementation And Verification
+
+Use after a plan exists or when a bounded implementation slice is ready.
+
+| Skill | Primary role |
+| --- | --- |
+| `incremental-implementation` | Execute thin verified slices |
+| `verification-before-completion` | Require evidence before success claims |
+| `git-workflow` | Manage branches, worktrees, staging, commits, and handoff |
+
+To install:
+
+```bash
+npx -y skills add quick-brown-foxxx/myai \
+  -s 'incremental-implementation' \
+  -s 'verification-before-completion' \
+  -s 'git-workflow'
+```
+
+### Agent Orchestration
+
+Use when a task or plan contains independent work that might be delegated safely.
+
+| Skill | Primary role |
+| --- | --- |
+| `when-and-how-to-run-parallel-agents` | Decide whether work can be parallelized safely |
+| `executing-plans-with-subagents` | Execute written plans through bounded subagent slices |
+
+To install:
+
+```bash
+npx -y skills add quick-brown-foxxx/myai \
+  -s 'when-and-how-to-run-parallel-agents' \
+  -s 'executing-plans-with-subagents'
+```
+
+### Reusable Workflow Helpers
+
+Use these at any stage when a specific risk or uncertainty appears.
+
+These helpers are useful when agents are losing focus or need to steer back to the task.
+
+| Skill | Primary role |
+| --- | --- |
+| `prototype-first` | Validate risky assumptions before full implementation |
+| `doubt-early` | Challenge uncertain plans or decisions with fresh context |
+
+To install:
+
+```bash
+npx -y skills add quick-brown-foxxx/myai \
+  -s 'prototype-first' \
+  -s 'doubt-early'
+```
+
+### Testing
+
+Use when deciding what behavior needs proof and how to verify it credibly.
+
+> Note! All testing skills are opinionated!
+
+| Skill | Primary role |
+| --- | --- |
+| `high-level-testing-strategy` | Decide what behavior needs proof |
+| `architecting-test-infra` | Design scalable test fixtures and environments |
+| `test-driven-development` | Implement selected automated behavior tests test-first |
+| `manual-testing` | Verify real runtime behavior through browser, API, CLI, or infra |
+
+To install:
+
+```bash
+npx -y skills add quick-brown-foxxx/myai \
+  -s 'high-level-testing-strategy' \
+  -s 'architecting-test-infra' \
+  -s 'test-driven-development' \
+  -s 'manual-testing'
+```
+
+### Debugging And Bug Prevention
+
+Use for unexpected behavior, failing tests, CI failures, flaky behavior, and
+runtime bugs.
+
+| Skill | Primary role |
+| --- | --- |
+| `systematic-debugging` | Reproduce, localize, hypothesize, fix, and verify failures |
+| `bug-root-cause-tracing` | Trace backward through call chains to the original trigger |
+| `bug-protection-multi-layered` | Add layered defenses against recurring bug classes |
+
+To install:
+
+```bash
+npx -y skills add quick-brown-foxxx/myai \
+  -s 'systematic-debugging' \
+  -s 'bug-root-cause-tracing' \
+  -s 'bug-protection-multi-layered'
+```
+
+### Review And Feedback
+
+Use for PRs, diffs, agent-written code, and review comments.
+
+| Skill | Primary role |
+| --- | --- |
+| `doing-code-review` | Review diffs, PRs, branches, and agent-written code |
+| `receiving-code-review` | Classify and handle review feedback rigorously |
+
+To install:
+
+```bash
+npx -y skills add quick-brown-foxxx/myai \
+  -s 'doing-code-review' \
+  -s 'receiving-code-review'
+```
+
+### Domain-Specific Skills
+
+Use these during larger workflows when the task crosses a domain boundary.
+
+| Skill | Primary role |
+| --- | --- |
+| `api-design` | Design stable APIs, protocols, and programmable boundaries |
+| `security-and-hardening` | Harden user input, auth, secrets, files, sessions, and integrations |
+| `performance-optimization` | Measure, identify, fix, and verify performance bottlenecks |
+| `code-simplification` | Refactor for clarity without behavior changes |
+| `ci-cd-and-automation` | Configure CI/CD, quality gates, and deployment automation |
+| `release-automation-small-repos` | Build small release/publishing automation repositories |
+| `shipping-and-launch` | Prepare launches, rollouts, monitoring, and rollback |
+
+To install:
+
+```bash
+npx -y skills add quick-brown-foxxx/myai \
+  -s 'api-design' \
+  -s 'security-and-hardening' \
+  -s 'performance-optimization' \
+  -s 'code-simplification' \
+  -s 'ci-cd-and-automation' \
+  -s 'release-automation-small-repos' \
+  -s 'shipping-and-launch'
+```
+
+### Atomic And Task-Specific Skills
+
+Use these for focused support tasks that can appear inside larger workflows.
+
+| Skill | Primary role | Notes |
+| --- | --- | --- |
+| `how-to-write-skills` | Create or refine portable, discoverable skills | Opinionated by design |
+| `upstream-source-research` | Research upstream source code, issues, releases, and history | - |
+| `ai-edge-research` | Research upstream adoption and AI tooling signals in communities | - |
+| `writing-upstream-bug-reports` | Prepare evidence-backed upstream bug reports for maintainers | - |
+
+To install:
+
+```bash
+npx -y skills add quick-brown-foxxx/myai \
+  -s 'how-to-write-skills' \
+  -s 'upstream-source-research' \
+  -s 'ai-edge-research' \
+  -s 'writing-upstream-bug-reports'
+```
 
 ## License
 
