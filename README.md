@@ -206,7 +206,7 @@ npx -y skills add quick-brown-foxxx/myai \
 
 Use these at any stage when a specific risk or uncertainty appears.
 
-These helpers are useful when agents are losing focus or need to steer back to the task.
+These helpers are **very** useful when agents are losing focus or need to steer back to the task.
 
 | Skill | Primary role |
 | --- | --- |
@@ -314,7 +314,7 @@ Use these for focused support tasks that can appear inside larger workflows.
 
 | Skill | Primary role | Notes |
 | --- | --- | --- |
-| `how-to-write-skills` | Create or refine portable, discoverable skills | Opinionated by design |
+| `how-to-write-skills` | Create or refine portable, discoverable skills | Opinionated! |
 | `upstream-source-research` | Research upstream source code, issues, releases, and history | - |
 | `ai-edge-research` | Research upstream adoption and AI tooling signals in communities | - |
 | `writing-upstream-bug-reports` | Prepare evidence-backed upstream bug reports for maintainers | - |
