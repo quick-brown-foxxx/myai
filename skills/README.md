@@ -144,7 +144,7 @@ hardening, ideation, operations, quality, risk-reduction, root-cause,
 subagents, upstream, verification
 ```
 
-## Logical Catalog
+## Catalog
 
 The catalog lists every canonical skill once, grouped by its primary role.
 
@@ -182,6 +182,32 @@ flowchart LR
 | `incremental-implementation` | Execute thin verified slices | implementation, verification, quality |
 | `verification-before-completion` | Require evidence before success claims | implementation, verification, review, quality |
 | `git-workflow` | Manage branches, worktrees, staging, commits, and handoff | implementation, orchestration, quality |
+
+### Agent Orchestration
+
+```mermaid
+flowchart TD
+  A[plan or task batch] --> B[when-and-how-to-run-parallel-agents]
+  B --> C{independent?}
+  C -- no --> D[sequence work]
+  C -- yes --> E[executing-plans-with-subagents]
+  E --> F[integrate and verify]
+```
+
+| Skill | Primary role | Tags |
+| --- | --- | --- |
+| `when-and-how-to-run-parallel-agents` | Decide whether work can be parallelized safely | orchestration, subagents, planning |
+| `executing-plans-with-subagents` | Execute written plans through bounded subagent slices | orchestration, subagents, implementation |
+
+### Reusable Workflow Helpers
+
+Help steer other workflows and keep them focused. They can be used at any stage
+when a specific risk or uncertainty appears.
+
+| Skill | Primary role | Tags |
+| --- | --- | --- |
+| `prototype-first` | Validate risky assumptions before full implementation | planning, implementation, risk-reduction |
+| `doubt-early` | Challenge uncertain plans or decisions with fresh context | planning, review, risk-reduction |
 
 ### Testing
 
@@ -244,22 +270,6 @@ flowchart TD
 | `doing-code-review` | Review diffs, PRs, branches, and agent-written code | review, verification, quality |
 | `receiving-code-review` | Classify and handle review feedback rigorously | review, implementation, quality |
 
-### Agent Orchestration
-
-```mermaid
-flowchart TD
-  A[plan or task batch] --> B[when-and-how-to-run-parallel-agents]
-  B --> C{independent?}
-  C -- no --> D[sequence work]
-  C -- yes --> E[executing-plans-with-subagents]
-  E --> F[integrate and verify]
-```
-
-| Skill | Primary role | Tags |
-| --- | --- | --- |
-| `when-and-how-to-run-parallel-agents` | Decide whether work can be parallelized safely | orchestration, subagents, planning |
-| `executing-plans-with-subagents` | Execute written plans through bounded subagent slices | orchestration, subagents, implementation |
-
 ### Domain-Specific Skills
 
 Use these during larger workflows when the task crosses a domain boundary.
@@ -273,16 +283,6 @@ Use these during larger workflows when the task crosses a domain boundary.
 | `ci-cd-and-automation` | Configure CI/CD, quality gates, and deployment automation | domain, automation, release, operations |
 | `release-automation-small-repos` | Build small release/publishing automation repositories | domain, automation, release |
 | `shipping-and-launch` | Prepare launches, rollouts, monitoring, and rollback | domain, release, operations |
-
-### Reusable Workflow Helpers
-
-Help steer other workflows and keep them focused. They can be used at any stage
-when a specific risk or uncertainty appears.
-
-| Skill | Primary role | Tags |
-| --- | --- | --- |
-| `prototype-first` | Validate risky assumptions before full implementation | planning, implementation, risk-reduction |
-| `doubt-early` | Challenge uncertain plans or decisions with fresh context | planning, review, risk-reduction |
 
 ### Other: Atomic / Task-specific
 
