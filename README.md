@@ -2,6 +2,8 @@
 
 This repo is a personal, opinionated skill set for coding agents. It helps make AI agents more senior and trustworthy.
 
+It was created as a custom alternative to [Superpowers](https://github.com/obra/superpowers) and [addyosmani's agent skills](https://github.com/addyosmani/agent-skills).
+
 ## What This Is
 
 `myai` is a toolbox for agent-assisted software work:
