@@ -34,11 +34,21 @@ Examples of reusable habits in this repo:
 
 ## Installation
 
-**Recommended:**
+There are two installation layers:
+
+```mermaid
+flowchart TD
+  A[Install skills] --> B[Agents can discover skills on demand]
+  C[Install injector] --> D[using-my-skills is present at session start]
+  B --> E[Normal skill workflows]
+  D --> E
+```
+
+**Recommended skill installation method:**
 
 See [Catalog](#catalog) below to cherry pick needed skill sets.
 
-**Manual selection:**
+**Manual skills selection:**
 
 ```bash
 npx -y skills add quick-brown-foxxx/myai
@@ -52,6 +62,30 @@ npx -y skills add quick-brown-foxxx/myai \
   --skill "*" \
   --agent claude-code universal kilo codex opencode \
   -y
+```
+
+**Auto-injection adapters:**
+
+This helps AI agents to better understand available workflows and roles.
+
+```text
+Claude Code plugin -> injects using-my-skills via a hook
+OpenCode plugin    -> injects using-my-skills
+```
+
+For Claude Code local/plugin use, load this repository as a plugin so
+`hooks/hooks.json` runs at `SessionStart` and injects `skills/using-my-skills`.
+
+For OpenCode, add the package as a plugin or use the local `.opencode/plugins`
+file. The package entry point is `package.json -> .opencode/plugins/using-my-skills.js`.
+The plugin only injects the bootstrap; install discoverable skills separately
+with `npx skills add`. Restart OpenCode after changing plugin configuration;
+running sessions keep the old config.
+
+```json
+{
+  "plugin": ["myai@git+https://github.com/quick-brown-foxxx/myai.git"]
+}
 ```
 
 ## Useful files for humans
@@ -119,10 +153,12 @@ The engineering philosophy is about software substance:
 
 ## Catalog
 
-The repository separates reusable guidance into three layers:
+The repository separates reusable guidance into three skill/workflow layers, with
+one bootstrap layer that teaches agents how to enter them:
 
 ```mermaid
 flowchart TD
+  B[Bootstrap: using-my-skills] --> S
   M[Future mega-workflow] --> W[Composable workflows]
   W --> S[Atomic skills]
 
@@ -133,6 +169,7 @@ flowchart TD
 
 | Layer | Purpose | Current status |
 | --- | --- | --- |
+| Bootstrap | Role detection and workflow routing | `using-my-skills` plus Claude/OpenCode injectors |
 | Mega-workflow | Long-running multi-epic autonomy | Not yet ready |
 | Composable workflows | Explicit recipes made from several skills | Documented below |
 | Atomic skills | Focused task-specific capabilities | Implemented as `skills/*/SKILL.md` |
@@ -142,6 +179,30 @@ session. A human, team lead agent, or orchestrator decides the next phase.
 
 The full canonical map lives in `skills/README.md`. This root catalog is the
 install-oriented summary for quickly choosing a skill set.
+
+### Bootstrap
+
+Use this first when an agent needs to understand this skill set or when wiring
+session-start auto-injection.
+
+```mermaid
+flowchart LR
+  A[Session start] --> B[using-my-skills]
+  B --> C[Detect role]
+  C --> D[Route current phase]
+  D --> E[Load focused skill]
+```
+
+| Skill | Primary role | Notes |
+| --- | --- | --- |
+| `using-my-skills` | Bootstrap role detection and workflow routing | Auto-injected by Claude/OpenCode adapters when installed as a plugin |
+
+To install only the bootstrap skill:
+
+```bash
+npx -y skills add quick-brown-foxxx/myai \
+  -s 'using-my-skills'
+```
 
 ### Planning And Design
 

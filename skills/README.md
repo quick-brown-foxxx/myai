@@ -509,8 +509,8 @@ Current assumptions:
 - This README names canonical skills only.
 - `.agents/skills` and `.claude/skills` are generated/symlinked mirrors.
 - `hooks/session-start` injects `using-my-skills` for Claude-style plugin sessions.
-- `.opencode/plugins/using-my-skills.js` injects `using-my-skills` and registers
-  `skills/` for OpenCode plugin sessions.
+- `.opencode/plugins/using-my-skills.js` only injects `using-my-skills` for
+  OpenCode plugin sessions. Not installs skills.
 - `upd-repo-symlinks.sh` expects immediate child directories under `skills/`.
 - Nested category directories under `skills/` would currently be treated as skill
   directories by the mirror script.
