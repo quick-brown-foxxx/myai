@@ -114,6 +114,8 @@ remaining blockers, and deferred work only.
 | `high-level-testing-strategy` | done | BDD-first proof selection. |
 | `test-driven-development` | done | Red-green-refactor for chosen automated tests. |
 | `manual-testing` | done | Browser/API/CLI/infra smoke and e2e checks. |
+| `manual-interacting-with-claude-code-via-cli` | done | Claude Code CLI smoke, config/permission isolation, subagent, MCP, plugin, skill, worktree, and runtime verification. |
+| `manual-interacting-with-codex-via-cli` | done | Codex CLI smoke, sandbox/approval, config/profile isolation, MCP/plugin/skill, CI, and runtime verification. |
 | `manual-interacting-with-opencode-via-cli` | done | OpenCode CLI smoke, provider/config, runtime, and tool-call verification. |
 | `architecting-test-infra` | done | Test framework, fixtures, state isolation, service preflights. |
 
@@ -141,7 +143,7 @@ remaining blockers, and deferred work only.
 | Conflict/overlap analysis | done | Major merge/split decisions recorded above. |
 | Core philosophy | done | `ENGINEERING-PHILOSOPHY.md` written from generalized Python principles. |
 | Cross-cutting enrichers | done | `prototype-first`, `doubt-early`, `code-simplification`, `visual-mockups`. |
-| Domain skills | done | API, security, performance, CI/CD, shipping, docs. |
+| Domain skills | done | API, security, performance, CI/CD, shipping, docs, and AI CLI runtime verification. |
 | Planning pipeline | done | `idea-sharpening`, `brainstorming`, `planning-implementation`. |
 | Verification | done | `verification-before-completion`. |
 | Debugging family | done | `systematic-debugging`, `bug-root-cause-tracing`, `bug-protection-multi-layered`. |

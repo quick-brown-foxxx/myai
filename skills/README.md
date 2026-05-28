@@ -334,6 +334,8 @@ Small focused skills for specific tasks.
 | Skill | Primary role | Tags |
 | --- | --- | --- |
 | `how-to-write-skills` | Create or refine portable, discoverable skills | documentation, quality |
+| `manual-interacting-with-claude-code-via-cli` | Verify Claude Code CLI behavior with real `claude` commands | testing, verification, operations |
+| `manual-interacting-with-codex-via-cli` | Verify Codex CLI behavior with real `codex` commands | testing, verification, operations |
 | `manual-interacting-with-opencode-via-cli` | Verify OpenCode CLI behavior with real `opencode` commands | testing, verification, operations |
 | `upstream-source-research` | Research upstream source code, issues, releases, and history | research, upstream |
 | `ai-edge-research` | Research current practitioner adoption and AI tooling signals | research |

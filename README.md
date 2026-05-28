@@ -405,6 +405,8 @@ Use these for focused support tasks that can appear inside larger workflows.
 | Skill | Primary role | Notes |
 | --- | --- | --- |
 | `how-to-write-skills` | Create or refine portable, discoverable skills | Opinionated! |
+| `manual-interacting-with-claude-code-via-cli` | Verify Claude Code CLI behavior with real `claude` commands | - |
+| `manual-interacting-with-codex-via-cli` | Verify Codex CLI behavior with real `codex` commands | - |
 | `manual-interacting-with-opencode-via-cli` | Verify OpenCode CLI behavior with real `opencode` commands | - |
 | `upstream-source-research` | Research upstream source code, issues, releases, and history | - |
 | `ai-edge-research` | Research upstream adoption and AI tooling signals in communities | - |
@@ -415,6 +417,8 @@ To install:
 ```bash
 npx -y skills add quick-brown-foxxx/myai \
   -s 'how-to-write-skills' \
+  -s 'manual-interacting-with-claude-code-via-cli' \
+  -s 'manual-interacting-with-codex-via-cli' \
   -s 'manual-interacting-with-opencode-via-cli' \
   -s 'upstream-source-research' \
   -s 'ai-edge-research' \
