@@ -127,6 +127,7 @@ Shared workflow tags:
 
 | Workflow area | Shared tag | Core skills |
 | --- | --- | --- |
+| Bootstrap / Routing | `bootstrap` | `using-my-skills` |
 | Planning / Ideation | `planning` | `idea-sharpening`, `brainstorming`, `planning-implementation` |
 | Implementation loop | `implementation` | `incremental-implementation`, `verification-before-completion`, `git-workflow` |
 | Testing | `testing` | `high-level-testing-strategy`, `architecting-test-infra`, `test-driven-development`, `manual-testing` |
@@ -147,6 +148,33 @@ subagents, upstream, verification
 ## Catalog
 
 The catalog lists every canonical skill once, grouped by its primary role.
+
+### Bootstrap And Routing
+
+`using-my-skills` is the compact session bootstrap. It teaches role detection,
+right-sized ceremony, workflow routing, and the completion-evidence invariant.
+It intentionally does not duplicate the full catalog.
+
+```mermaid
+flowchart TD
+  A[Session starts] --> B[using-my-skills injected or loaded]
+  B --> C[Detect role]
+  C --> D[Teamlead / orchestrator / teammate / subagent]
+  D --> E[Route to the workflow needed now]
+  E --> F[Load relevant skills]
+```
+
+Auto-injection is handled outside the skill file:
+
+```text
+Claude-style agents -> hooks/session-start -> skills/using-my-skills/SKILL.md
+OpenCode            -> .opencode/plugins/using-my-skills.js -> skills/using-my-skills/SKILL.md
+Plain skill install -> agent loads using-my-skills on demand
+```
+
+| Skill | Primary role | Tags |
+| --- | --- | --- |
+| `using-my-skills` | Bootstrap role detection and route common intents to local workflow skills | bootstrap, orchestration, planning |
 
 ### Planning And Design
 
@@ -480,6 +508,9 @@ Current assumptions:
 - `skills/` is the canonical source.
 - This README names canonical skills only.
 - `.agents/skills` and `.claude/skills` are generated/symlinked mirrors.
+- `hooks/session-start` injects `using-my-skills` for Claude-style plugin sessions.
+- `.opencode/plugins/using-my-skills.js` injects `using-my-skills` and registers
+  `skills/` for OpenCode plugin sessions.
 - `upd-repo-symlinks.sh` expects immediate child directories under `skills/`.
 - Nested category directories under `skills/` would currently be treated as skill
   directories by the mirror script.
