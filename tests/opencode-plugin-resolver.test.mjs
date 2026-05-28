@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import {
   debugEnvVar,
   resolveBootstrapSkill,
-} from '../.opencode/plugins/using-my-skills.js';
+} from '../.opencode/plugins/using-my-skills-core.js';
 
 test('resolver prefers OPENCODE_CONFIG_DIR skill over bundled fallback and logs the selected source', async (t) => {
   /*

@@ -60,6 +60,7 @@ test('smoke: packed GPT-5 style helper plugin injects style helper through real 
   const { packedFiles } = installed;
   const gpt5StyleEntry = installed.resolvePackage('myai/gpt5-style-helper');
   assert.ok(packedFiles.includes('.opencode/plugins/gpt5-style-helper/index.js'));
+  assert.ok(packedFiles.includes('.opencode/plugins/gpt5-style-helper/core.js'));
   assert.ok(packedFiles.includes('.opencode/plugins/gpt5-style-helper/style-helper.md'));
   assert.ok(packedFiles.includes('.opencode/plugins/gpt5-style-helper/style-reminder.md'));
   assert.ok(gpt5StyleEntry.startsWith(path.join(tempDir, 'app')));
