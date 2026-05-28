@@ -1,6 +1,6 @@
 # myai
 
-This repo is a personal, opinionated skill set for coding agents. It helps make AI agents more senior and trustworthy.
+This repo is a personal, opinionated skill and settings set for coding agents. It helps make AI agents more senior and trustworthy.
 
 It was created as a custom alternative to [Superpowers](https://github.com/obra/superpowers) and [addyosmani's agent skills](https://github.com/addyosmani/agent-skills).
 
@@ -14,7 +14,7 @@ It was created as a custom alternative to [Superpowers](https://github.com/obra/
 
 Those skills are distilled from personal experience in software development, problem solving and AI orchestration. This helps reduce babysitting and align agent solutions with the author's preferences.
 
-> NOTE! This repo contains opinionated rules. You might find them useful or not aligned with your preferences. Cherry pick and modify if needed.
+> NOTE! This repo contains opinionated coding rules. Senior engineers may disagree with some of them. For other users, especially non-engineers, this repo is a good default and can be used as-is. Anyway, cherry pick and modify if needed.
 
 ## Why Use It
 
@@ -34,21 +34,22 @@ Examples of reusable habits in this repo:
 
 ## Installation
 
-There are two installation layers:
+There are multiple installation layers:
 
 ```mermaid
 flowchart TD
   A[Install skills] --> B[Agents can discover skills on demand]
-  C[Install injector] --> D[using-my-skills is present at session start]
+  C[Install injector] --> D[using-my-skills helper is present at session start]
   B --> E[Normal skill workflows]
   D --> E
+  F[Additonal hooks/plugins] --> G[Help with specific tasks]
 ```
 
 ### Recommended Skills Installation Method
 
 See [Catalog](#catalog) below to cherry pick needed skill sets.
 
-## Manual Skills Selection
+### Manual Skills Selection
 
 ```bash
 npx -y skills add quick-brown-foxxx/myai
@@ -64,7 +65,7 @@ npx -y skills add quick-brown-foxxx/myai \
   -y
 ```
 
-### Auto-Injection Adapters For Skills Guide
+### Auto-Injection For Skills Guide
 
 This helps AI agents to better understand available workflows and roles.
 
@@ -77,8 +78,6 @@ TODO
 
 #### Opencode
 
-TODO test
-
 Add this to `opencode.json`:
 
 ```json
@@ -86,6 +85,8 @@ Add this to `opencode.json`:
   "plugin": ["myai@git+https://github.com/quick-brown-foxxx/myai.git"]
 }
 ```
+
+Restart OpenCode after changing plugin config.
 
 #### Other Tools
 
@@ -96,6 +97,18 @@ reliable than the auto-injection.
 npx -y skills add quick-brown-foxxx/myai \
   -s 'using-my-skills'
 ```
+
+### Additional Hooks And Plugins
+
+| Plugin | Path | Notes |
+| --- | --- | --- |
+| OpenCode GPT-5 style helper | `.opencode/plugins/gpt5-style-helper/index.js` | Adds GPT-5-only style guidance and periodic reminders. |
+
+#### OpenCode: GPT-5 Style Guide Hook
+
+TODO
+
+Restart OpenCode after changing plugin files or config.
 
 ## Useful files for humans
 
