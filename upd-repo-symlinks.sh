@@ -12,11 +12,18 @@ for target_dir in "$REPO_ROOT/.agents/skills" "$REPO_ROOT/.claude/skills"; do
     link="$target_dir/$skill_name"
     rel_target="../../skills/$skill_name"
 
-    if [ -L "$link" ] && [ "$(readlink "$link")" = "$rel_target" ]; then
-      continue
+    if [ -L "$link" ]; then
+      if [ "$(readlink "$link")" = "$rel_target" ]; then
+        continue
+      fi
+
+      rm "$link"
+    elif [ -e "$link" ]; then
+      echo "Refusing to replace non-symlink mirror path: $link" >&2
+      exit 1
     fi
 
-    ln -sfn "$rel_target" "$link"
+    ln -s "$rel_target" "$link"
     echo "  $link -> $rel_target"
   done
 done
