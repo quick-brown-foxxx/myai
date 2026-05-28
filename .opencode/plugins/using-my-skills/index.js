@@ -5,7 +5,7 @@
  * exported value from a plugin module and rejects non-function exports.
  */
 
-import { getBootstrapContent, marker } from './using-my-skills-core.js';
+import { getBootstrapContent, marker } from './core.js';
 
 export const UsingMySkillsPlugin = async (input = {}) => {
   let mergedConfig = {};

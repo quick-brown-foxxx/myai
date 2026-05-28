@@ -62,8 +62,9 @@ test('smoke: packed using-my-skills plugin injects bootstrap through real openco
   const installed = await packAndInstallPlugin(repoRoot, tempDir);
   const { packedFiles } = installed;
   const bootstrapEntry = installed.resolvePackage('myai');
-  assert.ok(packedFiles.includes('.opencode/plugins/using-my-skills.js'));
-  assert.ok(packedFiles.includes('.opencode/plugins/using-my-skills-core.js'));
+  assert.ok(packedFiles.includes('.opencode/plugins/index.js'));
+  assert.ok(packedFiles.includes('.opencode/plugins/using-my-skills/index.js'));
+  assert.ok(packedFiles.includes('.opencode/plugins/using-my-skills/core.js'));
   assert.ok(packedFiles.includes('skills/using-my-skills/SKILL.md'));
   assert.ok(bootstrapEntry.startsWith(path.join(tempDir, 'app')));
 

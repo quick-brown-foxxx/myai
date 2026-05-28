@@ -65,12 +65,20 @@ npx -y skills add quick-brown-foxxx/myai \
   -y
 ```
 
-### Auto-Injection For Skills Guide
+### Additional Hooks
+
+**myai skills guide injector:**
 
 This helps AI agents to better understand available workflows and roles.
 
 > NOTE! This guide skill expects all skills from this repo to be installed.
 > Edit `using-my-skills` skill to adjust to your installed skills.
+
+**gpt5-style helper:**
+
+Injects a style guide into system prompt and repeats it from time to time.
+Is needed because gpt-5* models family have very poor
+default text/documentation writing style.
 
 #### Claude Code
 
@@ -80,9 +88,18 @@ TODO
 
 Add this to `opencode.json`:
 
-```json
+```jsonc
 {
-  "plugin": ["myai@git+https://github.com/quick-brown-foxxx/myai.git"]
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    [
+      "myai@git+https://github.com/quick-brown-foxxx/myai.git",
+      {
+        "usingMySkills": { "enabled": true }, // myai skills guide auto injection
+        "gpt5StyleHelper": { "enabled": true } // writing style for gpt-5*
+      }
+    ]
+  ]
 }
 ```
 
@@ -98,15 +115,7 @@ npx -y skills add quick-brown-foxxx/myai \
   -s 'using-my-skills'
 ```
 
-### Additional Hooks And Plugins
-
-| Plugin | Path | Notes |
-| --- | --- | --- |
-| OpenCode GPT-5 style helper | `.opencode/plugins/gpt5-style-helper/index.js` | Adds GPT-5-only style guidance and periodic reminders. |
-
-#### OpenCode: GPT-5 Style Guide Hook
-
-TODO
+> No alternative installation methods for `gpt5-style helper` now.
 
 Restart OpenCode after changing plugin files or config.
 

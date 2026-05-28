@@ -112,12 +112,17 @@ export async function packAndInstallPlugin(repoRoot, tempDir) {
 }
 
 export function makeOpenCodeConfig(pluginEntries) {
+  const plugin = pluginEntries.map((entry) => {
+    if (Array.isArray(entry)) return [`file://${entry[0]}`, entry[1]];
+    return `file://${entry}`;
+  });
+
   return JSON.stringify({
     $schema: 'https://opencode.ai/config.json',
     share: 'disabled',
     autoupdate: false,
     snapshot: false,
-    plugin: pluginEntries.map((entry) => `file://${entry}`),
+    plugin,
     permission: {
       bash: 'deny',
       edit: 'deny',

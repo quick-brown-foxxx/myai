@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import {
   debugEnvVar,
   resolveBootstrapSkill,
-} from '../.opencode/plugins/using-my-skills-core.js';
+} from '../.opencode/plugins/using-my-skills/core.js';
 
 test('resolver prefers OPENCODE_CONFIG_DIR skill over bundled fallback and logs the selected source', async (t) => {
   /*
@@ -119,6 +119,28 @@ test('resolver honors external and project-config disable flags', async (t) => {
 
   assert.equal(resolved?.path, bundled);
   assert.match(resolved?.content ?? '', /BUNDLED_MARKER/);
+});
+
+test('resolver default bundled path follows the moved using-my-skills plugin directory', () => {
+  /*
+  Scenario: The using-my-skills plugin entrypoint lives in its own subdirectory
+    Given no installed skills are available
+    When the resolver uses its built-in bundled fallback path
+    Then it still finds the repository's canonical using-my-skills skill
+  */
+  const resolved = resolveBootstrapSkill({
+    cwd: process.cwd(),
+    worktree: process.cwd(),
+    env: {
+      HOME: path.join(os.tmpdir(), 'myai-empty-home'),
+      XDG_CONFIG_HOME: path.join(os.tmpdir(), 'myai-empty-config'),
+      OPENCODE_DISABLE_PROJECT_CONFIG: '1',
+      OPENCODE_DISABLE_EXTERNAL_SKILLS: '1',
+    },
+    config: {},
+  });
+
+  assert.ok(resolved?.path.endsWith(path.join('skills', 'using-my-skills', 'SKILL.md')));
 });
 
 async function makeTempRoot(t) {

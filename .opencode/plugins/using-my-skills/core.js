@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const skillsDir = path.resolve(__dirname, '../../skills');
+const skillsDir = path.resolve(__dirname, '../../../skills');
 const skillName = 'using-my-skills';
 const bundledSkillPath = path.join(skillsDir, skillName, 'SKILL.md');
 

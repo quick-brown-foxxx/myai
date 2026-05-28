@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { createGpt5StyleHelperPlugin } from '../.opencode/plugins/gpt5-style-helper/core.js';
-import { UsingMySkillsPlugin } from '../.opencode/plugins/using-my-skills.js';
+import { UsingMySkillsPlugin } from '../.opencode/plugins/using-my-skills/index.js';
 
 // Hook behavior verified against OpenCode 1.15.0.
 

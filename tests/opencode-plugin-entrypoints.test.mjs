@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 
 test('OpenCode plugin entrypoints export only plugin functions', async () => {
   const modules = [
-    await import('../.opencode/plugins/using-my-skills.js'),
+    await import('../.opencode/plugins/index.js'),
+    await import('../.opencode/plugins/using-my-skills/index.js'),
     await import('../.opencode/plugins/gpt5-style-helper/index.js'),
   ];
 

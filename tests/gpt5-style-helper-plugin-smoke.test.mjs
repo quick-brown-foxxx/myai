@@ -24,12 +24,12 @@ const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'
 
 // Real CLI smoke currently verifies against OpenCode 1.15.0.
 
-test('smoke: packed GPT-5 style helper plugin injects style helper through real opencode CLI', { timeout: 180_000 }, async (t) => {
+test('smoke: packed root router enables GPT-5 style helper through real opencode CLI', { timeout: 180_000 }, async (t) => {
   /*
-  Scenario: OpenCode loads the installed GPT-5 style helper as a separate plugin
+  Scenario: OpenCode loads the installed myai root plugin with GPT-5 helper enabled
     Given a local machine with an existing OpenCode auth file
     And no global/project OpenCode config, skills, plugins, sessions, or cache are reused
-    When real opencode run executes with only the GPT-5 helper plugin available
+    When real opencode run executes with the packed myai root plugin and gpt5StyleHelper enabled
     Then GPT-5 models see the MYAI_GPT5_STYLE_HELPER marker injected by the plugin
   */
   if (process.env.CI) {
@@ -58,20 +58,22 @@ test('smoke: packed GPT-5 style helper plugin injects style helper through real 
 
   const installed = await packAndInstallPlugin(repoRoot, tempDir);
   const { packedFiles } = installed;
-  const gpt5StyleEntry = installed.resolvePackage('myai/gpt5-style-helper');
+  const rootEntry = installed.resolvePackage('myai');
+  assert.ok(packedFiles.includes('.opencode/plugins/index.js'));
   assert.ok(packedFiles.includes('.opencode/plugins/gpt5-style-helper/index.js'));
   assert.ok(packedFiles.includes('.opencode/plugins/gpt5-style-helper/core.js'));
   assert.ok(packedFiles.includes('.opencode/plugins/gpt5-style-helper/style-helper.md'));
   assert.ok(packedFiles.includes('.opencode/plugins/gpt5-style-helper/style-reminder.md'));
-  assert.ok(gpt5StyleEntry.startsWith(path.join(tempDir, 'app')));
+  assert.ok(rootEntry.startsWith(path.join(tempDir, 'app')));
 
-  const config = makeOpenCodeConfig([gpt5StyleEntry]);
+  const pluginEntry = [`file://${rootEntry}`, { gpt5StyleHelper: { enabled: true } }];
+  const config = makeOpenCodeConfig([[rootEntry, { gpt5StyleHelper: { enabled: true } }]]);
   const env = makeIsolatedEnv(config, dirs);
   const debugConfig = await runJson(opencode, ['debug', 'config'], { env });
 
-  assert.deepEqual(debugConfig.plugin, [`file://${gpt5StyleEntry}`]);
+  assert.deepEqual(debugConfig.plugin, [pluginEntry]);
   assert.deepEqual(debugConfig.plugin_origins, [{
-    spec: `file://${gpt5StyleEntry}`,
+    spec: pluginEntry,
     source: 'OPENCODE_CONFIG_CONTENT',
     scope: 'local',
   }]);
