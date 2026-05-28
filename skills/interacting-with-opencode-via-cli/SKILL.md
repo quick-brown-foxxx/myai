@@ -17,71 +17,63 @@ metadata:
 
 Workflow skill for evidence-based manual verification through real `opencode` commands.
 
-This skill is not about writing a plugin or provider. It is about preparing a real `opencode`
-scenario, running it, collecting evidence, and classifying failures correctly.
+Use this as a companion to `manual-testing` when runtime proof depends on OpenCode CLI behavior.
 
-Use this as a focused companion to `manual-testing` when the runtime proof specifically depends on OpenCode CLI behavior.
+References:
 
-Useful references:
+- CLI: `https://opencode.ai/docs/cli/`
+- Config: `https://opencode.ai/docs/config/`
+- Schema: `https://opencode.ai/config.json`
+- Providers: `https://opencode.ai/docs/providers/`
+- Plugins: `https://opencode.ai/docs/plugins/`
+- Tools: `https://opencode.ai/docs/tools/`
+- Skills: `https://opencode.ai/docs/skills/`
+- Server/events: `https://opencode.ai/docs/server/`
 
-- OpenCode CLI: `https://opencode.ai/docs/cli/`
-- OpenCode config: `https://opencode.ai/docs/config/`
-- OpenCode config schema: `https://opencode.ai/config.json`
-- OpenCode providers: `https://opencode.ai/docs/providers/`
-- OpenCode plugins: `https://opencode.ai/docs/plugins/`
-- OpenCode tools: `https://opencode.ai/docs/tools/`
-- OpenCode skills: `https://opencode.ai/docs/skills/`
-- OpenCode server/events: `https://opencode.ai/docs/server/`
+## Core Rule
 
-## Core Principle
+Choose isolation by scenario, not by habit.
 
-- Decide what you are testing before choosing isolation.
 - Preserve user OpenCode setup when OpenCode is only a helper agent.
-- Isolate aggressively when testing or debugging OpenCode behavior, plugins, skills, or config semantics.
-- Bootstrap explicitly in CI because there is usually no user config, auth, or session state.
-- `opencode models` proves discovery only.
-- `opencode run` is required for runtime compatibility.
-- If tools matter, run a dedicated tool-call smoke.
+- Isolate aggressively when testing OpenCode behavior, plugins, skills, providers, permissions, or config semantics.
+- Bootstrap explicitly in CI because there is usually no useful user config, auth, or session state.
+- `opencode models` proves discovery only; `opencode run` proves runtime compatibility.
+- If skills or tools matter, prove actual `tool_use` in JSON or logs.
 - Never claim compatibility without fresh command output.
 
 ## Scenario Matrix
 
-Choose isolation granularly. There is no universal "always isolate" rule.
-
-| Scenario | Default posture | Typical command shape |
+| Scenario | Default posture | Typical command |
 | --- | --- | --- |
-| Use OpenCode as a helper agent for a separate task | Preserve user config, wrapper, skills, plugins, auth, and normal defaults; optionally run in a clean directory | `opencode run --dir "." ...` |
-| Get a less project-biased helper answer | Preserve user/global setup, but use a temp working directory or minimal task directory | `opencode run --dir "$tmp/project" ...` |
-| Test OpenCode itself, a plugin, provider wiring, config behavior, permissions, or isolated skill loading | Use raw/pinned binary and strict temp config/project/session isolation | `HOME="$tmp/home" OPENCODE_CONFIG_DIR="$tmp/config" "$OPENCODE_BIN" ...` |
-| Reproduce a user-specific issue | Preserve the suspected user/project layers, then remove one layer at a time | start from the failing command |
-| CI/CD or GitHub automation | Fresh install plus explicit config, auth env, model, permissions, and working directory | `npm exec -- opencode run ...` |
-| Provider runtime smoke while keeping paid auth | Preserve provider auth only when needed; isolate unrelated prompts, skills, project config, and sessions | temp `XDG_CONFIG_HOME`, temp `OPENCODE_CONFIG_DIR`, real provider env/auth |
+| Helper agent for a separate task | Preserve user wrapper, config, auth, plugins, skills, agents, and defaults | `opencode run --dir <dir> ...` |
+| Less project-biased helper answer | Preserve user/global setup, but use a temp or minimal `--dir` | `opencode run --dir "$tmp/project" ...` |
+| OpenCode/plugin/provider/config/permission behavior test | Use raw or pinned OpenCode plus temp config, project, and session state | `HOME="$tmp/home" "$OPENCODE_BIN" ...` |
+| Skill loading test | Choose installed-skill smoke or isolated lab; prove `skill` tool use | `opencode debug skill` or strict env |
+| User-specific repro | Start from the exact failing command, then remove layers one at a time | original command first |
+| CI/CD or GitHub automation | Fresh install plus explicit model, auth env, permissions, config, and `--dir` | `npm exec -- opencode run ...` |
+| Provider smoke with paid auth | Preserve provider auth only; isolate unrelated config and project influence | temp `XDG_CONFIG_HOME` and `OPENCODE_CONFIG_DIR` |
 
-## Quick Scenario Choice
+## Scenario Router
 
-Pick the sections that match the task. Sections can be combined.
+- Local plugin file or plugin entrypoint: use **Checking A Local Plugin**.
+- NPM plugin package in `plugin`: use **Isolation Building Blocks**, then generic/tool smoke.
+- `provider` config block: use **Checking Through Provider Config**.
+- OpenCode as separate AI worker: use **Helper Agent Runs**.
+- Clean OpenCode install or behavior test: use **Strict Isolation Runs**.
+- Skill loading/following: use **Testing Skills Through OpenCode**.
+- CI, GitHub automation, or fresh install: use **CI And Fresh Install Runs**.
+- Text generation only: use **Checking A Generic Run**.
+- Tool compatibility: add **Checking Tool Calls**.
 
-- If the task mentions a local plugin file, plugin directory loading, or plugin entrypoint path, use **Checking A Local Plugin**.
-- If the task mentions npm plugin packages configured through the `plugin` array, start with **Isolation Building Blocks** and then use **Checking A Generic Run** or **Checking Tool Calls** as needed.
-- If the task mentions the `provider` config block, use **Checking Through Provider Config**.
-- If the task asks OpenCode to help with a separate task, use **Using OpenCode As A Helper Agent**.
-- If the task asks for a clean OpenCode install or behavior test, use **Strict Isolation For OpenCode Behavior Work**.
-- If the task asks whether a skill loads or is followed, use **Testing Skills Through OpenCode**.
-- If the task is CI, GitHub automation, or a fresh environment, use **CI And Fresh Install Runs**.
-- If the task asks whether generation works end-to-end, use **Checking A Generic Run**.
-- If the task asks whether tools work, or whether the model can call tools through `opencode`, add **Checking Tool Calls**.
+## Command Selection
 
-## Choosing The OpenCode Command
+First decide whether user customization belongs in the run.
 
-First decide whether user customization is part of the desired run.
+- Helper-agent work should usually use the user's normal `opencode` command, including wrappers.
+- OpenCode behavior tests should bypass wrappers and use raw or pinned OpenCode.
+- User-specific repros should start with the exact user command, then compare against raw or pinned OpenCode.
 
-- For helper-agent work, the user's wrapper may be exactly the right command because it loads the user's models, skills, plugins, env, and preferences.
-- For OpenCode behavior tests, bypass wrappers and use a raw or pinned command.
-- For reproducing user bugs, start with the exact user command, then compare against raw/pinned OpenCode.
-
-`opencode` on `PATH` may be an alias, shell function, shim, or local wrapper that injects user-specific env vars, permissions, plugins, or prompts.
-
-Minimum check:
+Quick inspection:
 
 ```bash
 type -a opencode
@@ -89,71 +81,54 @@ readlink -f "$(command -v opencode)"
 opencode --version
 ```
 
-If isolation matters and the first path is a wrapper script, inspect enough to know whether it sources user env files or sets `OPENCODE_CONFIG_CONTENT`, `OPENCODE_PERMISSION`, `HOME`, provider keys, plugins, or custom flags. Use a lower-level command instead, for example a package-manager shim or resolved package binary:
+If isolation matters and `opencode` is a wrapper, inspect enough to know whether it sources env files or sets `OPENCODE_CONFIG_CONTENT`, `OPENCODE_PERMISSION`, `HOME`, provider keys, plugins, or custom flags. Then use a raw command:
 
 ```bash
 OPENCODE_BIN=/absolute/path/to/raw/opencode
 "$OPENCODE_BIN" --version
 ```
 
-For reproducible project tests, prefer pinning OpenCode in the project and running the local binary:
+For reproducible project tests, pin OpenCode locally:
 
 ```bash
 npm install --save-dev opencode-ai@<version>
 npm exec -- opencode --version
 ```
 
-Avoid shell aliases and user wrappers for OpenCode behavior tests unless the wrapper itself is what you are testing. Do not bypass them for helper-agent runs unless there is a concrete reason.
-
 ## Isolation Building Blocks
 
-Use these as building blocks. Do not apply all of them blindly.
+OpenCode merges configuration; overrides do not reset other layers.
 
-See config docs: `https://opencode.ai/docs/config/`
-
-OpenCode merges configuration instead of replacing it. The important layers are:
-
-| Layer | How to isolate |
+| Layer | Isolation control |
 | --- | --- |
-| Working directory | Use `--dir "$tmp/project"` to avoid accidental project instructions/config while keeping user global setup |
-| Global config | Set `XDG_CONFIG_HOME` to a temp directory, or set `HOME` to a temp directory for stronger isolation |
-| Custom config file | Set `OPENCODE_CONFIG=/tmp/.../opencode.json`; remember this is a merge layer, not a reset |
-| Config directory assets | Set `OPENCODE_CONFIG_DIR=/tmp/.../config` for temp `agents/`, `commands/`, `plugins/`, `skills/`, and config files |
-| Project config and `.opencode` | Run in a temp project dir or set `OPENCODE_DISABLE_PROJECT_CONFIG=1` when supported |
-| Inline override | Set `OPENCODE_CONFIG_CONTENT` for final task-specific overrides |
-| External skills | Set `OPENCODE_DISABLE_EXTERNAL_SKILLS=1`; add `OPENCODE_DISABLE_CLAUDE_CODE_SKILLS=1` for Claude-compatible skill paths when needed |
-| External plugins | Use `--pure` or `OPENCODE_PURE=1` when the plugin under test is not loaded through that mechanism |
-| Session/data/cache | Set `HOME` to a temp directory for strongest isolation, or set XDG data/state/cache vars when preserving real `HOME` |
+| Working directory | `--dir "$tmp/project"` avoids accidental project context while preserving user global setup |
+| Global config | temp `XDG_CONFIG_HOME`, or temp `HOME` for stronger isolation |
+| Custom config file | `OPENCODE_CONFIG=/tmp/.../opencode.json`; merge layer, not reset |
+| Config directory assets | `OPENCODE_CONFIG_DIR=/tmp/.../config` for temp `agents/`, `commands/`, `plugins/`, `skills/`, config files |
+| Project config and `.opencode` | temp project dir or `OPENCODE_DISABLE_PROJECT_CONFIG=1` when supported |
+| Inline final override | `OPENCODE_CONFIG_CONTENT='{"share":"disabled"}'` |
+| External skills | `OPENCODE_DISABLE_EXTERNAL_SKILLS=1`; add `OPENCODE_DISABLE_CLAUDE_CODE_SKILLS=1` for Claude-compatible skill paths |
+| External plugins | `--pure` or `OPENCODE_PURE=1` when the plugin under test is not loaded that way |
+| Session/data/cache | temp `HOME`, or XDG data/state/cache vars when preserving real `HOME` |
 
-Minimal config content for strict or CI runs:
+Minimal strict/CI config:
 
 ```json
 {
   "$schema": "https://opencode.ai/config.json",
   "share": "disabled",
   "autoupdate": false,
-  "snapshot": false,
+  "snapshot": false
 }
 ```
 
-Then add only the minimum task-specific config:
+Add only task-specific config: `plugin`, `provider`, `skills.paths`, `permission`, `model`, `small_model`, or `mcp`. Do not confuse config key `provider` with server API paths such as `/config/providers`.
 
-- `plugin: [...]` for npm plugin packages
-- `provider: {...}` for provider wiring checks
-- `skills.paths` or files under `OPENCODE_CONFIG_DIR/skills` for skill checks
-- `permission` rules for tool and skill allowlists
+## Helper Agent Runs
 
-Important: a temporary config file or `OPENCODE_CONFIG` override does not automatically disable project config discovered from the current working directory. If strong isolation matters, run outside the project tree or explicitly disable project config.
+Use this when OpenCode is just another AI helper running a separate task.
 
-Keep the config isolated from the repository unless the task explicitly requires editing a checked-in config.
-
-## Using OpenCode As A Helper Agent
-
-Use this when OpenCode is just another AI helper running a separate task from the CLI.
-
-Default posture: preserve the user's normal OpenCode setup. That includes wrapper scripts, global config, provider auth, installed plugins, installed skills, agents, and personal defaults. This is usually the point: the user configured OpenCode to behave well.
-
-Basic pattern:
+Default: preserve user wrapper, global config, auth, plugins, skills, agents, and defaults.
 
 ```bash
 tmp="$(mktemp -d /tmp/opencode-helper.XXXXXX)"
@@ -162,64 +137,26 @@ opencode run --dir "$tmp" \
   -m <provider/model> --format json
 ```
 
-Use a clean `--dir` when you do not want the current repository's project config, instructions, sessions, or files to affect the helper. Use the real project directory when the helper should inspect that project.
+Use a temp `--dir` when the helper should not inherit the current repo's project config or files. Use the real project directory when the helper should inspect it.
 
-Add only task-specific overrides when needed:
+Optional narrow override:
 
 ```bash
-tmp="$(mktemp -d /tmp/opencode-helper.XXXXXX)"
 OPENCODE_CONFIG_CONTENT='{"share":"disabled"}' \
-opencode run --dir "$tmp" \
-  "Answer using the installed tools and skills when useful: <task>" \
-  -m <provider/model> --format json
+opencode run --dir "$tmp" "<task>" -m <provider/model> --format json
 ```
 
-Do not use temp `HOME`, `OPENCODE_DISABLE_EXTERNAL_SKILLS`, or raw-binary bypasses here unless the task specifically needs less user customization.
+Do not use temp `HOME`, skill-disable env vars, or raw-binary bypasses unless the task specifically needs less user customization.
 
-## Strict Isolation For OpenCode Behavior Work
+## Strict Isolation Runs
 
-Use this when editing OpenCode itself, modifying/testing OpenCode plugins, testing provider/config semantics, checking permissions, or verifying skill discovery/loading behavior. Here the goal is a clean install-like run that is free from user configuration except provider credentials when intentionally preserved.
+Use this when editing OpenCode itself, modifying/testing plugins, checking provider/config semantics, permissions, or isolated skill behavior.
 
-Strong isolation pattern:
+Create a reusable wrapper once, then run all checks through it:
 
 ```bash
 tmp="$(mktemp -d /tmp/opencode-clean.XXXXXX)"
 mkdir -p "$tmp/home" "$tmp/project" "$tmp/config"
-HOME="$tmp/home" \
-XDG_CONFIG_HOME="$tmp/home/.config" \
-XDG_DATA_HOME="$tmp/home/.local/share" \
-XDG_STATE_HOME="$tmp/home/.local/state" \
-XDG_CACHE_HOME="$tmp/home/.cache" \
-OPENCODE_CONFIG_DIR="$tmp/config" \
-OPENCODE_DISABLE_EXTERNAL_SKILLS=1 \
-OPENCODE_DISABLE_CLAUDE_CODE_SKILLS=1 \
-OPENCODE_CONFIG_CONTENT='{"$schema":"https://opencode.ai/config.json","share":"disabled","autoupdate":false,"snapshot":false,"formatter":false,"lsp":false}' \
-"$OPENCODE_BIN" run --dir "$tmp/project" \
-  "Reply with exactly one word: ok" \
-  -m <provider/model> --format json --print-logs --log-level DEBUG
-```
-
-Provider-preserving isolation pattern:
-
-```bash
-tmp="$(mktemp -d /tmp/opencode-clean.XXXXXX)"
-mkdir -p "$tmp/project" "$tmp/config" "$tmp/xdg-config"
-XDG_CONFIG_HOME="$tmp/xdg-config" \
-OPENCODE_CONFIG_DIR="$tmp/config" \
-OPENCODE_DISABLE_PROJECT_CONFIG=1 \
-OPENCODE_DISABLE_EXTERNAL_SKILLS=1 \
-OPENCODE_DISABLE_CLAUDE_CODE_SKILLS=1 \
-OPENCODE_CONFIG_CONTENT='{"$schema":"https://opencode.ai/config.json","share":"disabled","autoupdate":false,"snapshot":false,"formatter":false,"lsp":false}' \
-"$OPENCODE_BIN" run --dir "$tmp/project" \
-  "Reply with exactly one word: ok" \
-  -m <provider/model> --format json --print-logs --log-level DEBUG
-```
-
-Use the provider-preserving pattern when the machine already has working paid-provider auth in `~/.local/share/opencode/auth.json` or provider env vars and the task is not about credentials. Use stronger `HOME` isolation when you are testing config or skill behavior and no real auth is needed.
-
-Before trusting the run, verify the resolved setup:
-
-```bash
 oc_isolated() {
   HOME="$tmp/home" \
   XDG_CONFIG_HOME="$tmp/home/.config" \
@@ -229,35 +166,35 @@ oc_isolated() {
   OPENCODE_CONFIG_DIR="$tmp/config" \
   OPENCODE_DISABLE_EXTERNAL_SKILLS=1 \
   OPENCODE_DISABLE_CLAUDE_CODE_SKILLS=1 \
-  OPENCODE_CONFIG_CONTENT='{"$schema":"https://opencode.ai/config.json","share":"disabled","autoupdate":false,"snapshot":false,"formatter":false,"lsp":false}' \
+  OPENCODE_CONFIG_CONTENT='{"$schema":"https://opencode.ai/config.json","share":"disabled","autoupdate":false,"snapshot":false}' \
   "$OPENCODE_BIN" "$@"
 }
 
 oc_isolated debug paths
 oc_isolated debug config
 oc_isolated debug skill
+oc_isolated run --dir "$tmp/project" \
+  "Reply with exactly one word: ok" \
+  -m <provider/model> --format json --print-logs --log-level DEBUG
 ```
 
-Run those commands with the same env and working directory as the smoke test.
+If real paid-provider auth is needed, preserve only provider auth sources (`~/.local/share/opencode/auth.json` or provider env vars) and still isolate unrelated config, project context, skills, plugins, and sessions. If changing `HOME` breaks `opencode`, you are probably still using a wrapper.
 
 ## CI And Fresh Install Runs
 
-Use this for CI, GitHub automation, release checks, or any environment where OpenCode starts with no useful user state.
+Use this for CI, GitHub automation, release checks, or fresh environments.
 
-Default posture: bootstrap everything needed explicitly.
+CI must explicitly provide:
 
-CI checklist:
+- OpenCode install or pinned version
+- provider credentials through secrets or env, never logs
+- model via config or `-m <provider/model>`
+- non-interactive permissions
+- working directory with `--dir`
+- sharing/autoupdate disabled unless intentionally needed
+- JSON/log artifacts when debugging
 
-- install or pin `opencode-ai`
-- provide provider credentials through CI secrets or job environment
-- write a minimal `opencode.json` or set `OPENCODE_CONFIG_CONTENT`
-- set `model` or pass `-m <provider/model>`
-- define permissions intentionally; CI should not rely on interactive prompts
-- run in a checked-out project directory only when the task needs the project
-- disable sharing and autoupdate unless the workflow explicitly needs them
-- save command output or JSON events as CI artifacts when debugging
-
-Example shape:
+Example:
 
 ```bash
 npm install --no-save opencode-ai@<version>
@@ -267,271 +204,152 @@ npm exec -- opencode run --dir "$GITHUB_WORKSPACE" \
   -m <provider/model> --format json --print-logs --log-level INFO
 ```
 
-If CI is testing an OpenCode plugin or skill, combine this section with **Strict Isolation For OpenCode Behavior Work**.
+If CI tests an OpenCode plugin or skill, combine this with **Strict Isolation Runs**.
 
-## Preparing Env And Secrets
+## Env And Secrets
 
-Set only the env needed for the current run.
+Set only env needed for the run.
 
-Typical examples:
-
-- provider API key
-- base URL
-- optional plugin or provider env
-
-Rules:
-
-- prefer task-provided or repo-established env sources
-- for provider-specific production checks, first look for the documented project token source
-- treat machine-local env files as fallback sources only when the repo or task context says they are expected
-- when debugging auth, check all documented credential sources: `opencode auth login`, `opencode auth list`, environment variables, and any project `.env` that OpenCode loads
-- never print secrets in the report
-- if you must inspect an env file, report only that the value was loaded, not the value itself
-
-Isolation rules:
-
-- do not source a user wrapper's env files unless the wrapper is under test
-- if preserving provider auth during a behavior test, keep only provider auth sources and isolate all other config layers
-- if changing `HOME` breaks `opencode`, you are probably still using a wrapper; switch to a raw binary for strict isolation
-- never copy auth files into temp homes unless the user explicitly asks and you can avoid printing secrets
+- Prefer task-provided or repo-established env sources.
+- For provider production checks, first look for documented project token sources.
+- Treat machine-local env files as fallback only when task context expects them.
+- For auth debugging, check `opencode auth login`, `opencode auth list`, provider env vars, and project `.env` files OpenCode loads.
+- Never print secrets; report only that a value was loaded.
+- Do not copy auth files into temp homes unless explicitly requested.
 
 ## Testing Skills Through OpenCode
 
-Use this when the task is to verify that OpenCode discovers, loads, and follows a skill.
+Use this to verify skill discovery, loading, and following.
 
-See skills docs: `https://opencode.ai/docs/skills/`
+Choose mode:
 
-Recommended layout:
+- Installed skill smoke: preserve user setup and use `opencode debug skill` to confirm installed location.
+- Isolated lab: temp `HOME`, temp project, and `OPENCODE_CONFIG_DIR/skills/<name>/SKILL.md` or `skills.paths`.
+
+Isolated lab layout:
 
 ```text
 /tmp/opencode-skill-test.<id>/
-|-- config/
-|   `-- skills/
-|       `-- probe-skill/
-|           `-- SKILL.md
+|-- config/skills/probe-skill/SKILL.md
 |-- home/
 `-- project/
 ```
 
-Choose one mode:
+Give the skill a unique marker in description and body. Then verify:
 
-- isolated lab: use temp `HOME`, temp project, and `OPENCODE_CONFIG_DIR/skills/<name>/SKILL.md`
-- installed skill smoke: preserve the user's normal OpenCode setup and use `opencode debug skill` to confirm the installed location
+- `debug skill` lists the expected skill and location.
+- `opencode run --format json` contains `tool_use` for tool `skill`.
+- The skill tool input names the expected skill.
+- The final answer reflects skill content, not only the user prompt.
 
-For isolated lab tests, put the skill under `OPENCODE_CONFIG_DIR/skills/<name>/SKILL.md`, or use `skills.paths` when the task needs a separate source directory. Give the skill a unique marker in both the description and body so the final answer can prove it was followed.
-
-Discovery check:
-
-```bash
-HOME="$tmp/home" \
-XDG_CONFIG_HOME="$tmp/home/.config" \
-OPENCODE_CONFIG_DIR="$tmp/config" \
-OPENCODE_DISABLE_EXTERNAL_SKILLS=1 \
-OPENCODE_DISABLE_CLAUDE_CODE_SKILLS=1 \
-OPENCODE_CONFIG_CONTENT='{"permission":{"skill":{"*":"allow"}}}' \
-"$OPENCODE_BIN" debug skill
-```
-
-Runtime check:
+Runtime pattern:
 
 ```bash
-HOME="$tmp/home" \
-XDG_CONFIG_HOME="$tmp/home/.config" \
-OPENCODE_CONFIG_DIR="$tmp/config" \
-OPENCODE_DISABLE_EXTERNAL_SKILLS=1 \
-OPENCODE_DISABLE_CLAUDE_CODE_SKILLS=1 \
-OPENCODE_CONFIG_CONTENT='{"$schema":"https://opencode.ai/config.json","share":"disabled","autoupdate":false,"snapshot":false,"permission":{"skill":{"*":"deny","probe-skill":"allow"},"edit":"deny","write":"deny","bash":"deny"}}' \
-"$OPENCODE_BIN" run --dir "$tmp/project" \
+oc_isolated run --dir "$tmp/project" \
   "Say PROBE-SKILL-MARKER. Use any relevant skill before answering." \
   -m <provider/model> --format json --print-logs --log-level DEBUG
 ```
 
-What to verify:
-
-- `debug skill` lists the expected skill and location
-- the JSON output contains a `tool_use` part for tool `skill`
-- the skill tool input names the expected skill
-- the final answer reflects the skill body, not just the user prompt
-
-Important:
-
-- the final answer alone is not enough evidence that the skill loaded
-- `OPENCODE_CONFIG_DIR/skills` and `skills.paths` are both valid skill sources in current OpenCode
-- `customize-opencode` is a built-in skill and may still appear in skill listings
-- if project `.opencode` or global `.agents` skills appear unexpectedly, your isolation is incomplete
+The final answer alone is not enough proof that a skill loaded. `customize-opencode` is built-in and may still appear in listings.
 
 ## Checking A Local Plugin
 
-Use this when the task is about a local plugin entrypoint such as `src/index.ts` or `dist/index.js`.
-
-See plugin docs: `https://opencode.ai/docs/plugins/`
+Use this for local plugin entrypoints such as `src/index.ts` or `dist/index.js`.
 
 Default workflow:
 
-1. Use a raw OpenCode command, not a user wrapper.
-2. Prefer a controlled plugin directory such as project `.opencode/plugins/`, `~/.config/opencode/plugins/`, or a temporary `OPENCODE_CONFIG_DIR` when testing a local plugin file.
+1. Use raw or pinned OpenCode unless testing the user's wrapper.
+2. Put only the plugin under test in a controlled project `.opencode/plugins/`, global config path, or temp `OPENCODE_CONFIG_DIR`.
 3. Disable unrelated external plugins; do not use `--pure` if it suppresses the plugin under test.
-4. If the plugin has a build step and the task depends on built artifacts, build it first.
-5. Run `opencode models <provider>` if the plugin provides model discovery.
-6. Run at least one real `opencode run` against a known model if runtime compatibility matters.
-7. If tools matter, add a tool-call smoke.
+4. Build first when runtime depends on built artifacts.
+5. Run `opencode models <provider>` for discovery, then real `opencode run` for runtime.
+6. Add tool-call smoke when plugin behavior affects tools.
 
-Use the `plugin` array in config for npm package plugins. The public plugin docs document package-based loading there more clearly than local file paths.
-
-Important:
-
-- a green `opencode models` does not prove inference works
-- local plugin checks often fail in runtime wiring, provider factory loading, or model id mapping, not in discovery
+For npm package plugins, prefer config `plugin: [...]`.
 
 ## Checking Through Provider Config
 
-Use this when the task is about the provider config block `provider` in config rather than a plugin.
-
-See provider docs: `https://opencode.ai/docs/providers/`
+Use this for config block `provider`, not plugins.
 
 Default workflow:
 
-1. Use the same raw binary and isolation env for discovery and runtime.
-2. Build a minimal `/tmp` config containing only the provider block under test.
-3. Verify the provider appears in `opencode models` if model discovery is expected.
-4. Run a real `opencode run` against a known model id from that provider.
-5. If needed, vary only one dimension at a time:
-   - base URL
-   - API key env
-   - provider package name
-   - model id
-
-Focus on whether the config is compatible with OpenCode, not whether the backend implementation is elegant.
+1. Use the same command and isolation env for discovery and runtime.
+2. Build minimal temp config containing only the provider block under test.
+3. Verify expected provider/models via `opencode models`.
+4. Run real `opencode run` against a known model ID.
+5. Vary only one dimension at a time: base URL, API key env, package name, or model ID.
 
 ## Checking A Generic Run
 
-Use this when the task is simply "does it work through `opencode run`?".
-
-See CLI docs: `https://opencode.ai/docs/cli/`
-
-Minimum command pattern:
+Use this when the task is simply generation through `opencode run`.
 
 ```bash
-<opencode-command> run --dir "$RUN_DIR" "Reply with exactly one word: ok" -m <provider/model> --print-logs --log-level DEBUG --format json
+<opencode-command> run --dir "$RUN_DIR" \
+  "Reply with exactly one word: ok" \
+  -m <provider/model> --print-logs --log-level DEBUG --format json
 ```
 
-Use `opencode` for helper-agent scenarios, `npm exec -- opencode` for CI, or `"$OPENCODE_BIN"` for strict behavior tests.
+Use `opencode` for helper-agent scenarios, `npm exec -- opencode` for CI, or `"$OPENCODE_BIN"` for strict behavior tests. Choose a model visible through `opencode models` or explicitly known to exist.
 
-Choose a model that is already visible through `opencode models` or otherwise explicitly known to exist.
-
-For repeated smoke checks, consider running `opencode serve` once and then using `opencode run --attach ...` to avoid repeated startup overhead.
-
-What to verify:
-
-- provider resolution succeeds
-- runtime provider initializes
-- model resolves correctly
-- generation returns a normal terminal response
+Verify provider resolution, runtime provider initialization, model resolution, and normal terminal response.
 
 ## Checking Tool Calls
 
-Use this when the task is about tool compatibility, not just text generation.
+Use this when tool compatibility matters.
 
-See tools docs: `https://opencode.ai/docs/tools/`
+- Do not rely on a generic prompt and hope the model uses tools.
+- Require a deterministic tool action, such as reading a local file through `read` and summarizing it.
+- Inspect logs or `--format json` output and confirm actual `tool_use`.
+- Do not hardcode an undocumented event name unless verified in this OpenCode version.
+- If needed, read saved tool-output logs and cite concrete tool invocation evidence.
 
-Do not rely on a generic prompt and hope the model will use a tool. Ask for a specific tool action and instruct the model not to answer from memory.
+## Failure Classes
 
-Good pattern:
+Name the failure; do not say only "it failed".
 
-- require the model to read a local file through `read`
-- require the model to inspect config or another deterministic artifact
-- then ask for a short summary based on the tool result
+- **Missing key / bootstrap precondition**: credentials unavailable.
+- **Wrapper contamination**: `opencode` on `PATH` sourced user env or injected config during a behavior test.
+- **Over-isolation**: helper-agent or user-repro run bypassed user settings that should be part of the scenario.
+- **Isolation leak**: unexpected config, agents, plugins, skills, permissions, instructions, or sessions affected the run.
+- **Config/setup issue**: bad temp config, wrong env, invalid plugin/provider path.
+- **Discovery issue**: `opencode models` fails or misses expected provider/models.
+- **Runtime wiring issue**: provider initializes incorrectly or factory/model mapping fails.
+- **Model resolution issue**: provider loads but model ID is wrong or unknown.
+- **Auth issue**: backend returns `401`, `403`, or similar.
+- **Tool execution issue**: text generation works but tool call does not execute.
+- **Upstream OpenCode contract mismatch**: current OpenCode expectations block behavior.
 
-What counts as evidence:
+## Evidence And Reporting
 
-- the final answer alone is not enough
-- inspect logs or structured `--format json` output and confirm there was an actual tool invocation
-- do not hardcode an undocumented event name as the only proof unless you verified it in the current OpenCode version
-- if needed, read the saved `opencode` tool-output log and point to the concrete tool invocation evidence you observed
+Collect the smallest complete evidence set for the claim.
 
-## How To Interpret Failures
+| Claim | Evidence |
+| --- | --- |
+| Discovery | command plus output showing provider/models |
+| Isolated behavior | raw binary/path or version, isolated layers, `debug config`/`debug paths` when relevant |
+| Helper-agent run | preserved user setup, `--dir`, task-specific overrides |
+| CI/fresh install | install/pin method, explicit config/model, credential source presence without values |
+| Runtime compatibility | real `opencode run`, output, no init/model resolution failure |
+| Skill loading | `debug skill`, `tool_use` for `skill`, expected skill name, final answer based on skill content |
+| Tool compatibility | real `opencode run`, actual tool invocation, final answer based on tool output |
 
-Classify the failure before proposing fixes.
+Report:
 
-Common classes:
-
-- **Missing key / bootstrap precondition**: cannot start real verification because credentials are unavailable
-- **Wrapper contamination**: `opencode` on `PATH` sourced user env, injected config, or failed when `HOME` was changed
-- **Over-isolation**: a helper-agent or user-repro run incorrectly bypassed user settings, skills, plugins, auth, or wrappers that should have been part of the scenario
-- **Isolation leak**: unexpected global/project config, agents, plugins, skills, permissions, instructions, or sessions affected the run
-- **Config/setup issue**: bad temp config, wrong env wiring, invalid plugin or provider path
-- **Discovery issue**: `opencode models` fails or returns no expected provider/models
-- **Runtime wiring issue**: provider initializes incorrectly, factory cannot load, package or file path mismatch
-- **Model resolution issue**: provider loads but the wrong model id is passed or requested model is unknown
-- **Auth issue**: provider runtime reaches backend but gets `401`, `403`, or similar auth failures
-- **Tool execution issue**: text generation works but tool call is not actually executed
-- **Upstream OpenCode contract mismatch**: behavior is blocked by current `opencode` expectations rather than only local code
-
-Do not bundle these together as "it failed". Name the class and support it with evidence.
-
-## What Counts As Sufficient Evidence
-
-For a compatibility claim, collect the smallest complete evidence set for the task.
-
-Examples:
-
-- Discovery only:
-  - command
-  - success output showing provider/models
-- Isolated run:
-  - raw binary path or package version
-  - isolation env summary with secrets redacted
-  - `debug config`, `debug paths`, or logs showing temp paths when relevant
-- Helper-agent run:
-  - whether user setup was intentionally preserved
-  - working directory used with `--dir`
-  - any added config overrides
-- CI/fresh install run:
-  - OpenCode install/pin method
-  - explicit config and model selection
-  - credential source presence without secret values
-- Runtime compatibility:
-  - real `opencode run`
-  - terminal JSON or text output
-  - no provider init or model resolution failure
-- Skill loading:
-  - `debug skill` listing expected skill location
-  - real `opencode run`
-  - JSON `tool_use` for tool `skill` with the expected skill name
-  - final answer based on skill content
-- Tool compatibility:
-  - real `opencode run`
-  - evidence of actual `tool_use`
-  - final answer based on tool output
-
-If any of those are missing, say the verification is partial.
-
-## Reporting
-
-Report concisely:
-
-- what scenario you ran
+- scenario run
 - exact commands with secrets redacted
 - command path/version when isolation, CI reproducibility, or wrapper behavior matters
-- which layers were preserved, isolated, or bootstrapped explicitly
-- pass or fail for each step
-- key snippets from output
-- failure classification if anything broke
-
-Never paste raw secrets, cookies, or full noisy logs when a short snippet is enough.
+- layers preserved, isolated, or bootstrapped
+- pass/fail for each step
+- key output snippets and failure class
 
 ## Common Mistakes
 
-- Treating `opencode models` as proof that runtime works
-- Using a user wrapper or alias when trying to test OpenCode itself
-- Bypassing the user's wrapper/settings when OpenCode is only being used as a helper agent
-- Applying strict isolation by habit instead of choosing layers by scenario
-- Setting `OPENCODE_CONFIG` and assuming it disables project or global config
-- Running from a real repo when trying to avoid project `.opencode`, rules, agents, or skills
-- Forgetting that global `.agents` and `.claude` skills can be loaded separately from OpenCode config
-- Treating a final answer as proof that a skill loaded without checking JSON `tool_use`
-- Forgetting a real `opencode run`
-- Forgetting a dedicated tool-call smoke when tools matter
-- Using a model id that was never validated through discovery or task context
-- Claiming success from intuition instead of command output
-- Re-explaining auth/bootstrap here instead of relying on the current repo or task context
+- Treating `opencode models` as runtime proof.
+- Using a user wrapper when testing OpenCode itself.
+- Bypassing user wrapper/settings when OpenCode is only a helper agent.
+- Applying strict isolation by habit instead of by scenario.
+- Assuming `OPENCODE_CONFIG` disables project or global config.
+- Running from a real repo when avoiding project `.opencode`, rules, agents, or skills.
+- Forgetting global `.agents` and `.claude` skills can load separately from OpenCode config.
+- Treating final answer as proof that a skill/tool loaded.
+- Continuing without required API key instead of failing fast.
