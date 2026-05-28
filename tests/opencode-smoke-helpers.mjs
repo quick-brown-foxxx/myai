@@ -3,78 +3,15 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { createRequire } from 'node:module';
-import { fileURLToPath } from 'node:url';
-import test from 'node:test';
-import assert from 'node:assert/strict';
 import { promisify } from 'node:util';
 
 const execFileAsync = promisify(execFile);
-const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const smokeModel = process.env.MYAI_OPENCODE_SMOKE_MODEL || 'openai/gpt-5.5';
 
-test('smoke: packed plugin injects bootstrap through real opencode CLI', { timeout: 180_000 }, async (t) => {
-  /*
-  Scenario: OpenCode loads the installed myai plugin in an isolated local smoke
-    Given a local machine with an existing OpenCode auth file
-    And no global/project OpenCode config, skills, plugins, sessions, or cache are reused
-    When the packed myai package is installed into a temporary project
-    And real opencode run executes with only that copied auth file available
-    Then the model sees the MYAI_SKILLS_BOOTSTRAP marker injected by the plugin
-  */
-  if (process.env.CI) {
-    t.skip('local smoke only; CI/CD bootstrap is out of scope');
-    return;
-  }
+// Real CLI smoke helpers currently verify against OpenCode 1.15.0.
 
-  const opencode = await resolveOpenCodeCommand();
-  const opencodeVersion = await getOpencodeVersion(opencode);
-  if (!opencodeVersion) {
-    t.skip('opencode CLI is not available on PATH');
-    return;
-  }
+export const smokeModel = process.env.MYAI_OPENCODE_SMOKE_MODEL || 'openai/gpt-5.5';
 
-  const existingAuthPath = await findExistingOpenCodeAuth();
-  if (!existingAuthPath) {
-    t.skip('local OpenCode auth file was not found; run opencode auth login first');
-    return;
-  }
-
-  const tempDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'myai-opencode-smoke-'));
-  t.after(() => fs.promises.rm(tempDir, { recursive: true, force: true }));
-
-  const dirs = await makeIsolatedDirs(tempDir);
-  await copyOnlyAuth(existingAuthPath, dirs.data);
-
-  const pluginEntry = await packAndInstallPlugin(tempDir);
-  const config = makeOpenCodeConfig(pluginEntry);
-  const env = makeIsolatedEnv(config, dirs);
-
-  const debugConfig = await runJson(opencode, ['debug', 'config'], { env });
-  assert.deepEqual(debugConfig.plugin, [`file://${pluginEntry}`]);
-  assert.deepEqual(debugConfig.plugin_origins, [{
-    spec: `file://${pluginEntry}`,
-    source: 'OPENCODE_CONFIG_CONTENT',
-    scope: 'local',
-  }]);
-
-  const result = await spawnCollect(
-    opencode,
-    [
-      'run',
-      '--dir', dirs.project,
-      'Reply with exactly one token. If the marker string MYAI_SKILLS_BOOTSTRAP appears anywhere in the text you were given, reply MYAI_BOOTSTRAP_PRESENT. Otherwise reply MYAI_BOOTSTRAP_ABSENT.',
-      '-m', smokeModel,
-      '--format', 'json',
-      '--print-logs',
-      '--log-level', 'INFO',
-    ],
-    { env, timeout: 120_000, maxBuffer: 10 * 1024 * 1024 },
-  );
-
-  assert.equal(extractText(result.stdout).trim(), 'MYAI_BOOTSTRAP_PRESENT');
-});
-
-async function resolveOpenCodeCommand() {
+export async function resolveOpenCodeCommand() {
   if (process.env.MYAI_OPENCODE_BIN) return process.env.MYAI_OPENCODE_BIN;
 
   const voltaPackageBinary = await findVoltaPackageBinary();
@@ -86,42 +23,7 @@ async function resolveOpenCodeCommand() {
   return await findWrapperExecTarget(candidate) || candidate;
 }
 
-async function findVoltaPackageBinary() {
-  try {
-    const { stdout } = await execFileAsync('volta', ['which', 'opencode'], { timeout: 30_000 });
-    const candidate = stdout.trim();
-    if (!candidate) return null;
-
-    await fs.promises.access(candidate, fs.constants.X_OK);
-    return candidate;
-  } catch {
-    return null;
-  }
-}
-
-async function findCommand(command) {
-  try {
-    const { stdout } = await execFileAsync('sh', ['-lc', `command -v ${command}`], { timeout: 30_000 });
-    return stdout.trim() || null;
-  } catch {
-    return null;
-  }
-}
-
-async function findWrapperExecTarget(candidate) {
-  try {
-    const content = await fs.promises.readFile(candidate, 'utf8');
-    const match = content.match(/^exec\s+(\S*opencode)(?:\s|$)/m);
-    if (!match) return null;
-
-    await fs.promises.access(match[1], fs.constants.X_OK);
-    return match[1];
-  } catch {
-    return null;
-  }
-}
-
-async function getOpencodeVersion(opencode) {
+export async function getOpencodeVersion(opencode) {
   try {
     const { stdout } = await execFileAsync(opencode, ['--version'], { timeout: 30_000 });
     return stdout.trim();
@@ -130,7 +32,7 @@ async function getOpencodeVersion(opencode) {
   }
 }
 
-async function findExistingOpenCodeAuth() {
+export async function findExistingOpenCodeAuth() {
   const dataHome = process.env.XDG_DATA_HOME || path.join(os.homedir(), '.local/share');
   const authPath = path.join(dataHome, 'opencode/auth.json');
 
@@ -142,7 +44,7 @@ async function findExistingOpenCodeAuth() {
   }
 }
 
-async function makeIsolatedDirs(tempDir) {
+export async function makeIsolatedDirs(tempDir) {
   const dirs = {
     home: path.join(tempDir, 'home'),
     xdgConfig: path.join(tempDir, 'xdg-config'),
@@ -157,26 +59,22 @@ async function makeIsolatedDirs(tempDir) {
   return dirs;
 }
 
-async function copyOnlyAuth(sourceAuthPath, dataDir) {
+export async function copyOnlyAuth(sourceAuthPath, dataDir) {
   const targetAuthPath = path.join(dataDir, 'opencode/auth.json');
 
   await fs.promises.mkdir(path.dirname(targetAuthPath), { recursive: true });
   await fs.promises.copyFile(sourceAuthPath, targetAuthPath);
 }
 
-async function packAndInstallPlugin(tempDir) {
+export async function packAndInstallPlugin(repoRoot, tempDir) {
   const { stdout } = await execFileAsync(
     'npm',
     ['pack', '--json', '--pack-destination', tempDir],
     { cwd: repoRoot, timeout: 60_000, maxBuffer: 10 * 1024 * 1024 },
   );
   const [packed] = JSON.parse(stdout);
-  const packedFiles = packed.files.map((file) => file.path);
-
-  assert.ok(packedFiles.includes('.opencode/plugins/using-my-skills.js'));
-  assert.ok(packedFiles.includes('skills/using-my-skills/SKILL.md'));
-
   const appDir = path.join(tempDir, 'app');
+
   await fs.promises.mkdir(appDir);
   await execFileAsync('npm', ['install', '--prefix', appDir, path.join(tempDir, packed.filename)], {
     timeout: 60_000,
@@ -184,19 +82,20 @@ async function packAndInstallPlugin(tempDir) {
   });
 
   const require = createRequire(path.join(appDir, 'package.json'));
-  const entry = require.resolve('myai');
 
-  assert.ok(entry.startsWith(appDir), `expected package entry inside temp app, got ${entry}`);
-  return entry;
+  return {
+    packedFiles: packed.files.map((file) => file.path),
+    resolvePackage: (specifier) => require.resolve(specifier),
+  };
 }
 
-function makeOpenCodeConfig(pluginEntry) {
+export function makeOpenCodeConfig(pluginEntries) {
   return JSON.stringify({
     $schema: 'https://opencode.ai/config.json',
     share: 'disabled',
     autoupdate: false,
     snapshot: false,
-    plugin: [`file://${pluginEntry}`],
+    plugin: pluginEntries.map((entry) => `file://${entry}`),
     permission: {
       bash: 'deny',
       edit: 'deny',
@@ -205,7 +104,7 @@ function makeOpenCodeConfig(pluginEntry) {
   });
 }
 
-function makeIsolatedEnv(config, dirs) {
+export function makeIsolatedEnv(config, dirs) {
   const env = pickEnv(['PATH']);
 
   return {
@@ -227,15 +126,7 @@ function makeIsolatedEnv(config, dirs) {
   };
 }
 
-function pickEnv(names) {
-  return Object.fromEntries(
-    names
-      .filter((name) => process.env[name] !== undefined)
-      .map((name) => [name, process.env[name]]),
-  );
-}
-
-async function runJson(command, args, options) {
+export async function runJson(command, args, options) {
   const { stdout } = await execFileAsync(command, args, {
     ...options,
     timeout: 60_000,
@@ -245,7 +136,7 @@ async function runJson(command, args, options) {
   return JSON.parse(stdout);
 }
 
-function spawnCollect(command, args, options) {
+export function spawnCollect(command, args, options) {
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, {
       env: options.env,
@@ -293,7 +184,7 @@ function spawnCollect(command, args, options) {
   });
 }
 
-function extractText(jsonLines) {
+export function extractText(jsonLines) {
   return jsonLines
     .split('\n')
     .filter(Boolean)
@@ -301,4 +192,47 @@ function extractText(jsonLines) {
     .filter((event) => event.type === 'text')
     .map((event) => event.part.text)
     .join('');
+}
+
+async function findVoltaPackageBinary() {
+  try {
+    const { stdout } = await execFileAsync('volta', ['which', 'opencode'], { timeout: 30_000 });
+    const candidate = stdout.trim();
+    if (!candidate) return null;
+
+    await fs.promises.access(candidate, fs.constants.X_OK);
+    return candidate;
+  } catch {
+    return null;
+  }
+}
+
+async function findCommand(command) {
+  try {
+    const { stdout } = await execFileAsync('sh', ['-lc', `command -v ${command}`], { timeout: 30_000 });
+    return stdout.trim() || null;
+  } catch {
+    return null;
+  }
+}
+
+async function findWrapperExecTarget(candidate) {
+  try {
+    const content = await fs.promises.readFile(candidate, 'utf8');
+    const match = content.match(/^exec\s+(\S*opencode)(?:\s|$)/m);
+    if (!match) return null;
+
+    await fs.promises.access(match[1], fs.constants.X_OK);
+    return match[1];
+  } catch {
+    return null;
+  }
+}
+
+function pickEnv(names) {
+  return Object.fromEntries(
+    names
+      .filter((name) => process.env[name] !== undefined)
+      .map((name) => [name, process.env[name]]),
+  );
 }

@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "type": "module",
   "main": ".opencode/plugins/using-my-skills.js",
+  "exports": {
+    ".": "./.opencode/plugins/using-my-skills.js",
+    "./gpt5-style-helper": "./.opencode/plugins/gpt5-style-helper/index.js"
+  },
   "scripts": {
     "test": "node --test"
   }
