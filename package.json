@@ -2,5 +2,8 @@
   "name": "myai",
   "version": "0.1.0",
   "type": "module",
-  "main": ".opencode/plugins/using-my-skills.js"
+  "main": ".opencode/plugins/using-my-skills.js",
+  "scripts": {
+    "test": "node --test"
+  }
 }
