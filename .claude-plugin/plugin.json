@@ -1,0 +1,11 @@
+{
+  "name": "myai",
+  "description": "Personal skills with AI workflows",
+  "version": "0.1.0",
+  "author": {
+    "name": "quick-brown-foxxx"
+  },
+  "homepage": "https://github.com/quick-brown-foxxx/myai",
+  "repository": "https://github.com/quick-brown-foxxx/myai",
+  "license": "MIT"
+}

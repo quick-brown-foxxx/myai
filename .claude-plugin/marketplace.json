@@ -1,0 +1,15 @@
+{
+  "name": "myai",
+  "description": "Personal skills for coding agents",
+  "owner": {
+    "name": "quick-brown-foxxx"
+  },
+  "plugins": [
+    {
+      "name": "myai",
+      "description": "Personal skills with AI workflows",
+      "version": "0.1.0",
+      "source": "./"
+    }
+  ]
+}

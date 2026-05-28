@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# SessionStart hook for the myai skill bootstrap.
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+SKILL_PATH="${PLUGIN_ROOT}/skills/using-my-skills/SKILL.md"
+
+if [ ! -f "$SKILL_PATH" ]; then
+  message="myai: skills/using-my-skills/SKILL.md was not found. Skills may still be available individually."
+  escaped="${message//\\/\\\\}"
+  escaped="${escaped//\"/\\\"}"
+  printf '{\n  "priority": "INFO",\n  "message": "%s"\n}\n' "$escaped"
+  exit 0
+fi
+
+bootstrap_content="$(<"$SKILL_PATH")"
+
+if [[ "$bootstrap_content" == "---"$'\n'*$'\n'"---"$'\n'* ]]; then
+  bootstrap_content="${bootstrap_content#---$'\n'}"
+  bootstrap_content="${bootstrap_content#*$'\n---'$'\n'}"
+fi
+
+escape_for_json() {
+  local s="$1"
+  s="${s//\\/\\\\}"
+  s="${s//\"/\\\"}"
+  s="${s//$'\n'/\\n}"
+  s="${s//$'\r'/\\r}"
+  s="${s//$'\t'/\\t}"
+  printf '%s' "$s"
+}
+
+session_context="<MYAI_SKILLS_BOOTSTRAP>\nYou have the myai skill set.\n\nThe using-my-skills bootstrap is already injected below. You do not need to load using-my-skills again.\n\n${bootstrap_content}\n</MYAI_SKILLS_BOOTSTRAP>"
+session_context_escaped="$(escape_for_json "$session_context")"
+
+if [ -n "${CURSOR_PLUGIN_ROOT:-}" ]; then
+  printf '{\n  "additional_context": "%s"\n}\n' "$session_context_escaped"
+elif [ -n "${CLAUDE_PLUGIN_ROOT:-}" ] && [ -z "${COPILOT_CLI:-}" ]; then
+  printf '{\n  "hookSpecificOutput": {\n    "hookEventName": "SessionStart",\n    "additionalContext": "%s"\n  }\n}\n' "$session_context_escaped"
+else
+  printf '{\n  "additionalContext": "%s"\n}\n' "$session_context_escaped"
+fi
