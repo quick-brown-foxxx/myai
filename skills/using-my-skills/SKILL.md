@@ -154,79 +154,191 @@ or conflicting instructions.
 
 ## Workflow Routes
 
-Use these as routing cards, not as a checklist.
+These recipes are references. They do not automatically advance a session. The
+human, team lead, or current orchestrator controls phase transitions.
+
+Soft handoff arrows mean "consider this next if the work calls for it", not
+"load this automatically".
 
 ```mermaid
 flowchart TD
-  A[Current need] --> B{Need clarity or design?}
-  B -- yes --> C[idea-sharpening / brainstorming / planning-implementation]
-
-  A --> D{Boundary or ownership question?}
-  D -- yes --> E[architecting-changes]
-
-  A --> F{Implementation slice?}
-  F -- yes --> G[incremental-implementation]
-
-  A --> H{Failure or bug?}
-  H -- yes --> I[systematic-debugging]
-
-  A --> J{Review or feedback?}
-  J -- yes --> K[doing-code-review / receiving-code-review]
-
-  A --> L{Research?}
-  L -- yes --> M[upstream-source-research / ai-edge-research]
-
-  A --> N{Delegation?}
-  N -- teamlead_or_orchestrator --> O[when-and-how-to-run-parallel-agents / executing-plans-with-subagents]
-  N -- subagent --> P[stay inside assigned task]
-
-  G --> Q[verification-before-completion]
-  I --> Q
-  K --> Q
+  P[Planning / Ideation] -. soft next .-> I[Implementation Verification-Fixing]
+  P -. proof design .-> T[Testing]
+  I -. often paired .-> T
+  I -. review when warranted .-> R[Review / Feedback]
+  B[Bugfix / Debugging] --> T
+  O[Parallel / Subagent Execution] -. can wrap .-> P
+  O -. can wrap .-> I
+  O -. can wrap .-> R
 ```
 
-### Planning
+### Reusable Workflow Helpers
 
-Use planning skills when requirements, design, architecture, task order, risks,
-or acceptance criteria need to be made explicit before execution.
+Help steer other workflows and keep them focused. They can be used at any stage
+when a specific risk or uncertainty appears.
+
+| Skill | Primary role | Tags |
+| --- | --- | --- |
+| `prototype-first` | Validate risky assumptions before full implementation | planning, implementation, risk-reduction |
+| `doubt-early` | Challenge uncertain plans or decisions with fresh context | planning, review, risk-reduction |
+
+### Planning / Ideation
+
+Use when the goal is vague, large, or needs design before implementation.
+
+```mermaid
+flowchart LR
+  A[idea-sharpening] --> B[brainstorming]
+  B --> C[planning-implementation]
+  B -. architecture question .-> D[architecting-changes]
+  B -. visual design question .-> E[visual-mockups]
+  C -. proof plan unclear .-> F[high-level-testing-strategy]
+  C -. soft next .-> G[Implementation Verification-Fixing]
+```
+
+Exit when the concept, spec, tasks, acceptance criteria, risks, and verification
+steps are clear enough for execution.
+
+Planning commonly recommends the implementation loop as the next phase, but it
+does not require that transition. Planning should also route to testing strategy
+when the plan's proof or verification approach is non-trivial.
+
+### Testing
+
+Use when deciding how to prove behavior.
+
+```mermaid
+flowchart TD
+  A[high-level-testing-strategy] --> B{infra ready?}
+  B -- no --> C[architecting-test-infra]
+  B -- yes --> D{proof type?}
+  C --> D
+  D -- automated --> E[test-driven-development]
+  D -- manual/runtime --> F[manual-testing]
+  D -- both --> E
+  E -. runtime proof needed .-> F
+  E --> G[verification-before-completion]
+  F --> G
+```
+
+Exit when the selected automated or manual checks provide believable evidence for
+the claim. Manual testing can be the primary proof when automation would be fake,
+brittle, or not worth the cost.
+
+Testing is often paired with implementation, debugging, or release work.
+
+### Implementation Verification-Fixing
+
+Use after a plan exists or a bounded implementation slice begins.
+
+```mermaid
+flowchart TD
+  A[incremental-implementation] --> B[fast feedback: lint, typecheck, build]
+  B -->|fails| C[fix, escalate, or systematic-debugging]
+  C --> B
+  B -->|passes| D[behavior proof]
+  D -. proof unclear .-> E[Testing]
+  D -->|fails| C
+  D -->|passes| F{review warranted?}
+  F -- yes --> G[doing-code-review]
+  G --> H{findings?}
+  H -- yes --> I[receiving-code-review]
+  I --> A
+  H -- no --> J[verification-before-completion]
+  F -- no --> J
+```
+
+Exit when verification converges and remaining risks are explicit.
+
+This workflow is a loop:
 
 ```text
-vague idea -> idea-sharpening
-understood feature needing design -> brainstorming
-clear spec needing tasks -> planning-implementation
-arch question -> architecting-changes
+implement -> verify -> fix
+               ^        |
+               ----------
 ```
 
-### Implementation
+It often pairs with Testing when behavior proof needs design.
 
-Use implementation skills when a bounded slice is ready to change files.
+### Bugfix / Debugging
 
-```text
-planned slice -> incremental-implementation
-verification strategy unclear -> high-level-testing-strategy
-automated verification selected -> test-driven-development
-runtime or browser verification -> manual-testing
+Use for unexpected behavior, test failures, CI failures, flaky behavior, and
+runtime bugs.
+
+```mermaid
+flowchart TD
+  A[systematic-debugging] --> B[reproduce and localize]
+  B --> C{root cause obvious?}
+  C -- no or deep call chain --> D[bug-root-cause-tracing]
+  C -- yes --> E[fix at source]
+  D --> E
+  E --> F{best proof?}
+  F -- unclear --> G[high-level-testing-strategy]
+  F -- automated regression --> H[test-driven-development]
+  F -- manual/runtime --> I[manual-testing]
+  G --> M{selected proof type?}
+  M -- automated --> H
+  M -- manual/runtime --> I
+  M -- both --> H
+  H -. runtime proof needed .-> I
+  H --> J{recurring or high-risk class?}
+  I --> J
+  J -- yes --> K[bug-protection-multi-layered]
+  J -- no --> L[verification-before-completion]
+  K --> L
 ```
 
-### Debugging
+Exit when root cause is fixed, the original symptom is proven, and regression
+risk is handled at the right level.
 
-Use debugging skills when something fails, flakes, or behaves unexpectedly.
+### Review / Feedback
 
-```text
-failure -> systematic-debugging
-bad state source unclear -> bug-root-cause-tracing
-recurring / high-risk bug class -> bug-protection-multi-layered
+Use for PRs, diffs, agent-written code, or review comments.
+
+```mermaid
+flowchart TD
+  A[doing-code-review] --> B{findings?}
+  B -- no --> C[verification-before-completion]
+  B -- yes --> D[receiving-code-review]
+  D --> E[focused fixes or documented pushback]
+  E --> F[focused verification]
+  F --> G{non-trivial changes?}
+  G -- yes --> A
+  G -- no --> C
 ```
 
-### Review
+Exit when findings are fixed, rejected with evidence, or documented as accepted
+trade-offs.
 
-Use review skills when judging finished work, PRs, diffs, or review feedback.
+This workflow is often nested inside implementation, subagent integration, or PR
+work.
 
-```text
-review code -> doing-code-review
-handle review feedback -> receiving-code-review
-claim fixed / complete / passing -> verification-before-completion
+### Parallel / Subagent Execution
+
+Use when a plan contains independent work domains.
+
+```mermaid
+flowchart TD
+  A[planning-implementation or clear task batch] --> B[when-and-how-to-run-parallel-agents]
+  B --> C{independent?}
+  C -- no --> D[sequence work]
+  C -- yes --> E[executing-plans-with-subagents]
+  E --> F[inspect reports and changed files]
+  F --> G[check overlap, conflicts, late dependencies]
+  G --> H[doing-code-review when warranted]
+  H --> I{findings?}
+  I -- yes --> J[receiving-code-review]
+  J --> F
+  I -- no --> K[integrated verification]
+  K --> L[verification-before-completion]
 ```
+
+Exit when agent outputs are integrated, conflicts are reconciled, and integrated
+verification passes.
+
+This workflow can wrap other workflows during planning, implementation,
+verification, review, or release work. It does not replace the orchestrator's
+responsibility to inspect evidence.
 
 ---
 
