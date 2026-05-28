@@ -44,17 +44,17 @@ flowchart TD
   D --> E
 ```
 
-**Recommended skill installation method:**
+### Recommended Skills Installation Method
 
 See [Catalog](#catalog) below to cherry pick needed skill sets.
 
-**Manual skills selection:**
+## Manual Skills Selection
 
 ```bash
 npx -y skills add quick-brown-foxxx/myai
 ```
 
-**Force install or update all skills non-interactively:**
+### Force Install Or Update All Skills Non-Interactively
 
 ```bash
 npx -y skills add quick-brown-foxxx/myai \
@@ -64,28 +64,37 @@ npx -y skills add quick-brown-foxxx/myai \
   -y
 ```
 
-**Auto-injection adapters:**
+### Auto-Injection Adapters For Skills Guide
 
 This helps AI agents to better understand available workflows and roles.
 
-```text
-Claude Code plugin -> injects using-my-skills via a hook
-OpenCode plugin    -> injects using-my-skills
-```
+> NOTE! This guide skill expects all skills from this repo to be installed.
+> Edit `using-my-skills` skill to adjust to your installed skills.
 
-For Claude Code local/plugin use, load this repository as a plugin so
-`hooks/hooks.json` runs at `SessionStart` and injects `skills/using-my-skills`.
+#### Claude Code
 
-For OpenCode, add the package as a plugin or use the local `.opencode/plugins`
-file. The package entry point is `package.json -> .opencode/plugins/using-my-skills.js`.
-The plugin only injects the bootstrap; install discoverable skills separately
-with `npx skills add`. Restart OpenCode after changing plugin configuration;
-running sessions keep the old config.
+TODO
+
+#### Opencode
+
+TODO test
+
+Add this to `opencode.json`:
 
 ```json
 {
   "plugin": ["myai@git+https://github.com/quick-brown-foxxx/myai.git"]
 }
+```
+
+#### Other Tools
+
+Install the `using-my-skills` skill manually. Note that this is less
+reliable than the auto-injection.
+
+```bash
+npx -y skills add quick-brown-foxxx/myai \
+  -s 'using-my-skills'
 ```
 
 ## Useful files for humans
@@ -182,8 +191,7 @@ install-oriented summary for quickly choosing a skill set.
 
 ### Bootstrap
 
-Use this first when an agent needs to understand this skill set or when wiring
-session-start auto-injection.
+Agent will load this at the beginning of the session to understand this skill set and available workflows.
 
 ```mermaid
 flowchart LR
@@ -197,12 +205,7 @@ flowchart LR
 | --- | --- | --- |
 | `using-my-skills` | Bootstrap role detection and workflow routing | Auto-injected by Claude/OpenCode adapters when installed as a plugin |
 
-To install only the bootstrap skill:
-
-```bash
-npx -y skills add quick-brown-foxxx/myai \
-  -s 'using-my-skills'
-```
+Should be auto injected via Claude Code/OpenCode plugin
 
 ### Planning And Design
 
