@@ -11,6 +11,7 @@ import { promisify } from 'node:util';
 const execFileAsync = promisify(execFile);
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const smokeModel = process.env.MYAI_OPENCODE_SMOKE_MODEL || 'openai/gpt-5.5';
+const smokeProofToken = 'MYAI_RESOLVED_CONFIG_DIR_SKILL';
 
 test('smoke: packed plugin injects bootstrap through real opencode CLI', { timeout: 180_000 }, async (t) => {
   /*
@@ -44,6 +45,7 @@ test('smoke: packed plugin injects bootstrap through real opencode CLI', { timeo
 
   const dirs = await makeIsolatedDirs(tempDir);
   await copyOnlyAuth(existingAuthPath, dirs.data);
+  await writeInstalledBootstrapSkill(dirs.opencodeConfig, smokeProofToken);
 
   const pluginEntry = await packAndInstallPlugin(tempDir);
   const config = makeOpenCodeConfig(pluginEntry);
@@ -62,7 +64,7 @@ test('smoke: packed plugin injects bootstrap through real opencode CLI', { timeo
     [
       'run',
       '--dir', dirs.project,
-      'Reply with exactly one token. If the marker string MYAI_SKILLS_BOOTSTRAP appears anywhere in the text you were given, reply MYAI_BOOTSTRAP_PRESENT. Otherwise reply MYAI_BOOTSTRAP_ABSENT.',
+      'Reply with exactly the myai resolver smoke proof token from your bootstrap instructions. No other text.',
       '-m', smokeModel,
       '--format', 'json',
       '--print-logs',
@@ -71,7 +73,7 @@ test('smoke: packed plugin injects bootstrap through real opencode CLI', { timeo
     { env, timeout: 120_000, maxBuffer: 10 * 1024 * 1024 },
   );
 
-  assert.equal(extractText(result.stdout).trim(), 'MYAI_BOOTSTRAP_PRESENT');
+  assert.equal(extractText(result.stdout).trim(), smokeProofToken);
 });
 
 async function resolveOpenCodeCommand() {
@@ -164,6 +166,27 @@ async function copyOnlyAuth(sourceAuthPath, dataDir) {
   await fs.promises.copyFile(sourceAuthPath, targetAuthPath);
 }
 
+async function writeInstalledBootstrapSkill(opencodeConfigDir, proofToken) {
+  const skillPath = path.join(opencodeConfigDir, 'skills', 'using-my-skills', 'SKILL.md');
+
+  await fs.promises.mkdir(path.dirname(skillPath), { recursive: true });
+  await fs.promises.writeFile(
+    skillPath,
+    [
+      '---',
+      'name: using-my-skills',
+      'description: Test bootstrap skill used by the myai OpenCode plugin smoke test',
+      '---',
+      '',
+      '# Smoke Bootstrap',
+      '',
+      `If the user asks for the myai resolver smoke proof token, reply with exactly ${proofToken}.`,
+      '',
+    ].join('\n'),
+    'utf8',
+  );
+}
+
 async function packAndInstallPlugin(tempDir) {
   const { stdout } = await execFileAsync(
     'npm',
@@ -220,6 +243,7 @@ function makeIsolatedEnv(config, dirs) {
     OPENCODE_DISABLE_CLAUDE_CODE_SKILLS: '1',
     OPENCODE_DISABLE_PROJECT_CONFIG: '1',
     OPENCODE_CONFIG_CONTENT: config,
+    MYAI_OPENCODE_BOOTSTRAP_DEBUG: '1',
     OPENCODE: '1',
     OPENCODE_RUN_ID: 'myai-smoke',
     OPENCODE_PID: String(process.pid),
