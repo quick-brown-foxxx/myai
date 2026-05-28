@@ -85,6 +85,8 @@ $RECYCLE.BIN/
 
 ## Backup
 
+.worktrees/
+
 *.bak
 *.gho
 *.ori
