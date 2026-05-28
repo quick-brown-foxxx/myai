@@ -59,7 +59,7 @@ remaining blockers, and deferred work only.
 
 | Skill | Status | Notes |
 | --- | --- | --- |
-| `using-skills` | todo | Final bootstrap; do last after local map is stable. |
+| `using-my-skills` | done | Compact local bootstrap plus Claude/OpenCode injector support. |
 | `how-to-write-skills` | exists | Already existed before starting. |
 | `idea-sharpening` | done | Strategic ideation: expand, converge, sharpen. |
 | `brainstorming` | done | Technical spec creation for understood features. |
@@ -144,7 +144,7 @@ remaining blockers, and deferred work only.
 | Testing family | done | Strategy, TDD, manual testing, test infra. |
 | Parallel-agent decision | done | `when-and-how-to-run-parallel-agents`. |
 | Subagent plan execution | done | `executing-plans-with-subagents`. |
-| Bootstrap replacement | todo | `using-skills` is the remaining uninstall-path blocker. |
+| Bootstrap replacement | done | `using-my-skills` exists with role gates, workflow routing, and injectors. |
 | Python skill refactor | deferred | Not required before Superpowers uninstall unless active workflows need it. |
 
 ## Minimum Superpowers Uninstall Path
@@ -156,7 +156,7 @@ Required before uninstall:
 - [x] `git-workflow` exists without duplicating platform git safety rules.
 - [x] `doing-code-review` and `receiving-code-review` exist without mandatory subagent ceremony.
 - [x] `.agents/skills` and `.claude/skills` are synced from `skills/`.
-- [ ] Final `using-skills` bootstrap exists after the local skill map is stable.
+- [x] Final `using-my-skills` bootstrap exists after the local skill map is stable.
 - [ ] Superpowers-disabled dry run passes: bootstrap behavior works and no active docs/configs require `using-superpowers` or Superpowers-only skill names.
 
 Defer unless proven active:
@@ -165,16 +165,16 @@ Defer unless proven active:
 
 ## Remaining Work
 
-### 1. `using-skills` Bootstrap
+### 1. `using-my-skills` Bootstrap
 
 Goal: replace `using-superpowers` with a local bootstrap skill.
 
-- [ ] Encode the three-layer model: atomic skills, composable short workflows,
+- [x] Encode the three-layer model: atomic skills, composable short workflows,
       and future autonomous mega-workflow orchestration.
-- [ ] Encode that ceremony scales with task size.
-- [ ] Encode fail-fast rules for true ambiguity, missing environment, or invalid source state.
-- [ ] Route common intents to local skill names only.
-- [ ] Include tool mappings only if still needed for portability.
+- [x] Encode that ceremony scales with task size.
+- [x] Encode fail-fast rules for true ambiguity, missing environment, or invalid source state.
+- [x] Route common intents to local skill names only.
+- [x] Include tool mappings only if still needed for portability.
 - [ ] Run Superpowers-disabled dry run before uninstall.
 
 ### 2. Python Skill Refactor
@@ -191,7 +191,7 @@ Goal: slim Python skills so they reference core philosophy and keep only Python-
 Goal: keep workflow composition explicit
 
 - [x] Create `skills/README.md` as the current skill map and workflow catalog.
-- [ ] Keep `skills/README.md` current when skill roles or relationships change.
+- [x] Keep `skills/README.md` current when skill roles or relationships change.
 - [ ] Continue `docs/my-workflow-draft.md` as the future `mega-workflow` sketch.
 - [ ] Keep individual skills focused on atomic capabilities or bounded local
       workflows, not full autonomous process governance.
