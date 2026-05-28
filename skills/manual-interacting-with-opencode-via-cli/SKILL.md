@@ -1,5 +1,5 @@
 ---
-name: interacting-with-opencode-via-cli
+name: manual-interacting-with-opencode-via-cli
 description: >-
   ALWAYS LOAD THIS SKILL WHEN USER ASKS TO CHECK, VERIFY, SMOKE-TEST,
   REPRODUCE, OR RUN SOMETHING THROUGH `opencode`, OR WHEN A PLAN CONTAINS A

@@ -114,7 +114,7 @@ remaining blockers, and deferred work only.
 | `high-level-testing-strategy` | done | BDD-first proof selection. |
 | `test-driven-development` | done | Red-green-refactor for chosen automated tests. |
 | `manual-testing` | done | Browser/API/CLI/infra smoke and e2e checks. |
-| `interacting-with-opencode-via-cli` | done | OpenCode CLI smoke, provider/config, runtime, and tool-call verification. |
+| `manual-interacting-with-opencode-via-cli` | done | OpenCode CLI smoke, provider/config, runtime, and tool-call verification. |
 | `architecting-test-infra` | done | Test framework, fixtures, state isolation, service preflights. |
 
 ### Python-Specific Future Layer
