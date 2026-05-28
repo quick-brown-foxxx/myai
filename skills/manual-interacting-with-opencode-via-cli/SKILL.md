@@ -179,6 +179,27 @@ oc_isolated run --dir "$tmp/project" \
 
 If real paid-provider auth is needed, preserve only provider auth sources (`~/.local/share/opencode/auth.json` or provider env vars) and still isolate unrelated config, project context, skills, plugins, and sessions. If changing `HOME` breaks `opencode`, you are probably still using a wrapper.
 
+### Local Smoke Tests
+
+Use this for local plugin or bootstrap smoke tests when CI/CD support is out of
+scope but the installed machine already has working OpenCode auth.
+
+- Skip if local `~/.local/share/opencode/auth.json` or other auth method is missing.
+- Detect the raw command compactly: explicit test override such as
+  `MYAI_OPENCODE_BIN`, package-manager resolver such as `volta which opencode`,
+  direct non-wrapper `command -v opencode`, then inspected wrapper `exec` target.
+  If uncertain, require an explicit binary override.
+- Use temp `HOME`, XDG config/data/state/cache, `OPENCODE_CONFIG_DIR`, and
+  project dir. Copy only `auth.json` into temp `XDG_DATA_HOME/opencode/`.
+- For Node smoke tests, prefer `spawn` with `stdin: ignore`; `execFile` can hang
+  in raw-binary `opencode run` paths even when the equivalent shell smoke works.
+- If raw binary stalls before session creation while the wrapper works, try
+  `OPENCODE=1`, `OPENCODE_PROCESS_ROLE=worker`, stable `OPENCODE_RUN_ID`, and
+  `OPENCODE_PID=<parent pid>`. Treat this as a runtime-smoke workaround, not
+  normal CLI guidance.
+- Prove both config and runtime: `debug config` should show only the expected
+  plugin origin, then `opencode run --format json` should show the marker/output.
+
 ## CI And Fresh Install Runs
 
 Use this for CI, GitHub automation, release checks, or fresh environments.

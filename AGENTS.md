@@ -158,7 +158,7 @@ Before claiming documentation or skill maintenance is complete:
 - Run lightweight formatting or syntax checks that fit the changed files.
 - State any checks that were skipped and why.
 
-## Documentation And Skill Writing Style
+## Documentation And Text Writing Style
 
 Prefer rich markdown structure with diagrams, maps, compact tables, and short
 sections over long flat tables or deeply nested bullets when writing docs.

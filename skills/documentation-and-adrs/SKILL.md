@@ -11,6 +11,13 @@ metadata:
 
 Document decisions, not just code. The most valuable documentation captures the *why* — the context, constraints, and trade-offs that led to a decision. Code shows *what* was built; documentation explains *why it was built this way* and *what alternatives were considered*. This context is essential for future humans and agents working in the codebase.
 
+## Text And Docs Style
+
+When writing any kind of text - message for a user, a prompt for subagent, a doc -
+prefer rich markdown structure with diagrams, maps, compact tables, and short
+sections over long flat tables or deeply nested bullet.
+Structure should help both humans and AI agents understand how ideas connect.
+
 ## When to Use
 
 - Making a significant architectural decision
