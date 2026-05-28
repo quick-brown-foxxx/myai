@@ -12,7 +12,7 @@ discovered, invoked, composed, delegated, and bounded.
 
 ## Core Thesis
 
-Skills are are reusable capability modules that can be composed into explicit workflows.
+Skills are reusable capability modules that can be composed into explicit workflows.
 
 ```mermaid
 flowchart TD
@@ -64,24 +64,26 @@ Implementation-verification-fixing loop:
 These workflows are session-level compositions. They may be used alone or nested
 inside a larger session, but they should not silently advance themselves.
 
-## Layer 3: Future Mega-Workflow
+## Layer 3: Future High-level Autonomous Mega Workflow
 
-The future `mega-workflow` is for long-running autonomous work across multiple
-features, epics, production feedback loops, and teammate/teamlead hierarchies.
+The future `mega-workflow` is the command-driven layer for long-running
+autonomous work across multiple features, epics, production feedback loops, and
+fresh review cycles.
 
-That layer is intentionally out of scope right now.
+That command layer is intentionally out of scope right now.
 
 For now, document it as a boundary:
 
 ```text
 mega-workflow
   owns long-term autonomous orchestration
+  chooses Teamlead -> Teammates -> Subagents for big sessions
+  uses Orchestrator -> Subagents for bounded sessions
   uses middle-layer workflows internally
-  delegates to teammate agents
   stays outside current skill implementation
 ```
 
-Do not turn current skills into a premature mega-workflow.
+Do not turn current skills into a premature command-driven mega-workflow.
 
 ## Right-Sized Ceremony
 
@@ -106,22 +108,37 @@ control at the lowest useful cost.
 
 ## Agent Roles
 
-Use roles to preserve context boundaries.
+Use roles to preserve context boundaries. `using-my-skills` is the the guide for agent for role detection.
 
-```text
-Human or ai team lead agent
-  owns goals, sequencing, trade-offs, and integration
-
-Teammate agent/orchestrator
-  owns a larger isolated workflow step or subsystem
-
-Subagent
-  owns one bounded research, review, verification, or implementation task
+```mermaid
+flowchart TD
+  A[User] --> B{Session scale}
+  B -- big autonomous session --> C[Teamlead]
+  C --> D[Teammates]
+  D --> E[Subagents]
+  C -. small auxiliary tasks .-> E
+  B -- bounded or default session --> F[Orchestrator]
+  F --> E
 ```
 
-Subagents can not spawn their own children and should not silently expand scope.
-Teammates may use subagents inside their assigned step. The lead integrates and
-decides the next phase.
+```text
+Teamlead
+  owns big goals, sequencing, delegation, trade-offs, integration, and phase transitions
+
+Orchestrator
+  owns one medium task or bounded task set and talks directly to the user
+
+Teammate
+  owns one coherent workflow, subsystem, or implementation slice inside a larger team
+
+Subagent
+  owns one bounded research, review, verification, or implementation task and does not spawn children
+```
+
+If the current role is unclear, assume `Orchestrator`. Teammates only exist
+inside Teamlead-led big sessions. Subagents cannot spawn their own children and
+should not silently expand scope. The current Teamlead, Orchestrator, or
+Teammate integrates evidence and decides whether to ask for the next phase.
 
 ## Verification Invariant
 
@@ -147,17 +164,22 @@ conditions.
 **Workflow**: An explicit sequence or loop that composes several skills for one
 coherent unit of work.
 
-**Mega-workflow**: Future long-term autonomous orchestration across multiple
-epics and workflows. Out of scope for current skill implementation.
+**Mega-workflow**: Future command-driven long-term autonomous orchestration
+across multiple epics and workflows. Out of scope for current skill
+implementation.
 
-**Team lead**: The human or agent controlling high level sequencing, delegation,
-integration, and phase transitions.
+**Teamlead**: The top-level AI agent for big autonomous sessions. Owns goals,
+sequencing, delegation, trade-offs, integration, and phase transitions.
 
-**Teammate agent** or **Orchestrator**: An agent responsible for a larger isolated workflow step or
-subsystem.
+**Orchestrator**: The top-level AI agent for one medium task, one question, or a
+bounded set of tasks. Talks directly to the user and can delegate to subagents.
+
+**Teammate**: An agent inside a Teamlead-led session. Owns one coherent
+workflow, subsystem, or implementation slice and may delegate bounded subagents.
 
 **Subagent**: A bounded one-shot agent for a small research, implementation,
-review, or verification task.
+review, or verification task. It does not spawn children or decide higher-level
+phase transitions.
 
 **Checkpoint**: An intentional pause to inspect evidence, reconcile issues, and
 decide whether to continue.

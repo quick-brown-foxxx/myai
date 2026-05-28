@@ -28,7 +28,7 @@ Examples of reusable habits in this repo:
 - Debug from symptoms to root cause, not from guess to patch.
 - Prefer trustworthy tests and runtime checks over fake coverage.
 - Review for bugs, regressions, missing evidence, and maintainability during implementation.
-- Keep scope bounded and delegate blockers to separate agents.
+- Keep scope bounded and delegate only through explicit role boundaries.
 - Never claim something is fixed, complete, passing, or release-ready without
   fresh double checks.
 
@@ -139,15 +139,39 @@ Parallel work:
 
 Each workflow exits when evidence is good enough for the claim being made.
 
+## Agent Hierarchy
+
+Two session shapes and hierarchies are supported:
+
+```mermaid
+flowchart TD
+  A[User] --> B{Session scale}
+  B -- big autonomous session --> C[Teamlead]
+  C --> D[Teammates]
+  D --> E[Subagents]
+  C -. small auxiliary tasks .-> E
+  B -- bounded or default session --> F[Orchestrator]
+  F --> E
+```
+
+Role boundaries:
+
+- `Teamlead` owns big goals, sequencing, delegation, trade-offs, integration, and phase transitions.
+- `Orchestrator` owns one medium task or a bounded set of tasks and talks directly to the user.
+- `Teammate` owns one coherent workflow, subsystem, or implementation slice inside a larger team.
+- `Subagent` owns one bounded task, does not spawn children, and reports evidence, blockers, changes, risks, and next options.
+- If the role is unclear, agent assumes `Orchestrator`.
+
 ## Philosophy
 
 The skill philosophy is about process discipline:
 
 - Skills are reusable capability modules, not one-off prompt tricks.
-- Workflows compose skills explicitly and stay under human or orchestrator
-  control.
+- Workflows compose skills explicitly and stay under role-aware control.
 - Ceremony scales with task size, ambiguity, risk, and delegation.
-- Subagents get bounded jobs; the lead integrates evidence and trade-offs.
+- Big autonomous sessions use `Teamlead -> Teammates -> Subagents`; smaller sessions use
+  `Orchestrator -> Subagents`.
+- Subagents get bounded jobs; the Teamlead, Orchestrator, or Teammate integrates evidence and trade-offs.
 - Completion claims require fresh evidence.
 
 The engineering philosophy is about software substance:
@@ -184,7 +208,7 @@ flowchart TD
 | Atomic skills | Focused task-specific capabilities | Implemented as `skills/*/SKILL.md` |
 
 The important boundary: current skills and workflows do not silently advance a
-session. A human, team lead agent, or orchestrator decides the next phase.
+session. A human, Teamlead, or Orchestrator decides the next phase.
 
 The full canonical map lives in `skills/README.md`. This root catalog is the
 install-oriented summary for quickly choosing a skill set.

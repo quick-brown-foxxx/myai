@@ -50,11 +50,14 @@ When creating or editing skills:
 ## Workflow Control
 
 `skills/README.md` contains workflows and stage maps.
+`skills/using-my-skills/SKILL.md` contains the current role routing: big
+sessions use `Teamlead -> Teammates -> Subagents`; bounded or default sessions
+use `Orchestrator -> Subagents`.
 
 Phase transitions should be explicit:
 
 ```text
-human / team lead ai / orchestrator ai decides next phase
+human / Teamlead / Orchestrator decides next phase
         |
         v
 agent loads the skills needed for that phase

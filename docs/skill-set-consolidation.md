@@ -26,8 +26,13 @@ remaining blockers, and deferred work only.
   replanning; large ambiguous work still needs deliberate design.
 - Hard gates are allowed only for real ambiguity, invalid environment, missing
   source state, or unsafe continuation.
-- The workflow hierarchy is: human or lead agent -> teammate agents for large
-  isolated tasks -> focused subagents for small independent actions.
+- There are two current agent hierarchy shapes: big sessions use
+  `User -> Teamlead -> Teammates -> Subagents`; bounded sessions use
+  `User -> Orchestrator -> Subagents`.
+- If an agent is unsure whether it is Teamlead, Orchestrator, Teammate, or
+  Subagent, it should assume Orchestrator.
+- Subagents never spawn children or decide higher-level phase transitions; they
+  report evidence, blockers, changed files or sources inspected, risks, and next options.
 - Workflow phases are explicit: design -> implementation planning -> execution
   -> verification/fixing loop -> fresh-context re-verification -> finish.
 
@@ -59,7 +64,7 @@ remaining blockers, and deferred work only.
 
 | Skill | Status | Notes |
 | --- | --- | --- |
-| `using-my-skills` | done | Compact local bootstrap plus Claude/OpenCode injector support. |
+| `using-my-skills` | done | Compact local bootstrap plus role hierarchy, workflow routing, ceremony scaling, and Claude/OpenCode injector support. |
 | `how-to-write-skills` | exists | Already existed before starting. |
 | `idea-sharpening` | done | Strategic ideation: expand, converge, sharpen. |
 | `brainstorming` | done | Technical spec creation for understood features. |
@@ -169,8 +174,10 @@ Defer unless proven active:
 
 Goal: replace `using-superpowers` with a local bootstrap skill.
 
-- [x] Encode the three-layer model: atomic skills, composable short workflows,
-      and future autonomous mega-workflow orchestration.
+- [x] Encode the current role hierarchy: big `Teamlead -> Teammates -> Subagents`
+      sessions and bounded `Orchestrator -> Subagents` sessions.
+- [x] Encode the composition model: atomic skills, composable short workflows,
+      and future command-driven mega-workflow orchestration.
 - [x] Encode that ceremony scales with task size.
 - [x] Encode fail-fast rules for true ambiguity, missing environment, or invalid source state.
 - [x] Route common intents to local skill names only.

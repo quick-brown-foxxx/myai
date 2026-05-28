@@ -9,6 +9,92 @@ The future long-running workflow described here is the `mega-workflow` layer in
 
 ---
 
+## Current Agent Hierarchy
+
+Users choose the session shape.
+
+```mermaid
+flowchart TD
+  A[User] --> B{Session scale}
+  B -- big autonomous session --> C[Teamlead]
+  C --> D[Teammates]
+  D --> E[Subagents]
+  C -. small auxiliary tasks .-> E
+  B -- bounded or default session --> F[Orchestrator]
+  F --> E
+```
+
+`Teamlead` owns goals, sequencing, delegation, trade-offs, integration, and
+phase transitions for big multi-step work.
+
+`Orchestrator` owns one medium task, one question, or a bounded set of tasks.
+There are no Teammates when an Orchestrator is active.
+
+`Teammate` owns one coherent workflow, subsystem, or implementation slice inside
+a Teamlead-led session.
+
+`Subagent` owns one bounded task. It cannot spawn children and must not decide
+higher-level phase transitions.
+
+If the current role is unclear, assume `Orchestrator`.
+
+## Context Isolation
+
+The hierarchy exists to protect context boundaries.
+
+`Teamlead` keeps the big-picture context: goals, phases, assignments,
+integration, trade-offs, and user communication.
+
+`Teammate` keeps the medium-scope context for a coherent slice. It may plan
+inside that slice, use bounded subagents, integrate their reports, and verify the
+assigned outcome.
+
+`Subagent` keeps noisy low-level context: searches, one implementation edit,
+one review pass, one verification run, one research question, or one focused
+debugging thread. It reports evidence, blockers, changed files or sources
+inspected, risks, and next options.
+
+## Workflow Shape
+
+The future `mega-workflow` should coordinate explicit phase transitions:
+
+```text
+design -> implementation planning -> execution -> verification/fixing
+  -> fresh-context re-verification -> finish
+```
+
+Each phase can use current skills and short workflow recipes, but those skills
+do not silently advance the higher-level process.
+
+Design produces high-level specs or decisions. Small tasks may only need a short
+prompt; big tasks may need brainstorming, prototypes, research, and review.
+
+Implementation planning produces low-level tasks, dependencies, acceptance
+criteria, verification steps, and delegation boundaries.
+
+Execution changes files in bounded slices. For big work, a Teamlead may assign
+coherent slices to Teammates, and Teammates may delegate bounded subagent tasks.
+
+Verification/fixing loops through review, automated checks, manual checks,
+triage, fixes, and re-verification until evidence is good enough or the approach
+must return to design or planning.
+
+Fresh-context re-verification uses a new agent or session to review the finished
+result without the implementation context. The Teamlead or human triages any
+findings and decides whether to re-enter verification/fixing.
+
+## Control Rule
+
+The `mega-workflow` should be started by explicit human, Teamlead, or
+Orchestrator prompting or commands. It should not be triggered accidentally by a
+normal skill invocation.
+
+Individual skills should stay aligned with this model, but they remain atomic
+capabilities or short composable workflows. They do not own high-level phase
+transitions.
+
+---
+
 And I have a special personal workflow now.
 
 It is sort of composing all sub skills and sub steps of existing workflow from superpowers and creates a more high level workflow.

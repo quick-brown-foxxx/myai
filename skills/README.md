@@ -151,18 +151,30 @@ The catalog lists every canonical skill once, grouped by its primary role.
 
 ### Bootstrap And Routing
 
-`using-my-skills` is the compact session bootstrap. It teaches role detection,
-right-sized ceremony, workflow routing, and the completion-evidence invariant.
-It intentionally does not duplicate the full catalog.
+`using-my-skills` is the compact session bootstrap and the source of truth for
+agent role routing. It teaches role detection, right-sized ceremony, workflow
+routing, and the completion-evidence invariant. It intentionally does not
+duplicate the full catalog.
 
 ```mermaid
 flowchart TD
   A[Session starts] --> B[using-my-skills injected or loaded]
   B --> C[Detect role]
-  C --> D[Teamlead / orchestrator / teammate / subagent]
-  D --> E[Route to the workflow needed now]
-  E --> F[Load relevant skills]
+  C --> D{Session shape}
+  D -- big autonomous session --> E[Teamlead -> Teammates -> Subagents]
+  D -- bounded or default session --> F[Orchestrator -> Subagents]
+  E --> G[Route to the workflow needed now]
+  F --> G
+  G --> H[Load relevant skills]
 ```
+
+Role boundaries from `using-my-skills`:
+
+- `Teamlead` owns big multi-step goals, sequencing, delegation, trade-offs, integration, and phase transitions.
+- `Orchestrator` owns one medium task or a bounded set of tasks and talks directly to the user.
+- `Teammate` owns one coherent workflow, subsystem, or implementation slice inside a Teamlead-led session.
+- `Subagent` owns one bounded task, does not spawn children, and reports evidence, blockers, changes, risks, and next options.
+- If the role is unclear, assume `Orchestrator`.
 
 Auto-injection is handled outside the skill file:
 
@@ -212,6 +224,9 @@ flowchart LR
 | `git-workflow` | Manage branches, worktrees, staging, commits, and handoff | implementation, orchestration, quality |
 
 ### Agent Orchestration
+
+Use when a Teamlead, Orchestrator, or Teammate has independent work that might
+be delegated safely.
 
 ```mermaid
 flowchart TD
@@ -326,7 +341,7 @@ Small focused skills for specific tasks.
 ## Workflow Recipes
 
 These recipes are references. They do not automatically advance a session. The
-human, team lead, or current orchestrator controls phase transitions.
+human, Teamlead, or current Orchestrator controls phase transitions.
 
 Soft handoff arrows mean "consider this next if the work calls for it", not
 "load this automatically".
@@ -498,8 +513,8 @@ Exit when agent outputs are integrated, conflicts are reconciled, and integrated
 verification passes.
 
 This workflow can wrap other workflows during planning, implementation,
-verification, review, or release work. It does not replace the orchestrator's
-responsibility to inspect evidence.
+verification, review, or release work. It does not replace the current
+Teamlead, Orchestrator, or Teammate responsibility to inspect evidence.
 
 ## Compatibility Notes
 
