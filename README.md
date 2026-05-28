@@ -405,6 +405,7 @@ Use these for focused support tasks that can appear inside larger workflows.
 | Skill | Primary role | Notes |
 | --- | --- | --- |
 | `how-to-write-skills` | Create or refine portable, discoverable skills | Opinionated! |
+| `interacting-with-opencode-via-cli` | Verify OpenCode CLI behavior with real `opencode` commands | - |
 | `upstream-source-research` | Research upstream source code, issues, releases, and history | - |
 | `ai-edge-research` | Research upstream adoption and AI tooling signals in communities | - |
 | `writing-upstream-bug-reports` | Prepare evidence-backed upstream bug reports for maintainers | - |
@@ -414,6 +415,7 @@ To install:
 ```bash
 npx -y skills add quick-brown-foxxx/myai \
   -s 'how-to-write-skills' \
+  -s 'interacting-with-opencode-via-cli' \
   -s 'upstream-source-research' \
   -s 'ai-edge-research' \
   -s 'writing-upstream-bug-reports'

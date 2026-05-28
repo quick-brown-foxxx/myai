@@ -334,6 +334,7 @@ Small focused skills for specific tasks.
 | Skill | Primary role | Tags |
 | --- | --- | --- |
 | `how-to-write-skills` | Create or refine portable, discoverable skills | documentation, quality |
+| `interacting-with-opencode-via-cli` | Verify OpenCode CLI behavior with real `opencode` commands | testing, verification, operations |
 | `upstream-source-research` | Research upstream source code, issues, releases, and history | research, upstream |
 | `ai-edge-research` | Research current practitioner adoption and AI tooling signals | research |
 | `writing-upstream-bug-reports` | Prepare evidence-backed upstream bug reports for maintainers | debugging, upstream, documentation |

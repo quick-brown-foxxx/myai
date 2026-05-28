@@ -96,7 +96,7 @@ README.md          -> public/install-oriented catalog summary
 skills/using-my-skills/SKILL.md -> bootstrap skill that should list all workflows (but not atomic/independent/self-contained/task-specific skills)
 ```
 
-Current canonical inventory is 34 skills. If that count changes, update the
+Current canonical inventory is 35 skills. If that count changes, update the
 catalogs and mirror directories in the same change.
 
 ## Bootstrap Adapter Rules
