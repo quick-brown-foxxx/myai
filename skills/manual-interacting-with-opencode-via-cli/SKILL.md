@@ -5,8 +5,7 @@ description: >-
   REPRODUCE, OR RUN SOMETHING THROUGH `opencode`, OR WHEN A PLAN CONTAINS A
   STEP TO VERIFY THROUGH `opencode`. Use for scenario-appropriate `opencode
   run`, `opencode models`, skill or plugin smoke tests, provider config checks,
-  CI bootstrap, raw-binary selection, and tool-call verification through real
-  OpenCode CLI execution.
+  CI bootstrap, and tool-call verification through real OpenCode CLI execution.
 license: MIT
 metadata:
   focus: opencode-cli-verification
