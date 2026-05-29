@@ -11,8 +11,26 @@ test('root router enables using-my-skills by default and allows disabling it', a
   const disabled = await UsingMySkillsPlugin({}, { usingMySkills: { enabled: false } });
 
   assert.equal(typeof enabled.config, 'function');
-  assert.equal(typeof enabled['experimental.chat.messages.transform'], 'function');
+  assert.equal(typeof enabled['experimental.chat.system.transform'], 'function');
+  assert.equal(enabled['experimental.chat.messages.transform'], undefined);
   assert.deepEqual(disabled, {});
+});
+
+test('using-my-skills injects bootstrap into the system prompt only once', async () => {
+  const plugin = await UsingMySkillsPlugin({}, {});
+  const output = { system: [] };
+  const messagesOutput = {
+    messages: [{ info: { role: 'user' }, parts: [{ type: 'text', text: 'hello' }] }],
+  };
+
+  await plugin.config({});
+  await plugin['experimental.chat.system.transform']({}, output);
+  await plugin['experimental.chat.system.transform']({}, output);
+
+  assert.equal(output.system.length, 1);
+  assert.match(output.system[0], /MYAI_SKILLS_BOOTSTRAP/);
+  assert.equal(plugin['experimental.chat.messages.transform'], undefined);
+  assert.deepEqual(messagesOutput.messages[0].parts, [{ type: 'text', text: 'hello' }]);
 });
 
 test('root router keeps GPT-5 helper opt-in and forwards its options', async () => {

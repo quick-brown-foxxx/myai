@@ -23,23 +23,17 @@ export const UsingMySkillsPlugin = async (input = {}) => {
       mergedConfig = config ?? {};
       bootstrapCache = undefined;
     },
-    'experimental.chat.messages.transform': async (_input, output) => {
+    'experimental.chat.system.transform': async (_input, output) => {
       if (bootstrapCache === undefined) bootstrapCache = getBootstrapContent(resolverOptions());
       const bootstrap = bootstrapCache;
-      if (!bootstrap || !output.messages?.length) return;
+      if (!bootstrap || !Array.isArray(output.system)) return;
 
-      const firstUser = output.messages.find(
-        (message) => message.info?.role === 'user' || message.role === 'user',
-      );
-      if (!firstUser?.parts?.length) return;
-
-      const alreadyInjected = firstUser.parts.some(
-        (part) => part.type === 'text' && typeof part.text === 'string' && part.text.includes(marker),
+      const alreadyInjected = output.system.some(
+        (text) => typeof text === 'string' && text.includes(marker),
       );
       if (alreadyInjected) return;
 
-      const ref = firstUser.parts[0];
-      firstUser.parts.unshift({ ...ref, type: 'text', text: bootstrap });
+      output.system.push(bootstrap);
     },
   };
 };

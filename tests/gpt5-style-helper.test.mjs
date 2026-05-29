@@ -223,15 +223,20 @@ test('leaves non-GPT-5 message history untouched', async () => {
   assert.equal(latest.parts.length, 1);
 });
 
-test('keeps GPT-5 style hooks separate from the skills bootstrap plugin', async () => {
+test('keeps GPT-5 style content separate from the skills bootstrap plugin', async () => {
   /*
   Scenario: The installed myai package keeps bootstrap and GPT-5 style behavior separate
     Given OpenCode loads the default package entrypoint plugin
     When the plugin registers hooks
-    Then GPT-5 system transforms are not composed into the skills bootstrap
+    Then GPT-5 style helper content is not composed into the skills bootstrap
   */
   const plugin = await UsingMySkillsPlugin();
+  const output = { system: [] };
 
-  assert.equal(plugin['experimental.chat.system.transform'], undefined);
-  assert.equal(typeof plugin['experimental.chat.messages.transform'], 'function');
+  await plugin['experimental.chat.system.transform']({}, output);
+
+  assert.equal(typeof plugin['experimental.chat.system.transform'], 'function');
+  assert.equal(plugin['experimental.chat.messages.transform'], undefined);
+  assert.match(output.system[0], /MYAI_SKILLS_BOOTSTRAP/);
+  assert.doesNotMatch(output.system[0], /MYAI_GPT5_STYLE_HELPER/);
 });
