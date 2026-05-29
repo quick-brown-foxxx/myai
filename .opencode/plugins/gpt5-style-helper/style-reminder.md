@@ -1,3 +1,1 @@
-# GPT-5 Style Reminder
-
-Keep following the GPT-5 style helper: direct, concise, flat Markdown, no filler openings, no nested bullets, evidence before success claims.
+This is automatic reminder for you about recommended text writing style. Check if you are following it.
