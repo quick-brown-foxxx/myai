@@ -64,12 +64,12 @@ test('matches provider-qualified GPT-5 model IDs from OpenCode hooks', async () 
   assert.match(output.system[0], /MYAI_GPT5_STYLE_HELPER/);
 });
 
-test('adds short reminder near the latest GPT-5 user turn after token threshold', async () => {
+test('adds reminder prefix and full helper near the latest GPT-5 user turn after token threshold', async () => {
   /*
-  Scenario: Long GPT-5 chats receive a recent style reminder
+  Scenario: Long GPT-5 chats receive a recent style helper refresh
     Given a GPT-5 conversation with enough new context since the last reminder
     When OpenCode transforms model messages
-    Then a short style reminder is appended to the latest user turn
+    Then an automatic reminder prefix and full style helper are appended to the latest user turn
   */
   const plugin = await createGpt5StyleHelperPlugin({
     baseDir: new URL('../.opencode/plugins/gpt5-style-helper/', import.meta.url),
@@ -90,6 +90,9 @@ test('adds short reminder near the latest GPT-5 user turn after token threshold'
   assert.match(output.messages[0].parts[0].text, /MYAI_GPT5_STYLE_HELPER/);
   assert.equal(latest.parts.length, 2);
   assert.match(latest.parts[1].text, /MYAI_GPT5_STYLE_REMINDER/);
+  assert.match(latest.parts[1].text, /This is automatic reminder/);
+  assert.match(latest.parts[1].text, /MYAI_GPT5_STYLE_HELPER/);
+  assert.ok(latest.parts[1].text.indexOf('This is automatic reminder') < latest.parts[1].text.indexOf('MYAI_GPT5_STYLE_HELPER'));
 });
 
 test('adds full helper to first GPT-5 user turn as message-transform fallback', async () => {

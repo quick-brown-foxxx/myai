@@ -95,7 +95,7 @@ export const createGpt5StyleHelperPlugin = async (input = {}) => {
   const baseDir = resolveBaseDir(options.baseDir);
   const modelPattern = new RegExp(options.modelPattern);
   const fullHelper = withMarker(helperMarker, readPromptFile(baseDir, 'style-helper.md'));
-  const reminder = withMarker(reminderMarker, readPromptFile(baseDir, 'style-reminder.md'));
+  const reminder = `${withMarker(reminderMarker, readPromptFile(baseDir, 'style-reminder.md'))}\n\n${fullHelper}`;
   const systemInjectedSessions = new Set();
   const matchesModel = (model) => modelPattern.test(getModelID(model));
 
