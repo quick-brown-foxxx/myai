@@ -388,6 +388,11 @@ Use simple script like this to estimate source code size:
 ```sh
 git ls-files -z --cached --others --exclude-standard \
 | while IFS= read -r -d '' f; do
+  # Skip symlinks, including symlinked dirs like tools/mytool -> src/mytool
+  [ -L "$f" ] && continue
+  # Skip deleted/missing/non-regular files
+  [ -f "$f" ] || continue
+
   case "$f" in
     *.tsx) lang="React/TSX" ;;
     *.jsx) lang="React/JSX" ;;
