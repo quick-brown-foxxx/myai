@@ -181,7 +181,7 @@ COMPARE BEFORE AND AFTER:
 - Is the simplified version genuinely easier to understand?
 - Did you introduce any new patterns inconsistent with the codebase?
 - Is the diff clean and reviewable?
-- Would a teammate approve this change?
+- Would a colleague approve this change?
 ```
 
 If the "simplified" version is harder to understand or review, revert. Not every simplification attempt succeeds.
@@ -332,4 +332,4 @@ After completing a simplification pass:
 - [ ] Simplified code follows project conventions (checked against CLAUDE.md or equivalent)
 - [ ] No error handling was removed or weakened
 - [ ] No dead code was left behind (unused imports, unreachable branches)
-- [ ] A teammate or review agent would approve the change as a net improvement
+- [ ] A colleague or review agent would approve the change as a net improvement

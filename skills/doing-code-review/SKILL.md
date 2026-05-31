@@ -45,7 +45,7 @@ doing-code-review  (you are here)
 Use this skill when reviewing:
 
 - pull requests, branches, diffs, or uncommitted changes
-- code written by an agent, teammate, or yourself
+- code written by an agent, colleague, or yourself
 - medium/big work before merge, commit, or handoff
 - small but critical changes, such as CI, build, deployment, auth, payments, migrations, or fragile config
 

@@ -74,9 +74,9 @@ flowchart TD
     --> C[Teamlead]
   A --> D{One medium task, question, or set of not big tasks, you can talk to user and there is no team present?}
     --> E[Orchestrator]
-  A --> F{A coherent workflow, subsystem, or implementation slice, you are a part of a team and can talk to teammates but has no direct access to the user?}
+  A --> F{A coherent workflow, subsystem, or implementation slice, you are a part of a team, can run subagents, but has no direct access to the user?}
    --> G[Teammate]
-  A --> H{small focused task with explicit prompt and no interaction with the user available?}
+  A --> H{small focused task with explicit prompt, no child subagents allowed and no interaction with the user available?}
     --> I[Subagent]
 ```
 
@@ -91,7 +91,7 @@ teammates and subagents, slices work and coordinates overall steering.
 May use planning, orchestration, review, and all other workflows, combine and repeat them
 in whatever shape and sequence.
 
-Handles communication with user. Can message with teammates.
+Handles communication with user. In some environments can message with teammates.
 
 ### Orchestrator
 
@@ -110,7 +110,7 @@ There are no teamlead/teammates present when orchestrator is active.
 
 Owns one coherent workflow, subsystem, or implementation slice.
 
-Teammate is a part of bigger team and communicates only with teamlead and other teammates.
+Teammate is a part of bigger team and communicates only with teamlead, and sometimes to other teammates in some environments.
 
 May plan within its assigned scope, delegate bounded subagents, integrate their
 reports, and verify the assigned outcome. Must not silently expand into adjacent
@@ -375,16 +375,82 @@ citations, inspected diffs, CI logs, or release artifacts.
 
 ---
 
-## Platform Use
+## Announce Yourself Explicitly
 
-Use the platform's native skill loader.
+Before you start, think about your role, job size, project maturity, given task and ceremony scale, and announce all this. The goal is to better understand the context of the session and proper scale/path for it.
 
-```text
-Claude Code       -> Skill tool
-OpenCode          -> skill tool
-Gemini CLI        -> activate_skill
-other agents      -> native skill mechanism or read skill files
+Skip this step for simple questions like "test", "what is this repo" and so on.
+
+### Estimate Project Size
+
+Use simple script like this to estimate source code size:
+
+```sh
+git ls-files -z --cached --others --exclude-standard \
+| while IFS= read -r -d '' f; do
+  case "$f" in
+    *.tsx) lang="React/TSX" ;;
+    *.jsx) lang="React/JSX" ;;
+    *.ts) lang="TypeScript" ;;
+    *.js|*.mjs|*.cjs) lang="JavaScript" ;;
+    *.vue) lang="Vue" ;;
+    *.svelte) lang="Svelte" ;;
+    *.py) lang="Python" ;;
+    *.go) lang="Go" ;;
+    *.rs) lang="Rust" ;;
+    *.java) lang="Java" ;;
+    *.cs) lang="C#" ;;
+    *.php) lang="PHP" ;;
+    *.rb) lang="Ruby" ;;
+    *.kt|*.kts) lang="Kotlin" ;;
+    *.swift) lang="Swift" ;;
+    *.c|*.h) lang="C" ;;
+    *.cpp|*.cc|*.cxx|*.hpp|*.hh|*.hxx) lang="C++" ;;
+    *.html) lang="HTML" ;;
+    *.css|*.scss|*.sass|*.less) lang="CSS" ;;
+    *.sql) lang="SQL" ;;
+    *.sh|*.bash|*.zsh) lang="Shell" ;;
+    *.yaml|*.yml) lang="YAML" ;;
+    *.json) lang="JSON" ;;
+    *.md|*.mdx) lang="Markdown/MDX" ;;
+    *) continue ;;
+  esac
+
+  lines=$(wc -l < "$f" 2>/dev/null || echo 0)
+  printf '%s\t%s\n' "$lang" "$lines"
+done \
+| awk -F '\t' '{sum[$1]+=$2} END {for (k in sum) print sum[k], k}' \
+| sort -nr \
+| head -10
 ```
 
-If no skill loader is available, use the installed `SKILL.md` files as reference
-material and follow the same routing discipline.
+| Count | Project Size | Potential Ceremony Level |
+| --- | --- | --- |
+| < 1000 | Tiny | Low ceremony |
+| 1000-10_000 | Small | Low-medium ceremony |
+| 10_000-100_000 | Medium | Medium-high ceremony |
+| 100_000-1_000_000 | Large | High ceremony |
+
+Bigger projects need heavy ceremony for every tiny change. But sometimes if a smaller project has proper environments, multiple test levels, very complex/rare domain, and so on, it can be treated as bigger project.
+
+When you have a particular files/folders/modules in scope to process, estimate their size and use it to better understand how big/complex given code is and adjust your ceremony level.
+
+### Example Template
+
+Use role detection logic above.
+
+This template is maximalist example, adjust it to your context.
+
+```text
+I am a [role] in this session. 
+
+// describe your role-related capabilities
+I [can delegate tasks to teammates|subagents|communicate with a team]
+// or as a subagent
+[can't delegate tasks and will proceed autonomously].
+
+// explain your behavior and orchestration-related logic
+I will [lead the team with high level control | orchestrate my current work between subagents through steps of the workflow | focus on a specific given task autonomously and implement it or report blockers/questions if will not be able to do it].
+
+This project has [~N ines of Lang] total and is [tiny|small|medium|large], folders and files I should work in contain [~M lines] and the area to work with is [scoped/broad], current task is [straightforward/simple/obvious or complex/unclear/dangerous] and I will treat it with [low|medium|high] ceremony.
+```
