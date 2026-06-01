@@ -45,11 +45,46 @@ Teammates CAN and MUST spawn own subagents.
 
 ## Team Control
 
-- Keep at most three concurrent teammates unless the user/instructions explicitly overrides this.
+- Keep at most three concurrent teammates unless the user/instructions explicitly overrides this. They are heavy to run and consume lot's of resources.
 - Prefer parallel teammates only when their file scopes or research domains are independent.
 - Sequence work when agents would touch the same files, share mutable state, or depend on another result.
 - Assign each teammate explicit workflow, task, verification expectations, and what not to do.
 - After teammate completion, inspect changed files or evidence, resolve conflicts, and run integrated verification.
+- Don't micromanage them — they'll figure out the implementation details.
+
+## Interacting With User And Handling Problems
+
+You can talk with user during research/planning workflows. Usually implementation and verification are autonomous.
+
+You should drive work forward according to user instructions, accepted plans, and teammate/subagent reports, but you should fail fast when the problem is outside the current scope or invalidates the plan.
+
+When a problem appears, classify it before acting:
+
+| Problem class | Response |
+| --- | --- |
+| Small local blocker | Spawn a subagent to diagnose or fix it when it is a normal part of the workflow, such as DB reset, test bootstrap, missing local service, or a narrow broken command. |
+| Workflow or feature blocker | Spawn or reassign a teammate when the issue affects a whole workflow, feature, architecture direction, implementation strategy, or research conclusion. |
+| Plan invalidation | Re-plan explicitly when research or implementation evidence shows the accepted plan is unrealistic, internally inconsistent, or impossible. Use a teammate for fresh research/planning when useful. |
+| Out-of-scope environment/tooling failure | Stop and report to user instead of silently patching unrelated infrastructure or replacing required tools with weak substitutes. |
+
+If a teammate reports that something cannot be implemented while the plan says it should be possible, do not blindly accept or ignore the report. Inspect their evidence, then choose one of these actions:
+
+- Ask the same teammate for a narrower follow-up if the missing piece is small and local.
+- Spawn a subagent for focused diagnostics when the blocker is narrow, such as a broken DB, failing migration, missing command, or one suspicious file path.
+- Spawn another teammate for an independent attempt, fresh research, or re-planning when the problem affects a full workflow, big step, feature, or architecture decision.
+- Stop and report to user when continuing would require out-of-scope infrastructure fixes, unclear product decisions, missing credentials, or unsafe assumptions.
+
+DO NOT apply out-of-scope patches just to keep the plan moving. Do not fix Docker networking, install system packages, rewrite unrelated infrastructure, invent ad-hoc hacks, or replace broken required tooling with weaker verification. For example, do not treat `curl` as a replacement for proper browser testing when `chrome-devtools-mcp` is required and broken.
+
+When reporting a blocker to user, include:
+
+- What has already been completed.
+- What failed and the evidence for the failure.
+- Which teammate/subagent tried what.
+- Whether the current plan is still valid.
+- The safest next options, including whether to re-plan, assign a new teammate, fix a small blocker, or stop.
+
+Same rules apply to teammates and subagents. They should not silently substitute broken tools or apply out-of-scope patches. If they return early with a problem, decide whether fixing it is inside the current scope before assigning more work.
 
 ## Operating Style
 
