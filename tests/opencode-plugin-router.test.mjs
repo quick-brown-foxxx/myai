@@ -18,7 +18,7 @@ test('root router enables using-my-skills by default and allows disabling it', a
 
 test('using-my-skills injects bootstrap into the system prompt only once', async () => {
   const plugin = await UsingMySkillsPlugin({}, {});
-  const output = { system: [] };
+  const output = { system: ['> machine-readable-agent-tag: orchestrator'] };
   const messagesOutput = {
     messages: [{ info: { role: 'user' }, parts: [{ type: 'text', text: 'hello' }] }],
   };
@@ -27,10 +27,26 @@ test('using-my-skills injects bootstrap into the system prompt only once', async
   await plugin['experimental.chat.system.transform']({}, output);
   await plugin['experimental.chat.system.transform']({}, output);
 
-  assert.equal(output.system.length, 1);
-  assert.match(output.system[0], /MYAI_SKILLS_BOOTSTRAP/);
+  assert.equal(output.system.length, 2);
+  assert.match(output.system[1], /MYAI_SKILLS_BOOTSTRAP/);
   assert.equal(plugin['experimental.chat.messages.transform'], undefined);
   assert.deepEqual(messagesOutput.messages[0].parts, [{ type: 'text', text: 'hello' }]);
+});
+
+test('using-my-skills skips system prompts without a machine-readable agent tag', async () => {
+  /*
+  Scenario: Built-in utility agents do not opt into the myai bootstrap
+    Given a system prompt without a machine-readable agent tag line
+    When OpenCode builds the system prompt
+    Then the using-my-skills bootstrap is not appended
+  */
+  const plugin = await UsingMySkillsPlugin({}, {});
+  const output = { system: ['Utility agent prompt without the tag.'] };
+
+  await plugin.config({});
+  await plugin['experimental.chat.system.transform']({}, output);
+
+  assert.deepEqual(output.system, ['Utility agent prompt without the tag.']);
 });
 
 test('root router keeps GPT-5 helper opt-in and forwards its options', async () => {

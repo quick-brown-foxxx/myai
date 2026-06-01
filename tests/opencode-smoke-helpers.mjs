@@ -88,6 +88,27 @@ export async function writeInstalledBootstrapSkill(opencodeConfigDir, proofToken
   );
 }
 
+export async function writeTaggedSmokeAgent(opencodeConfigDir) {
+  const agentPath = path.join(opencodeConfigDir, 'agents', 'myai-smoke-agent.md');
+
+  await fs.promises.mkdir(path.dirname(agentPath), { recursive: true });
+  await fs.promises.writeFile(
+    agentPath,
+    [
+      '---',
+      'description: Tagged primary agent for the myai OpenCode plugin smoke test',
+      'mode: primary',
+      '---',
+      '',
+      '> machine-readable-agent-tag: myai-smoke-agent',
+      '',
+      'You are a minimal smoke test agent.',
+      '',
+    ].join('\n'),
+    'utf8',
+  );
+}
+
 export async function packAndInstallPlugin(repoRoot, tempDir) {
   const { stdout } = await execFileAsync(
     'npm',
@@ -111,7 +132,7 @@ export async function packAndInstallPlugin(repoRoot, tempDir) {
   };
 }
 
-export function makeOpenCodeConfig(pluginEntries) {
+export function makeOpenCodeConfig(pluginEntries, options = {}) {
   const plugin = pluginEntries.map((entry) => {
     if (Array.isArray(entry)) return [`file://${entry[0]}`, entry[1]];
     return `file://${entry}`;
@@ -119,6 +140,7 @@ export function makeOpenCodeConfig(pluginEntries) {
 
   return JSON.stringify({
     $schema: 'https://opencode.ai/config.json',
+    ...(options.defaultAgent ? { default_agent: options.defaultAgent } : {}),
     share: 'disabled',
     autoupdate: false,
     snapshot: false,

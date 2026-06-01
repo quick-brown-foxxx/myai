@@ -231,12 +231,12 @@ test('keeps GPT-5 style content separate from the skills bootstrap plugin', asyn
     Then GPT-5 style helper content is not composed into the skills bootstrap
   */
   const plugin = await UsingMySkillsPlugin();
-  const output = { system: [] };
+  const output = { system: ['> machine-readable-agent-tag: orchestrator'] };
 
   await plugin['experimental.chat.system.transform']({}, output);
 
   assert.equal(typeof plugin['experimental.chat.system.transform'], 'function');
   assert.equal(plugin['experimental.chat.messages.transform'], undefined);
-  assert.match(output.system[0], /MYAI_SKILLS_BOOTSTRAP/);
-  assert.doesNotMatch(output.system[0], /MYAI_GPT5_STYLE_HELPER/);
+  assert.match(output.system[1], /MYAI_SKILLS_BOOTSTRAP/);
+  assert.doesNotMatch(output.system[1], /MYAI_GPT5_STYLE_HELPER/);
 });

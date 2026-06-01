@@ -5,7 +5,7 @@
  * exported value from a plugin module and rejects non-function exports.
  */
 
-import { getBootstrapContent, marker } from './core.js';
+import { getBootstrapContent, hasMachineReadableAgentTag, marker } from './core.js';
 
 export const UsingMySkillsPlugin = async (input = {}) => {
   let mergedConfig = {};
@@ -24,14 +24,16 @@ export const UsingMySkillsPlugin = async (input = {}) => {
       bootstrapCache = undefined;
     },
     'experimental.chat.system.transform': async (_input, output) => {
-      if (bootstrapCache === undefined) bootstrapCache = getBootstrapContent(resolverOptions());
-      const bootstrap = bootstrapCache;
-      if (!bootstrap || !Array.isArray(output.system)) return;
+      if (!Array.isArray(output.system) || !hasMachineReadableAgentTag(output.system)) return;
 
       const alreadyInjected = output.system.some(
         (text) => typeof text === 'string' && text.includes(marker),
       );
       if (alreadyInjected) return;
+
+      if (bootstrapCache === undefined) bootstrapCache = getBootstrapContent(resolverOptions());
+      const bootstrap = bootstrapCache;
+      if (!bootstrap) return;
 
       output.system.push(bootstrap);
     },

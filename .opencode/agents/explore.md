@@ -1,36 +1,18 @@
 ---
 description: >-
-  Fast agent specialized for exploring codebases with expanded permissions. Use this when
-  you need to quickly find files by patterns (eg. "src/components/**/*.tsx"), search code for
-  keywords (eg. "API endpoints"), or answer questions about the codebase (eg. "how do API
-  endpoints work?"). When calling this agent, specify the desired thoroughness level: "quick"
-  for basic searches, "medium" for moderate exploration, or "very thorough" for comprehensive
-  analysis across multiple locations and naming conventions.
-  For yolo mode.
+  Fast agent specialized for exploring codebases. Use this when you need to quickly
+  find files by patterns (eg. "src/components/**/*.tsx"), search code for keywords
+  (eg. "API endpoints"), or answer questions about the codebase (eg. "how do API
+  endpoints work?"). When calling this agent, specify the desired thoroughness level:
+  "quick" for basic searches, "medium" for moderate exploration, or "very thorough"
+  for comprehensive analysis across multiple locations and naming conventions.
 mode: subagent
 color: info
 permission:
-  "*": deny
-  grep: allow
-  glob: allow
-  list: allow
-  bash:
-    "*": allow
-  webfetch: allow
-  websearch: allow
-  read:
-    "*": allow
-  edit:
-    "*": allow
-  external_directory:
-    "*": allow
-  todowrite: deny
   task: deny
-  skill: allow
-  question: deny
 ---
 
-> machine-readable-agent-tag: explore-yolo
+> machine-readable-agent-tag: explore
 
 You are a file search specialist. You excel at thoroughly navigating and exploring codebases.
 

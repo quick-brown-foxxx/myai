@@ -20,6 +20,7 @@ import {
   smokeProofToken,
   spawnCollect,
   writeInstalledBootstrapSkill,
+  writeTaggedSmokeAgent,
 } from './opencode-smoke-helpers.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -58,6 +59,7 @@ test('smoke: packed using-my-skills plugin injects bootstrap through real openco
   const dirs = await makeIsolatedDirs(tempDir);
   await copyOnlyAuth(existingAuthPath, dirs.data);
   await writeInstalledBootstrapSkill(dirs.opencodeConfig, smokeProofToken);
+  await writeTaggedSmokeAgent(dirs.opencodeConfig);
 
   const installed = await packAndInstallPlugin(repoRoot, tempDir);
   const { packedFiles } = installed;
@@ -68,7 +70,7 @@ test('smoke: packed using-my-skills plugin injects bootstrap through real openco
   assert.ok(packedFiles.includes('skills/using-my-skills/SKILL.md'));
   assert.ok(bootstrapEntry.startsWith(path.join(tempDir, 'app')));
 
-  const config = makeOpenCodeConfig([bootstrapEntry]);
+  const config = makeOpenCodeConfig([bootstrapEntry], { defaultAgent: 'myai-smoke-agent' });
   const env = makeIsolatedEnv(config, dirs);
   const debugConfig = await runJson(opencode, ['debug', 'config'], { env });
 

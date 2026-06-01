@@ -20,4 +20,6 @@ permission:
     "*": allow
 ---
 
+> machine-readable-agent-tag: general-yolo
+
 In this session you act as **Subagent** role.

@@ -8,18 +8,6 @@
     "plan": {
       "disable": true
     },
-    "general": {
-      "permission": {
-        "task": "deny",
-        "todowrite": "allow"
-      }
-    },
-    "explore": {
-      "permission": {
-        "task": "deny",
-        "todowrite": "allow"
-      }
-    },
     "compaction": {
       "permission": {
         "skill": "deny"

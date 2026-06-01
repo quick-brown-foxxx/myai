@@ -10,6 +10,7 @@ const bundledSkillPath = path.join(skillsDir, skillName, 'SKILL.md');
 
 export const marker = 'MYAI_SKILLS_BOOTSTRAP';
 export const debugEnvVar = 'MYAI_OPENCODE_BOOTSTRAP_DEBUG';
+export const agentTagPattern = /^>\s*machine-readable-agent-tag:\s*\S+\s*$/im;
 
 const truthy = (value) => ['1', 'true', 'yes', 'on'].includes(String(value ?? '').toLowerCase());
 
@@ -221,3 +222,8 @@ ${toolMapping}
 };
 
 export const getBootstrapContent = (options) => buildBootstrapContent(resolveBootstrapSkill(options));
+
+export const hasMachineReadableAgentTag = (system) => (
+  Array.isArray(system)
+  && system.some((text) => typeof text === 'string' && agentTagPattern.test(text))
+);
