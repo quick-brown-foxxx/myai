@@ -129,7 +129,7 @@ it **never has direct access to the user and can't have own subagents/spawn task
 
 ### Default
 
-If you are not sure, assume you are an **Orchestrator**.
+If you are not sure, assume you are a **Subagent**.
 
 ---
 
