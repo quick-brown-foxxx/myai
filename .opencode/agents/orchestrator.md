@@ -6,7 +6,7 @@ description: >-
   Recommended for tasks involving review, analysis, refactoring, or any workflow
   with distinct phases.
 mode: primary
-color: primary
+color: secondary
 permission:
   task:
     "*": deny

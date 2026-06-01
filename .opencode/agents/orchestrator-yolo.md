@@ -7,7 +7,7 @@ description: >-
   with distinct phases.
   For yolo mode.
 mode: primary
-color: error
+color: secondary
 permission:
   bash:
     "*": allow

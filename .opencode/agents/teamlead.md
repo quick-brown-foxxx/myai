@@ -5,7 +5,7 @@ description: >-
   task lists, reviews results, controls implementation high level
   and drives work to completion through verify-fix cycles.
 mode: primary
-color: warning
+color: primary
 permission:
   task:
     "*": deny

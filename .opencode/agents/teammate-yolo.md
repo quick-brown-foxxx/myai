@@ -8,7 +8,7 @@ description: >-
   refactoring, or any big workflow with distinct phases.
   For yolo mode.
 mode: subagent
-color: error
+color: accent
 permission:
   bash:
     "*": allow

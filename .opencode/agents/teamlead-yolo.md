@@ -6,7 +6,7 @@ description: >-
   and drives work to completion through verify-fix cycles.
   For yolo mode.
 mode: primary
-color: error
+color: primary
 permission:
   bash:
     "*": allow

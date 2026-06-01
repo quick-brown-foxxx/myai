@@ -8,6 +8,7 @@ description: >-
   analysis across multiple locations and naming conventions.
   For yolo mode.
 mode: subagent
+color: info
 permission:
   "*": deny
   grep: allow
