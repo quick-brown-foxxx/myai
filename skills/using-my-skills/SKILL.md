@@ -2,8 +2,8 @@
 name: using-my-skills
 description: >-
   Bootstrap skill that helps to understand other skills and available workflows. 
-  ALWAYS LOAD THIS AT THE BEGINNING OF A NEW SESSION BEFORE EVERYTHING ELSE.
-  Unless it was already auto injected.
+  ALWAYS load this at the beginning of a new session before everything else.
+  UNLESS it was already auto injected.
 license: MIT
 metadata:
   tags: bootstrap, orchestration, planning
