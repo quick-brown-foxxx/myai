@@ -4,7 +4,9 @@
   "type": "module",
   "main": ".opencode/plugins/index.js",
   "exports": {
-    ".": "./.opencode/plugins/index.js"
+    ".": "./.opencode/plugins/index.js",
+    "./using-my-skills": "./.opencode/plugins/using-my-skills/index.js",
+    "./gpt5-style-helper": "./.opencode/plugins/gpt5-style-helper/index.js"
   },
   "scripts": {
     "test": "node --test --test-concurrency=1"

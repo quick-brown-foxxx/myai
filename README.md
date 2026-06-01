@@ -86,6 +86,15 @@ TODO
 
 #### Opencode
 
+This repo has OpenCode agents settings in:
+
+```text
+.opencode/opencode.json
+.opencode/agents/orchestrator.md
+.opencode/agents/teamlead.md
+.opencode/agents/teammate.md
+```
+
 Add this to `opencode.json`:
 
 ```jsonc

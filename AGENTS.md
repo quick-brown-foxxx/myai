@@ -32,6 +32,8 @@ myai/
 |   `-- <skill>/SKILL.md     Canonical skill files, plus optional references/scripts.
 |-- .agents/skills/         Generated/symlinked mirror.
 |-- .claude/skills/         Generated/symlinked mirror.
+|-- .opencode/opencode.json Canonical minimal OpenCode hierarchy config.
+|-- .opencode/agents/       Canonical OpenCode hierarchy agent prompts.
 |-- .opencode/plugins/      OpenCode bootstrap plugin source.
 |-- .claude-plugin/         Claude plugin metadata.
 |-- hooks/                  Claude-style session bootstrap hooks.
@@ -105,6 +107,7 @@ catalogs and mirror directories in the same change.
 session start; they do not install the full skill set.
 
 ```text
+OpenCode hierarchy config -> .opencode/opencode.json and .opencode/agents/
 OpenCode package entrypoint -> package.json -> .opencode/plugins/using-my-skills.js
 Claude plugin metadata      -> .claude-plugin/plugin.json and marketplace.json
 Claude-style hook           -> hooks/hooks.json -> hooks/session-start
