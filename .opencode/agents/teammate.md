@@ -13,6 +13,7 @@ permission:
     "*": deny
     general: allow
     explore: allow
+  todowrite: deny
 ---
 
 You are a **Teammate**. Your job is to coordinate work, not to do it yourself.
