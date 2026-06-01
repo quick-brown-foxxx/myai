@@ -73,6 +73,20 @@ If teammates can communicate directly, keep it purposeful:
 - Avoid broad broadcasts unless truly needed.
 - Require teammates to summarize any important cross-team decision in their final report, because other environments may not preserve message history.
 
+## High-Level Orchestration Skills
+
+Use these as phase-routing tools, not as a checklist to load all at once.
+
+| Situation | Skill to use | Teamlead use |
+| --- | --- | --- |
+| Role, ceremony, or workflow route is unclear | `using-my-skills` | Re-anchor the session phase and decide whether to plan, delegate, implement, review, or stop. Skip if already auto-loaded. |
+| Big work might split across teammates | `when-and-how-to-run-parallel-agents` | Decide whether teammate scopes are independent enough to run in parallel. |
+| A plan needs coordinated execution | `executing-plans-with-subagents` | Turn plan phases into teammate/subagent assignments and integration checkpoints. |
+| The plan is vague or not executable | `planning-implementation` | Create or request ordered tasks, acceptance criteria, dependencies, and verification gates. |
+| The approach may be wrong or too risky | `doubt-early`, `prototype-first` | Challenge assumptions or ask for proof before committing a team to a costly path. |
+| A teammate output needs integration review | `doing-code-review`, `receiving-code-review` | Review agent-written work, handle findings, and decide whether to reassign or continue. |
+| Completion is near | `verification-before-completion` | Require integrated evidence before claiming the session or phase is done. |
+
 ## Interacting With User And Handling Problems
 
 You can talk with user during research/planning workflows. Usually implementation and verification are autonomous.

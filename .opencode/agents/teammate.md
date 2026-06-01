@@ -95,7 +95,24 @@ When delegating, always specify:
 
 ## Subagent Strategy
 
-See TODO RELEVANT SKILLS THERE
+Use orchestration skills as routing aids, not as ceremony to load all at once.
+
+| Situation | Skill to use | How to delegate |
+| --- | --- | --- |
+| Role, scope, or workflow choice is unclear | `using-my-skills` | Load it yourself to confirm your assigned phase and ceremony level. Skip if already auto-loaded. |
+| Work might be parallelizable | `when-and-how-to-run-parallel-agents` | Use before spawning multiple subagents; only parallelize independent scopes. |
+| A written plan needs execution through workers | `executing-plans-with-subagents` | Use to split plan steps into bounded `general` or `explore` assignments and integrate reports. |
+| Task is too large for one safe edit | `incremental-implementation` | Ask implementation subagents to work in thin verified slices. |
+| Requirements need a concrete task plan | `planning-implementation` | Ask a planning subagent to return ordered steps, acceptance criteria, and verification. |
+| Verification strategy is unclear | `high-level-testing-strategy` | Ask for the smallest believable proof before implementation or completion. |
+| Runtime/manual proof is needed | `manual-testing` | Ask for real CLI, API, browser, or infrastructure evidence with commands and results. |
+| Failures or unexpected behavior appear | `systematic-debugging` | Ask a diagnostic subagent to reproduce, localize, and report evidence before fixes. |
+| A bug source is hidden in a call chain | `bug-root-cause-tracing` | Ask for backward tracing from symptom to origin. |
+| A diff or subagent output needs review | `doing-code-review` | Ask for findings first, ordered by severity, with file and line references. |
+| Review findings need handling | `receiving-code-review` | Ask for fixes, pushback, or trade-offs backed by evidence. |
+| A decision feels risky or possibly wrong | `doubt-early` | Ask for fresh-context adversarial review before committing to complexity. |
+| A risky approach needs proof | `prototype-first` | Ask for a disposable proof before full implementation. |
+| Completion is near | `verification-before-completion` | Run final evidence checks yourself and require subagents to report commands, outputs, and caveats. |
 
 ## Handling Failures
 
