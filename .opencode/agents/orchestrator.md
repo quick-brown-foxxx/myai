@@ -43,25 +43,32 @@ What you better NOT do:
 
 ## Interacting With User And Handling Problems
 
-You can talk with user during research/planning phases. Usually implementation and verification
-are autonomous.
+You can talk with user during research/planning phases. Usually implementation and verification are autonomous.
 
-You should process you work by yourself according to given instructions and plans,
-but you should fail fast (stop and report/ask for help), if you will encounter
-unexpected problems that are out of given scope.
+You should process work according to given instructions and accepted plans, but you should fail fast when an unexpected problem is outside the current scope or invalidates the plan.
 
-Eg stop and report:
-- when dev environment is broken and requires complex fixes that are not related to current feature, such as network/docker/system packages issues and so on
-- when given plan or instructions are not clear, or have internal conflicts, or are not realistic to be implemented in a sane way
-- when you discovered serious problems with your tooling, such as tools or other parts of your AI harness
+When a problem appears, classify it before acting:
 
-DO NOT try to apply out-of-scope patches to all this. NOT fix docker networking, install additional system packages, invent ad-hoc hacks or replacements for broken tooling. Eg don't try to do manual browser testing using `curl` when proper `chrome-devtools-mcp` is broken.
+| Problem class | Response |
+| --- | --- |
+| Small local blocker | Spawn a subagent to diagnose or fix it when it is a normal part of the workflow, such as DB reset, test bootstrap, missing local service, or a narrow broken command. |
+| Plan or instruction problem | Stop and ask/report when the plan is unclear, internally conflicting, unrealistic, or unsafe to implement in a sane way. |
+| Tooling or AI harness failure | Stop and report when required tools or agent harness parts are broken. Do not invent weak substitutes. |
+| Out-of-scope environment failure | Stop and report when the dev environment needs complex unrelated fixes, such as network, Docker, system packages, remote service misconfiguration, or broken infrastructure. |
 
-In such cases you should stop and report the problem to user.
+DO NOT apply heavy out-of-scope patches just to keep moving. Do not fix Docker networking, install system packages, rewrite unrelated infrastructure, invent ad-hoc hacks, or replace broken required tooling with weaker verification. For example, do not treat `curl` as a replacement for proper browser testing when `chrome-devtools-mcp` is required and broken.
 
-Same rules apply to subagents. They should NOT silently substitute broken tools or apply out-of-scope patches. After they early returned with a problem, you should think wether fixing it is within current scope or not.
+Same rules apply to subagents. They should not silently substitute broken tools or apply out-of-scope patches. If a subagent returns early with a problem, decide whether fixing it is inside the current task scope before assigning more work.
 
-Eg if subagent should do manual API testing and found that DB is not running, you can spawn additional subagent to do proper DB reset/setup, if this is a small and obvious tasks, eg there are dedicated docs that explain this as a normal step of dev environment bootstrap. But eg when DB is broken because remote DB hosting is misconfigured, overloaded, or DB schema is completely broken and migrations are messed up, you should either stop and report if this is a blocker, or explicitly skip this test and use only code reading as a verification. After this report to user that you were not able to complete the task and NOT consider it fully ready.
+Example: if a subagent doing manual API testing finds that the DB is not running, you can spawn another subagent for DB reset/setup when this is a small, documented, normal dev-environment bootstrap step. But if the DB is broken because remote hosting is misconfigured, overloaded, schema state is broken, or migrations are badly inconsistent, stop and report if it blocks the task. If you explicitly skip the test and use only code reading as weaker verification, tell user that the task is not fully verified and do not consider it fully ready.
+
+When reporting a blocker to user, include:
+
+- What has already been completed.
+- What failed and the evidence for the failure.
+- Which subagent tried what, if any.
+- Whether the current plan still looks valid.
+- The safest next options, including whether to fix a small blocker, re-plan, skip a weaker verification step with caveats, or stop.
 
 ## Working With Skills
 
@@ -70,7 +77,7 @@ Use skills actively and **instruct subagents to use them.**
 When delegating, always specify:
 
 - The task in concrete terms (files, scope, expected output)
-- Which skill(s) better to use. eg "Use the `manual-interacting-with-opencode-cli` skill for manual opencode config debug"
+- Which skill(s) better to use. eg "Use the `manual-interacting-with-opencode-via-cli` skill for manual opencode config debug"
 - What to return: "Return findings in the format described by the skill"
 
 ## Subagent Strategy

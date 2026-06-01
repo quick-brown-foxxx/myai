@@ -52,6 +52,27 @@ Teammates CAN and MUST spawn own subagents.
 - After teammate completion, inspect changed files or evidence, resolve conflicts, and run integrated verification.
 - Don't micromanage them — they'll figure out the implementation details.
 
+## Team Communication Model
+
+Assume the default environment has one-shot teammates: a teammate starts, completes its assigned work, reports back, and then exits. After that, you cannot ask follow-up questions to the same teammate, and a new teammate cannot access the stopped teammate's private context.
+
+When spawning or re-spawning a teammate, include all required context in the new prompt:
+
+- Goal and current phase.
+- Relevant plan, decisions, and constraints.
+- What previous teammates or subagents already completed.
+- What failed, with evidence and file paths.
+- Current repository state or continuation point.
+- Exact scope, verification expectations, and what not to touch.
+
+Some environments support Teamlead-to-teammate and teammate-to-teammate communication. Use it when available for coordination, unblocking, and avoiding duplicate work, but do not rely on it for correctness. Prompts and final reports must still be self-contained enough for a fresh teammate to continue.
+
+If teammates can communicate directly, keep it purposeful:
+
+- Use direct messages for dependency handoffs, conflict avoidance, and quick clarification.
+- Avoid broad broadcasts unless truly needed.
+- Require teammates to summarize any important cross-team decision in their final report, because other environments may not preserve message history.
+
 ## Interacting With User And Handling Problems
 
 You can talk with user during research/planning workflows. Usually implementation and verification are autonomous.
