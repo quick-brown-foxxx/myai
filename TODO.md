@@ -41,3 +41,4 @@
 - cover commenting code. rule: required for business logic, complex tricks/hacks required to bypass a bug or needed by framework. Not needed for simple boilerplate code like controllers/react configuration and so on
 - "let's imagine it already failed. why?" pattern in planning/brainstorming skills
 - upstream-source-research new rule: always by default set systemd timer or equivalent to cleanup big tmp folder of downloaded sources after 2h. This should be done always in case user will miss the report and forget to cleanup. He will be able to ask you to drop this timer if he will want to preserve the folder
+- filter by current agent in using-my-skills hook
