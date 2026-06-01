@@ -114,6 +114,14 @@ Add this to `opencode.json`:
 
 Restart OpenCode after changing plugin config.
 
+> **Updating git-installed plugins:** OpenCode usually not auto updates plugins installed from git.
+> To force an update, quit OpenCode, remove the plugin directory under the
+> OS cache path (`~/.cache/opencode/packages/` on Linux,
+> `~/Library/Caches/opencode/packages/` on macOS,
+> `%LOCALAPPDATA%\\opencode\\Cache\\packages\\` on Windows), then restart
+> OpenCode. For reproducible installs and auto updates, prefer pinning the git plugin to a commit
+> SHA, eg `myai@git+https://github.com/quick-brown-foxxx/myai.git#<sha>`.
+
 #### Other Tools
 
 Install the `using-my-skills` skill manually. Note that this is less
