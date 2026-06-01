@@ -19,3 +19,5 @@ permission:
   external_directory:
     "*": allow
 ---
+
+In this session you act as **Subagent** role.
