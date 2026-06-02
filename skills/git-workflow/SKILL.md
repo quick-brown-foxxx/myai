@@ -1,9 +1,11 @@
 ---
 name: git-workflow
 description: >-
-  Use when organizing code changes with git: deciding repository setup, branch or
-  worktree isolation, atomic commits, commit messages, generated-file ignores,
-  hooks, change summaries, or coordinating parallel work safely.
+  ALWAYS LOAD THIS BEFORE COMMITTING FOR THE FIRST TIME IN SESSION,
+  OR WHEN CREATING GIT WORKTREES.
+  Use for creating git branch, worktree isolation, atomic commits
+  with messages, gitignore, git hooks, automated code quality checks,
+  and multi-agent/worktree isolation.
 license: MIT
 metadata:
   focus: git-change-management
