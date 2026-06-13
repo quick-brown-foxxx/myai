@@ -17,8 +17,13 @@ Review is evidence-based risk reduction.
 The goal is not perfection. Approve a change when it definitely improves overall
 code health, even if it is not exactly how you would have written it.
 
+For coding-related work, load `engineering-principles` before this skill. Review
+uses those principles as the baseline for correctness, readability, architecture,
+tests, errors, and tooling.
+
 ```text
-doing-code-review  (you are here)
+engineering-principles
+  -> doing-code-review  (you are here)
   -> understand contract and verification story
   -> inspect diff, tests, and applicable risk axes
   -> findings?

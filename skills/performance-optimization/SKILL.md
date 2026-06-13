@@ -11,6 +11,10 @@ metadata:
 
 Measure before optimizing. Performance work without measurement is guessing — and guessing leads to premature optimization that adds complexity without improving what matters. Profile first, identify the actual bottleneck, fix it, measure again. Optimize only what measurements prove matters.
 
+For coding-related work, load `engineering-principles` before this skill.
+Performance work still follows explicit-over-guesswork, simple-over-clever, and
+verification-before-claims defaults.
+
 ## When to Use
 
 - Performance requirements exist in the spec (load time budgets, response time SLAs)

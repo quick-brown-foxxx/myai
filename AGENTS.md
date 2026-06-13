@@ -15,7 +15,7 @@ For the philosophy behind skills, workflows, agent roles, and orchestration
 layers, read @SKILLS-PHILOSOPHY.md
 
 For engineering values used by coding, architecture, testing, and tooling skills,
-read @ENGINEERING-PHILOSOPHY.md
+read @ENGINEERING-PHILOSOPHY.md.
 
 For migration state, source consolidation decisions, remaining cleanup, and
 deferred work, read @docs/skill-set-consolidation.md
@@ -98,7 +98,7 @@ README.md          -> public/install-oriented catalog summary
 skills/using-my-skills/SKILL.md -> bootstrap skill that should list all workflows (but not atomic/independent/self-contained/task-specific skills)
 ```
 
-Current canonical inventory is 37 skills. If that count changes, update the
+Current canonical inventory is 38 skills. If that count changes, update the
 catalogs and mirror directories in the same change.
 
 ## Bootstrap Adapter Rules

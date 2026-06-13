@@ -17,8 +17,13 @@ A single validation point is easy to bypass — different code paths, refactorin
 
 **Core principle:** One fix removes the bug. Validation layers make the invalid state structurally impossible; instrumentation makes missed failures diagnosable.
 
+For coding-related work, load `engineering-principles` before this skill. This
+skill turns its validation, boundary, and fail-fast defaults into layered bug
+protection.
+
 ```text
-systematic-debugging
+engineering-principles
+  -> systematic-debugging
   -> fix at source and prove original symptom
   -> bug-protection-multi-layered  (you are here, for high-risk bug classes)
        -> add entry validation / business checks / environment guards

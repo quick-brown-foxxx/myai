@@ -18,6 +18,10 @@ A confident answer is not a correct one. Long sessions accumulate context that q
 
 Doubt-early is the discipline of invoking a fresh-context reviewer to challenge your direction before you commit. The reviewer may find issues with your approach, or may find you're solving the wrong problem entirely.
 
+For coding-related decisions, load `engineering-principles` before this skill.
+Use those principles as part of the contract the adversarial review should
+challenge against.
+
 This is not `/review`. `/review` is a verdict on a finished artifact. This is in-flight: challenge your direction while course-correction is still cheap.
 
 ## When to Use

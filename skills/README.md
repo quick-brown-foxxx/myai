@@ -11,6 +11,8 @@ Use this file to understand:
 - which tags and workflow maps should be used when updating skill files later
 
 For the philosophy behind this map, see `../SKILLS-PHILOSOPHY.md`.
+For coding, architecture, testing, tooling, and project setup principles, see
+`engineering-principles` and the human-facing `../ENGINEERING-PHILOSOPHY.md`.
 
 ## Directory Model
 
@@ -188,6 +190,16 @@ Plain skill install -> agent loads using-my-skills on demand
 | --- | --- | --- |
 | `using-my-skills` | Bootstrap role detection and route common intents to local workflow skills | bootstrap, orchestration, planning |
 
+### Core Engineering Principles
+
+`engineering-principles` is the installable agent-facing copy of the repository's
+engineering philosophy. Load it before any coding-related work begins, then load
+the more specific workflow or domain skill for the current phase.
+
+| Skill | Primary role | Tags |
+| --- | --- | --- |
+| `engineering-principles` | Apply local engineering standards for coding, architecture, testing, tooling, errors, and setup | architecture, implementation, testing, quality |
+
 ### Planning And Design
 
 ```mermaid
@@ -348,6 +360,11 @@ human, Teamlead, or current Orchestrator controls phase transitions.
 
 Soft handoff arrows mean "consider this next if the work calls for it", not
 "load this automatically".
+
+Before entering any coding-related recipe, load `engineering-principles` first.
+It supplies the default engineering standards for planning, implementation,
+debugging, testing, review, CI/CD, release automation, security, performance, and
+project setup. Then load the focused skill for the current phase.
 
 ```mermaid
 flowchart TD

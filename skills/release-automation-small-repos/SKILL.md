@@ -15,6 +15,10 @@ metadata:
 
 Design small repos so the correct release path is the easiest path. The repo should expose a clear data flow from source or upstream input to validated generated files, build artifacts, tags, and published releases. Prefer explicit scripts, reviewable update PRs, reproducible builds, and verification that exercises the real automation rather than assuming it works.
 
+For coding-related work, load `engineering-principles` before this skill. Release
+automation is a maintained-project setup concern and should inherit strict
+tooling, validation, and real-workflow verification defaults.
+
 Prefer simple, reviewable automation scripts for sync, generation, build
 orchestration, metadata validation, and release helpers unless the target
 ecosystem strongly favors another language.

@@ -11,6 +11,10 @@ metadata:
 
 Ship with confidence. The goal is not just to deploy — it's to deploy safely, with monitoring in place, a rollback plan ready, and a clear understanding of what success looks like. Every launch should be reversible, observable, and incremental.
 
+For coding-related work, load `engineering-principles` before this skill. Launch
+readiness should verify that the engineering safety net is present before users
+depend on the change.
+
 ## When to Use
 
 - Deploying a feature to production for the first time

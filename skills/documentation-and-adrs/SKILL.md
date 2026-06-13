@@ -11,6 +11,10 @@ metadata:
 
 Document decisions, not just code. The most valuable documentation captures the *why* — the context, constraints, and trade-offs that led to a decision. Code shows *what* was built; documentation explains *why it was built this way* and *what alternatives were considered*. This context is essential for future humans and agents working in the codebase.
 
+For coding-related documentation or ADRs, load `engineering-principles` before
+this skill so recorded decisions preserve the local standards for architecture,
+testing, validation, tooling, and simplicity.
+
 ## Text And Docs Style
 
 When writing any kind of text - message for a user, a prompt for subagent, a doc -

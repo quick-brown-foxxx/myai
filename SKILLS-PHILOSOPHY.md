@@ -1,11 +1,12 @@
 # Skills Philosophy
 
 This document explains how this repository thinks about skills, workflows, agent
-roles, and orchestration. It complements `ENGINEERING-PHILOSOPHY.md` instead of
-duplicating it.
+roles, and orchestration. It complements `ENGINEERING-PHILOSOPHY.md` and the
+installable `engineering-principles` skill instead of duplicating them.
 
-`ENGINEERING-PHILOSOPHY.md` governs engineering substance: code quality,
-architecture, testing values, typing, explicitness, tooling, and project setup.
+`ENGINEERING-PHILOSOPHY.md` and `engineering-principles` govern engineering
+substance: code quality, architecture, testing values, typing, explicitness,
+tooling, and project setup.
 
 `SKILLS-PHILOSOPHY.md` governs agent-process structure: how skills are packaged,
 discovered, invoked, composed, delegated, and bounded.
@@ -35,6 +36,7 @@ Examples:
 
 - `upstream-source-research` for inspecting upstream packages and repositories.
 - `ai-edge-research` for research of AI tools popular among practitioners.
+- `engineering-principles` as the foundation before coding-related work.
 - `how-to-write-skills` for authoring or refining skills.
 - `code-simplification` for behavior-preserving clarity refactors.
 

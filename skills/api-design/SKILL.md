@@ -11,6 +11,10 @@ metadata:
 
 Design stable, well-documented interfaces that are hard to misuse. Good interfaces make the right thing easy and the wrong thing hard. This applies to REST APIs, GraphQL schemas, module boundaries, component props, and any surface where one piece of code talks to another.
 
+For coding-related work, load `engineering-principles` before this skill. API
+design applies those foundations to contracts, validation, typed boundaries, and
+error semantics.
+
 ## When to Use
 
 - Designing new API endpoints

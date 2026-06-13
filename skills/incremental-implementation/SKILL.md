@@ -16,7 +16,13 @@ Build in small, verified increments. Do not let work sprawl.
 
 This skill is the execution discipline after a direction or plan exists.
 
+For coding-related work, load `engineering-principles` before this skill. This
+skill applies those defaults through small slices and frequent evidence.
+
 ```text
+engineering-principles
+        │
+        ▼
 planning-implementation / clear task
         │
         ▼

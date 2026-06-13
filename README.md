@@ -11,6 +11,9 @@ It was created as a custom alternative to [Superpowers](https://github.com/obra/
 - Atomic skills for specific tasks like research, skills writing, creating UI mockups and so on.
 - Composable workflows that connect multiple skills for larger tasks, eg planning, implementation, and review.
 - Philosophy docs that define the rules and core ideas behind the skills and workflows.
+- An installable `engineering-principles` skill that gives agents the coding,
+  architecture, testing, tooling, and setup principles even when root docs are
+  not installed.
 
 Those skills are distilled from personal experience in software development, problem solving and AI orchestration. This helps reduce babysitting and align agent solutions with the author's preferences.
 
@@ -145,13 +148,17 @@ Those files help to understand philosophies behind this repo and author's approa
 - `SKILLS-PHILOSOPHY.md` - how skills, workflows, agent roles, and orchestration
   layers fit together.
 - `ENGINEERING-PHILOSOPHY.md` - coding, architecture, testing, tooling, and
-  project setup principles.
+  project setup principles. The installable agent-facing copy is
+  `skills/engineering-principles/SKILL.md`.
 
 ## Workflows
 
 Workflows are short maps, not mandatory rituals.
 
 ```text
+Engineering foundation:
+  engineering-principles -> any coding-related workflow
+
 Planning:
   idea-sharpening -> brainstorming -> planning-implementation
 
@@ -223,6 +230,9 @@ The engineering philosophy is about software substance:
 - Separate code by responsibility and change axis.
 - Use one strict tool per job.
 
+The same engineering philosophy is available to installed agents as the
+`engineering-principles` skill and should be loaded before coding-related work.
+
 ## Catalog
 
 The repository separates reusable guidance into three skill/workflow layers, with
@@ -269,6 +279,23 @@ flowchart LR
 | `using-my-skills` | Bootstrap role detection and workflow routing | Auto-injected by Claude/OpenCode adapters when installed as a plugin |
 
 Should be auto injected via Claude Code/OpenCode plugin
+
+### Core Engineering Principles
+
+This foundational skill should load before any coding-related work: coding,
+debugging, architecture, planning, API design, testing, review, refactoring,
+CI/CD, release automation, security, performance, and project setup.
+
+| Skill | Primary role | Notes |
+| --- | --- | --- |
+| `engineering-principles` | Apply local engineering standards for coding, architecture, testing, tooling, errors, and setup | Fundamental; load before focused coding workflow skills |
+
+To install:
+
+```bash
+npx -y skills add quick-brown-foxxx/myai \
+  -s 'engineering-principles'
+```
 
 ### Planning And Design
 

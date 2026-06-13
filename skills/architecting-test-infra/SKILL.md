@@ -17,12 +17,16 @@ Test infrastructure is architecture. Treat it with the same care as production b
 
 Use this before writing individual tests when the test runner, BDD framework, fixtures, data, services, isolation, or environment setup are missing or weak.
 
+For coding-related work, load `engineering-principles` before this skill. Test
+infrastructure applies its pit-of-success and real-over-mocked defaults.
+
 ---
 
 ## Testing Skill Map
 
 ```text
-high-level-testing-strategy
+engineering-principles
+  -> high-level-testing-strategy
   -> architecting-test-infra       (you are here: test infrastructure architecture)
        -> prove infra with one representative test
        -> test-driven-development  (for automated test implementation)

@@ -15,13 +15,18 @@ metadata:
 Break a validated spec or clear task into ordered implementation work,
 acceptance criteria, dependencies, and verification checkpoints.
 
+For coding-related work, load `engineering-principles` before this skill. Plans
+should preserve its defaults for boundaries, validation, tests, tooling, and
+simple implementation.
+
 ## Planning Pipeline
 
 This skill is part of a scalable planning pipeline. Each step is optional
 depending on work size.
 
 ```text
-idea-sharpening        (if the idea is vague)
+engineering-principles (for coding-related work)
+  -> idea-sharpening   (if the idea is vague)
   -> brainstorming     (if spec or design is needed)
   -> planning-implementation  (you are here)
        -> high-level-testing-strategy       (if proof strategy is unclear)

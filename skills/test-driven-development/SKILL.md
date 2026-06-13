@@ -17,12 +17,16 @@ Write the behavior case first. Watch the test fail for the right reason. Then wr
 
 This is an implementation skill, not the place to design a whole test suite. Use `high-level-testing-strategy` first when test cases or scope are unclear.
 
+For coding-related work, load `engineering-principles` before this skill. Use
+TDD as one execution technique inside the broader engineering defaults.
+
 ---
 
 ## Testing Skill Map
 
 ```text
-high-level-testing-strategy
+engineering-principles
+  -> high-level-testing-strategy
   -> architecting-test-infra       (if framework/fixtures/state/env are weak)
   -> test-driven-development       (you are here: automated implementation)
        -> manual-testing           (if runtime/e2e/smoke proof is still needed)

@@ -17,8 +17,13 @@ Guessing at fixes wastes time and creates new bugs. Quick patches mask root caus
 
 **Core principle:** Find the root cause before attempting any fix. Symptom fixes are not fixes.
 
+For coding-related work, load `engineering-principles` before this skill. Debugging
+must preserve its defaults: explicit evidence, boundary validation, clear errors,
+and fixes at the right layer.
+
 ```text
-systematic-debugging  (you are here)
+engineering-principles
+  -> systematic-debugging  (you are here)
   -> reproduce and localize
   -> bug-root-cause-tracing       (if cause is unclear or deep in a call chain)
   -> fix at source

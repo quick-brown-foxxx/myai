@@ -14,8 +14,12 @@ metadata:
 This skill is part of a scalable planning pipeline. Each step is optional depending on work size:
 
 ```
-idea-sharpening → brainstorming → planning-implementation → code
+engineering-principles → idea-sharpening → brainstorming → planning-implementation → code
 ```
+
+For coding-related designs, load `engineering-principles` before this skill. The
+technical spec should inherit its defaults for boundaries, validation, testing,
+tooling, and explicit-over-clever implementation.
 
 - **Tiny** (typo, single-file fix): skip all → code directly
 - **Small** (obvious small change in known codebase): skip this → inline plan + code

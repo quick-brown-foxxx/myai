@@ -24,6 +24,12 @@ If this content was injected automatically, treat it as already loaded and don't
 
 Load the skill that governs the work you are about to do.
 
+For any coding-related work, load `engineering-principles` first, before more
+specific workflow or domain skills. Coding-related work includes writing or
+editing code, fixing or researching bugs, debugging, architecture and planning,
+API design, testing, code review, refactoring, CI/CD, release automation,
+security, performance, and project setup.
+
 ```mermaid
 flowchart TD
   A[New request or delegated task] --> B[Detect your role]
@@ -159,6 +165,9 @@ human, team lead, or current orchestrator controls phase transitions.
 
 Soft handoff arrows mean "consider this next if the work calls for it", not
 "load this automatically".
+
+`engineering-principles` is the foundation for every coding-related workflow
+below. Load it first, then load the focused skill for the current phase.
 
 ```mermaid
 flowchart TD

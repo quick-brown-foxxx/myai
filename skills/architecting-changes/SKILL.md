@@ -18,13 +18,17 @@ It is both a compact guide and a router to deeper project docs and domain skills
 Use it to decide shape and boundaries, then continue through the normal planning
 or implementation flow.
 
+For coding-related work, `engineering-principles` should already be loaded as
+the foundation for explicitness, validation, boundaries, testing, and tooling.
+
 ```text
-brainstorming / planning-implementation / unclear implementation task
-  -> architecting-changes  (you are here, when boundaries or ownership matter)
-       -> api-design / security-and-hardening / performance-optimization
-       -> documentation-and-adrs       (if decision should be durable)
-       -> planning-implementation      (if work needs decomposition)
-       -> incremental-implementation   (if direction is clear enough to execute)
+engineering-principles
+  -> brainstorming / planning-implementation / unclear implementation task
+     -> architecting-changes  (you are here, when boundaries or ownership matter)
+          -> api-design / security-and-hardening / performance-optimization
+          -> documentation-and-adrs       (if decision should be durable)
+          -> planning-implementation      (if work needs decomposition)
+          -> incremental-implementation   (if direction is clear enough to execute)
 ```
 
 ---
@@ -201,10 +205,10 @@ Use this table to decide whether to stay in this skill or load a deeper one.
 | Production launch, rollout, monitoring, rollback strategy | `shipping-and-launch` | — |
 | ADR-worthy decision or context future agents must preserve | `documentation-and-adrs` | — |
 | Implementation order or task decomposition after architecture direction is clear | `planning-implementation` | — |
-| Python-specific project, backend, GUI, or implementation concerns | Use this skill plus `ENGINEERING-PHILOSOPHY.md` | Record follow-up if a future language-specific skill is needed |
+| Python-specific project, backend, GUI, or implementation concerns | Use this skill plus `engineering-principles` | Record follow-up if a future language-specific skill is needed |
 
 If a language-specific route is missing, make the architecture decision with this
-skill and `ENGINEERING-PHILOSOPHY.md`, then note any needed follow-up in the
+skill and `engineering-principles`, then note any needed follow-up in the
 handoff.
 
 ---

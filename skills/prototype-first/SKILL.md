@@ -16,6 +16,10 @@ metadata:
 
 Prototype risky steps early instead of discovering failure in the middle of implementation.
 
+For coding-related prototypes, load `engineering-principles` before this skill.
+The prototype should test assumptions without weakening the final code's
+validation, tooling, boundary, or simplicity standards.
+
 ## When To Use
 
 - A plan contains an unclear or high-risk step.

@@ -13,6 +13,9 @@ metadata:
 
 Simplify code by reducing complexity while preserving exact behavior. The goal is not fewer lines — it's code that is easier to read, understand, modify, and debug. Every simplification must pass a simple test: "Would a new team member understand this faster than the original?"
 
+For coding-related work, load `engineering-principles` before this skill. This
+skill applies its explicit-over-clever principle to behavior-preserving refactors.
+
 ## When to Use
 
 - After a feature is working and tests pass, but the implementation feels heavier than it needs to be

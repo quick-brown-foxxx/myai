@@ -50,13 +50,13 @@ remaining blockers, and deferred work only.
 
 | Python principle | Core location | Python-specific remainder |
 | --- | --- | --- |
-| Pit of success | `ENGINEERING-PHILOSOPHY.md` | Tool choices per project |
-| Explicitness through types | `ENGINEERING-PHILOSOPHY.md` | basedpyright, msgspec, reportAny |
-| Fail fast | `ENGINEERING-PHILOSOPHY.md` | Python preflight specifics |
-| Error handling as control flow | `ENGINEERING-PHILOSOPHY.md` | rusty-results usage |
-| Testing philosophy | `ENGINEERING-PHILOSOPHY.md` | pytest fixtures, containers, CLI/e2e patterns |
-| Architecture separation | `ENGINEERING-PHILOSOPHY.md` | Python routers and backend/UI patterns |
-| Project setup | `ENGINEERING-PHILOSOPHY.md` conceptually | uv, ruff, basedpyright, pytest, PySide6, typer |
+| Pit of success | `ENGINEERING-PHILOSOPHY.md` and `engineering-principles` | Tool choices per project |
+| Explicitness through types | `ENGINEERING-PHILOSOPHY.md` and `engineering-principles` | basedpyright, msgspec, reportAny |
+| Fail fast | `ENGINEERING-PHILOSOPHY.md` and `engineering-principles` | Python preflight specifics |
+| Error handling as control flow | `ENGINEERING-PHILOSOPHY.md` and `engineering-principles` | rusty-results usage |
+| Testing philosophy | `ENGINEERING-PHILOSOPHY.md` and `engineering-principles` | pytest fixtures, containers, CLI/e2e patterns |
+| Architecture separation | `ENGINEERING-PHILOSOPHY.md` and `engineering-principles` | Python routers and backend/UI patterns |
+| Project setup | `ENGINEERING-PHILOSOPHY.md` and `engineering-principles` conceptually | uv, ruff, basedpyright, pytest, PySide6, typer |
 
 ## Current Skill Inventory
 
@@ -65,6 +65,7 @@ remaining blockers, and deferred work only.
 | Skill | Status | Notes |
 | --- | --- | --- |
 | `using-my-skills` | done | Compact local bootstrap plus role hierarchy, workflow routing, ceremony scaling, and Claude/OpenCode injector support. |
+| `engineering-principles` | done | Installable agent-facing copy of the engineering philosophy; loaded before coding-related work. |
 | `how-to-write-skills` | exists | Already existed before starting. |
 | `idea-sharpening` | done | Strategic ideation: expand, converge, sharpen. |
 | `brainstorming` | done | Technical spec creation for understood features. |
@@ -141,7 +142,7 @@ remaining blockers, and deferred work only.
 | --- | --- | --- |
 | Full inventory | done | Four source sets inventoried. |
 | Conflict/overlap analysis | done | Major merge/split decisions recorded above. |
-| Core philosophy | done | `ENGINEERING-PHILOSOPHY.md` written from generalized Python principles. |
+| Core philosophy | done | `ENGINEERING-PHILOSOPHY.md` written from generalized Python principles and duplicated into installable `engineering-principles`. |
 | Cross-cutting enrichers | done | `prototype-first`, `doubt-early`, `code-simplification`, `visual-mockups`. |
 | Domain skills | done | API, security, performance, CI/CD, shipping, docs, and AI CLI runtime verification. |
 | Planning pipeline | done | `idea-sharpening`, `brainstorming`, `planning-implementation`. |

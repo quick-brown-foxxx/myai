@@ -17,12 +17,16 @@ Design tests before writing them. Tests are proof of behavior, not green checkma
 
 This skill is the strategy step for testing. It decides **what should be proven** and **how** before implementation starts.
 
+For coding-related work, load `engineering-principles` before this skill. This
+skill turns its testing philosophy into concrete proof choices.
+
 ---
 
 ## Testing Skill Map
 
 ```text
-high-level-testing-strategy  (you are here)
+engineering-principles
+  -> high-level-testing-strategy  (you are here)
   -> architecting-test-infra       (if framework/fixtures/state/env are weak)
   -> selected proof type?
        ├── automated      -> test-driven-development

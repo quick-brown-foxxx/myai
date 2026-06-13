@@ -16,8 +16,13 @@ Review feedback is technical input to evaluate, not a command stream to obey.
 Do not chase perfection: apply feedback that makes the change safer, clearer, or better aligned with the contract; push back on feedback that is wrong,
 speculative, or not worth the complexity it adds.
 
+For coding-related work, load `engineering-principles` before this skill. Use it
+to decide whether feedback aligns with local standards for simplicity, boundaries,
+tests, validation, and tooling.
+
 ```text
-doing-code-review
+engineering-principles
+  -> doing-code-review
   -> findings or reviewer comments
   -> receiving-code-review  (you are here)
        -> verify and classify feedback

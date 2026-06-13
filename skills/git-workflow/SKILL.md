@@ -17,6 +17,9 @@ metadata:
 Git is the safety net for agentic development: branches isolate work, commits are
 save points, and history explains why changes happened.
 
+For coding-related git work, load `engineering-principles` before this skill so
+atomic commits and hooks preserve the local engineering standards.
+
 Default posture:
 
 ```text

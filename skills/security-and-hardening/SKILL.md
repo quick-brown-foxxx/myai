@@ -14,6 +14,10 @@ metadata:
 
 Security-first development practices for web applications. Treat every external input as hostile, every secret as sacred, and every authorization check as mandatory in production and production-like environments. Security isn't a phase — it's a constraint on every line of code that touches real user data, authentication, or external systems.
 
+For coding-related work, load `engineering-principles` before this skill.
+Security hardening specializes its validation-at-boundaries and fail-fast
+defaults for adversarial inputs and production guardrails.
+
 Use strict security defaults for production. Apply the same defaults to staging when it is public, handles production-like data, connects to shared services, or validates production behavior. Local development may use lighter settings when they are isolated, explicit, and cannot accidentally ship as deployed defaults.
 
 ## Overrides

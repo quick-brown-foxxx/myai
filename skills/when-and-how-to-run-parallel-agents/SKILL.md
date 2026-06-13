@@ -18,8 +18,12 @@ confused workflow noisier.
 Use this skill to decide whether work can be split safely, then define focused
 agent tasks with clear contracts and integrate their results deliberately.
 
+For coding-related work, load `engineering-principles` before this skill and tell
+coding subagents to load it before their focused task skills.
+
 ```text
-planning-implementation / clear task batch
+engineering-principles
+  -> planning-implementation / clear task batch
   -> when-and-how-to-run-parallel-agents  (you are here)
        -> independent?
             ├── no  -> sequence work

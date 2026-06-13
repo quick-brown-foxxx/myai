@@ -1,10 +1,40 @@
+---
+name: engineering-principles
+description: >-
+  ALWAYS LOAD THIS SKILL BEFORE ANY CODING-RELATED WORK: writing or editing code,
+  fixing bugs, debugging, planning architecture, designing APIs, setting up projects,
+  testing, reviewing code, refactoring, CI/CD, release automation, security,
+  performance, or researching implementation behavior. It provides the local
+  engineering philosophy: strict types, validation, explicit errors, trustworthy
+  tests, clear architecture, one strict tool per job, frameworks over ad hoc
+  patterns, and explicit-over-clever code.
+license: MIT
+metadata:
+  focus: engineering-principles
+  tags: architecture, implementation, testing, quality
+---
+
+# Engineering Principles
+
+## How To Use This Skill
+
+This is the installable, agent-facing copy of the repository's engineering
+philosophy. Load it before any coding-related work starts, before more specific
+workflow or domain skills such as architecture, implementation, debugging,
+testing, code review, security, performance, CI/CD, release, or project setup.
+
+Apply the principles with scale-appropriate judgment. Tiny edits should not gain
+heavy ceremony, but they still inherit the same defaults: explicitness,
+validation at boundaries, trustworthy checks, clear architecture, and simple
+readable code.
+
+---
+
 # Development Principles
 
 Principles that guide architecture, coding, testing, and project setup decisions.
-Agent management rules live in `SKILLS-PHILOSOPHY.md`.
-
-Installable agent-facing copy: `skills/engineering-principles/SKILL.md`.
-Keep both documents aligned when changing these principles.
+Agent management, workflow composition, and role rules live outside this skill;
+use `using-my-skills` and the active session instructions for those concerns.
 
 ---
 
@@ -237,6 +267,9 @@ Code is read far more often than it is written. Favor clarity, directness, and t
 - **Simple over concise** — if the concise version requires a mental pause, write the simple version. Fewer characters is not the goal
 - **Comments for "why", not "what"** — the code should already say what it does. Comments explain constraints, trade-offs, or reasons that can't be expressed in code
 
-## Applying This Document
+## Applying This Skill
 
-Architecture, coding, testing, security, performance, and other engineering-facing skills build on this document. Skill invocation, workflow composition, delegation, and agent orchestration are governed by `SKILLS-PHILOSOPHY.md`.
+Architecture, coding, testing, security, performance, and other engineering-facing
+skills build on these principles. Skill invocation, workflow composition,
+delegation, and agent orchestration are governed by `using-my-skills` and the
+repository's skill philosophy.

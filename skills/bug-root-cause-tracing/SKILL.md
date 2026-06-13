@@ -17,8 +17,13 @@ Bugs often manifest deep in the call stack — wrong directory, bad parameter, c
 
 **Core principle:** Never fix where the error surfaces. Trace back until you find what actually caused it.
 
+For coding-related work, load `engineering-principles` before this skill. Root
+cause tracing applies its fail-fast, explicit-state, and boundary principles to
+the path that introduced bad state.
+
 ```text
-systematic-debugging
+engineering-principles
+  -> systematic-debugging
   -> bug-root-cause-tracing  (you are here, when root cause is unclear/deep)
        -> trace backward to original trigger
        -> fix at source

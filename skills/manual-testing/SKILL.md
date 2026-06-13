@@ -17,12 +17,17 @@ Manual testing is valid evidence when it is realistic, repeatable enough, and re
 
 Use this when automated tests are insufficient, too costly, too fake, or just pair them with runtime confirmation.
 
+For coding-related work, load `engineering-principles` before this skill. Manual
+testing should provide real behavior evidence consistent with the broader testing
+philosophy.
+
 ---
 
 ## Testing Skill Map
 
 ```text
-high-level-testing-strategy
+engineering-principles
+  -> high-level-testing-strategy
   -> selected proof type?
        ├── automated      -> test-driven-development
        ├── manual/runtime -> manual-testing       (you are here)

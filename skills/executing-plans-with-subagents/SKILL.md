@@ -17,6 +17,9 @@ Use subagents as isolated workers for bounded plan tasks. The orchestrator owns
 the plan, context packaging, sequencing, integration, review, and final
 verification.
 
+For coding-related work, load `engineering-principles` before this skill and
+include it in every coding subagent prompt before more specific workflow skills.
+
 ---
 
 ## Core Rule

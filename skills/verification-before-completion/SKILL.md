@@ -13,6 +13,10 @@ Claiming work is complete without verification is dishonesty, not efficiency.
 
 **Core principle:** Evidence before claims, always.
 
+For coding-related work, load `engineering-principles` before this skill. It
+defines the engineering standards; this skill requires fresh evidence before
+claiming those standards are satisfied.
+
 **Violating the letter of this rule is violating the spirit of this rule.**
 
 ## The Iron Law
