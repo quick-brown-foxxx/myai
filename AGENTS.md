@@ -34,7 +34,9 @@ myai/
 |-- .claude/skills/         Generated/symlinked mirror.
 |-- .opencode/opencode.json Canonical minimal OpenCode hierarchy config.
 |-- .opencode/agents/       Canonical OpenCode hierarchy agent prompts.
-|-- .opencode/plugins/      OpenCode bootstrap plugin source.
+|-- .opencode/plugins/      Shared plugin implementation (OpenCode + KiloCode).
+|-- .kilo/plugin/           KiloCode canonical plugin entrypoint (re-exports from .opencode/plugins/).
+|-- kilo.json               KiloCode project config (schema-compatible with opencode.json).
 |-- .claude-plugin/         Claude plugin metadata.
 |-- hooks/                  Claude-style session bootstrap hooks.
 |-- docs/                   Current status, notes, and drafts.
@@ -108,6 +110,7 @@ session start; they do not install the full skill set.
 
 ```text
 OpenCode hierarchy config -> .opencode/opencode.json and .opencode/agents/
+KiloCode hierarchy config -> kilo.json and .kilo/plugin/index.js (re-exports from .opencode/plugins/)
 OpenCode package entrypoint -> package.json -> .opencode/plugins/using-my-skills.js
 Claude plugin metadata      -> .claude-plugin/plugin.json and marketplace.json
 Claude-style hook           -> hooks/hooks.json -> hooks/session-start
@@ -116,7 +119,8 @@ Claude-style hook           -> hooks/hooks.json -> hooks/session-start
 When editing bootstrap behavior:
 
 - Edit `skills/using-my-skills/SKILL.md` for bootstrap content.
-- Edit `.opencode/plugins/using-my-skills.js` only for OpenCode injection logic.
+- Edit `.opencode/plugins/using-my-skills.js` only for OpenCode/KiloCode injection logic.
+- Edit `.kilo/plugin/index.js` only when KiloCode needs a divergent plugin entrypoint.
 - Edit `hooks/session-start` only for Claude-style hook output.
 - Keep the injected `MYAI_SKILLS_BOOTSTRAP` marker stable unless all adapters and
   docs are updated together.
