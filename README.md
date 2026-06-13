@@ -125,6 +125,44 @@ Restart OpenCode after changing plugin config.
 > OpenCode. For reproducible installs and auto updates, prefer pinning the git plugin to a commit
 > SHA, eg `myai@git+https://github.com/quick-brown-foxxx/myai.git#<sha>`.
 
+#### KiloCode
+
+KiloCode is based on OpenCode and supports the same plugin API. This repo has
+KiloCode project config and a canonical plugin entrypoint:
+
+```text
+kilo.json
+.kilo/plugin/index.js -> re-exports from .opencode/plugins/
+```
+
+Add this to `kilo.json`:
+
+```jsonc
+{
+  "$schema": "https://app.kilo.ai/config.json",
+  "plugin": [
+    [
+      "myai@git+https://github.com/quick-brown-foxxx/myai.git",
+      {
+        "usingMySkills": { "enabled": true }, // myai skills guide auto injection
+        "gpt5StyleHelper": { "enabled": true } // writing style for gpt-5*
+      }
+    ]
+  ]
+}
+```
+
+Restart KiloCode after changing plugin config.
+
+> **Updating git-installed plugins:** KiloCode uses the same cache as OpenCode
+> (`~/.cache/opencode/packages/` on Linux). To force an update, quit KiloCode,
+> remove the plugin directory from the cache, then restart. For reproducible
+> installs, pin to a commit SHA:
+> `myai@git+https://github.com/quick-brown-foxxx/myai.git#<sha>`.
+
+When running KiloCode from this project directory, the `.kilo/plugin/index.js`
+entrypoint is auto-discovered — no config changes needed.
+
 #### Other Tools
 
 Install the `using-my-skills` skill manually. Note that this is less
