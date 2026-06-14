@@ -251,8 +251,32 @@ flowchart TD
 
 | Skill | Primary role | Tags |
 | --- | --- | --- |
+| `teamlead-coordination` | Run a Teamlead-led multi-epic session with backlog, slice contract, verify-triage-fix chains, and periodic analysis | orchestration, subagents, planning |
 | `when-and-how-to-run-parallel-agents` | Decide whether work can be parallelized safely | orchestration, subagents, planning |
 | `executing-plans-with-subagents` | Execute written plans through bounded subagent slices | orchestration, subagents, implementation |
+
+#### Teamled Operating Model
+
+`teamlead-coordination` is the operating model for a Teamlead-led session. It
+is not a single-task skill; it is a recurring backlog loop. Use it when the
+session is a long autonomous multi-epic effort, not a bounded task.
+
+```mermaid
+flowchart TD
+  S[high-level spec] --> BB[Backlog builder Teammate]
+  BB --> BV[Backlog verifier Teammate]
+  BV --> L[Teamlead locks backlog, picks epic ordering]
+  L --> E[per epic, one at a time]
+  E --> I[Implementer Teammate - slice owner]
+  I --> V1[Verifier-triage-fixer Teammate]
+  V1 --> V2[optional 2nd / 3rd verify pass]
+  V2 --> D{epic solid?}
+  D -- no --> RJ[reject + fresh Implementer with knowledge pass]
+  D -- yes --> A[Analysis Teammate - drift and infra gap check]
+  RJ --> I
+  A --> U[Teamlead updates backlog from analysis]
+  U --> E
+```
 
 ### Reusable Workflow Helpers
 
@@ -535,6 +559,11 @@ verification passes.
 This workflow can wrap other workflows during planning, implementation,
 verification, review, or release work. It does not replace the current
 Teamlead, Orchestrator, or Teammate responsibility to inspect evidence.
+
+For the full Teamlead operating model (backlog, slice contract, verify-triage-fix
+chains, periodic analysis) see `teamlead-coordination`. This recipe is for the
+*inside* of a slice or for Orchestrator-and-subagents sessions, not for the
+Teamlead dispatching Teammates across epics.
 
 ## Compatibility Notes
 

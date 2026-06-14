@@ -240,7 +240,7 @@ flowchart TD
 
 Role boundaries:
 
-- `Teamlead` owns big goals, sequencing, delegation, trade-offs, integration, and phase transitions.
+- `Teamlead` owns big goals, sequencing, delegation, trade-offs, integration, and phase transitions. Operates a backlog-driven multi-epic loop with verify-triage-fix chains and periodic analysis Teammates — see `teamlead-coordination`.
 - `Orchestrator` owns one medium task or a bounded set of tasks and talks directly to the user.
 - `Teammate` owns one coherent workflow, subsystem, or implementation slice inside a larger team.
 - `Subagent` owns one bounded task, does not spawn children, and reports evidence, blockers, changes, risks, and next options.
@@ -385,6 +385,7 @@ Use when a task or plan contains independent work that might be delegated safely
 
 | Skill | Primary role |
 | --- | --- |
+| `teamlead-coordination` | Run a Teamlead-led multi-epic session: backlog, slice contract, verify-triage-fix chains, periodic analysis |
 | `when-and-how-to-run-parallel-agents` | Decide whether work can be parallelized safely |
 | `executing-plans-with-subagents` | Execute written plans through bounded subagent slices |
 
@@ -392,6 +393,7 @@ To install:
 
 ```bash
 npx -y skills add quick-brown-foxxx/myai \
+  -s 'teamlead-coordination' \
   -s 'when-and-how-to-run-parallel-agents' \
   -s 'executing-plans-with-subagents'
 ```

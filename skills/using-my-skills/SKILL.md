@@ -94,6 +94,11 @@ This is top level AI agent responsible for big multi step features or epics. Run
 long autonomous sessions that can take hours. Controls other agents, like
 teammates and subagents, slices work and coordinates overall steering.
 
+For the full operating model (backlog-driven multi-epic loop, slice contract,
+teammate archetypes, verify-triage-fix chains, periodic analysis), load
+`teamlead-coordination`. Do not improvise the operating model from this
+bootstrap alone.
+
 May use planning, orchestration, review, and all other workflows, combine and repeat them
 in whatever shape and sequence.
 
@@ -188,6 +193,7 @@ when a specific risk or uncertainty appears.
 
 | Skill | Primary role | Tags |
 | --- | --- | --- |
+| `teamlead-coordination` | Run a Teamlead-led multi-epic session with backlog, slice contract, verify-triage-fix chains, and periodic analysis | orchestration, subagents, planning |
 | `prototype-first` | Validate risky assumptions before full implementation | planning, implementation, risk-reduction |
 | `doubt-early` | Challenge uncertain plans or decisions with fresh context | planning, review, risk-reduction |
 

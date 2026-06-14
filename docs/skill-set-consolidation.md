@@ -91,6 +91,7 @@ remaining blockers, and deferred work only.
 
 | Skill | Status | Notes |
 | --- | --- | --- |
+| `teamlead-coordination` | new | Operating model for the Teamlead agent: backlog, slice contract, default Teammate archetypes, verify-triage-fix chains, periodic analysis Teammate, epic reject + knowledge pass, big-epic worktree comparison flow. Loaded by the `teamlead` agent prompt and from `using-my-skills`. |
 | `when-and-how-to-run-parallel-agents` | done | Dependency-aware parallelization decision skill. |
 | `executing-plans-with-subagents` | done | Optional plan execution pattern for large delegated implementation work. |
 
@@ -171,6 +172,22 @@ Required before uninstall:
 Defer unless proven active:
 
 - Python skill refactoring batch
+
+## Teamlead Operating Model
+
+A separate concern from the Superpowers uninstall path. Goal: keep the
+Teamlead role behaviorally consistent across sessions.
+
+- [x] `teamlead-coordination` exists as the canonical operating model.
+- [x] `teamlead` and `teamlead-yolo` agent prompts load it as the first skill.
+- [x] `using-my-skills` points at it from the Teamlead role section and from
+      the Reusable Workflow Helpers table.
+- [x] `skills/README.md` lists it in the Agent Orchestration section.
+- [x] `SKILLS-PHILOSOPHY.md` glossary and agent-roles flowchart reference it.
+- [ ] Convert `docs/my-workflow-commands-draft.md` prompt templates into
+      reusable skills/commands the Teamlead can dispatch to Teammates.
+- [ ] Decide whether the periodic Analysis Teammate needs its own skill or
+      stays as a Teamlead archetype.
 
 ## Remaining Work
 

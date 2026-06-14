@@ -121,6 +121,7 @@ flowchart TD
   C -. small auxiliary tasks .-> E
   B -- bounded or default session --> F[Orchestrator]
   F --> E
+  C -. loads .-> TC[teamlead-coordination]
 ```
 
 ```text
@@ -172,6 +173,9 @@ implementation.
 
 **Teamlead**: The top-level AI agent for big autonomous sessions. Owns goals,
 sequencing, delegation, trade-offs, integration, and phase transitions.
+Operates a backlog-driven multi-epic loop with verify-triage-fix chains and
+periodic analysis Teammates. The full operating model lives in
+`teamlead-coordination`.
 
 **Orchestrator**: The top-level AI agent for one medium task, one question, or a
 bounded set of tasks. Talks directly to the user and can delegate to subagents.
