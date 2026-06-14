@@ -211,6 +211,157 @@ Mock only when reality is too slow, unsafe, expensive, nondeterministic, or exte
 
 ---
 
+## Pattern Awareness
+
+Test infrastructure is architecture, and it has the same pattern-or-bare-code
+trade-off as the rest of the system. The general rule is in
+`architecting-changes` (Pattern Awareness section): name the right pattern at
+the right scope, or the area will rot into a tangle of one-off helpers and
+flags. This section applies that rule to test infrastructure specifically.
+
+The inline lists in `## State And Data Architecture`, `## Preflight Checks`,
+`## Flakiness And Isolation`, and `## Real Over Mocked` are the concrete
+patterns. This section is the meta-rule that decides when to reach for them
+instead of patching the next test by hand.
+
+### Three Scopes Of Test Infra Patterns
+
+```text
+File-level / inside one test or fixture module
+  -> builders / factories, data builders with sane defaults, object
+     mothers, condition-based waits, helper composition, custom matchers,
+     parametrize, scenario docstrings / heredocs, in-place fakes
+System-level / across the suite inside one project
+  -> seed baseline + per-test delta, unique namespaces/tenants per case,
+     transaction rollback or schema reset, suite-wide auth fixture,
+     resource pool (ports, temp dirs, users), tagging by layer or speed,
+     shared preflight gate, retry-with-backoff wrapper, recording/replay
+     proxy, golden-file comparison, deterministic clock
+Infra-level / shared framework, services, environments
+  -> fake local server, containerized dependencies (DB, broker, cache),
+     ephemeral environment per CI job, service virtualization, BDD
+     framework + step libraries, scenario data files, mock binary
+     harness, browser farm / devtools container, test reporter with
+     rich failure context
+```
+
+These compose. A suite-wide builder (system) is built on small file-level
+factories. An infra-level fake server is wrapped by a system-level client
+helper. Picking the wrong scope may be a mistake too: building a per-test
+complex fake service is over-engineering; relying on a shared global
+DB row (system-level pretending to be file-level) is under-engineering.
+
+### When Test Infra Patterns Are Required, Not Optional
+
+Test infra is **pattern-sensitive by nature** when any of the following
+apply. If the pattern is missing, the suite will become flaky, slow, or
+impossible to extend:
+
+```text
+Suite runs in parallel
+  -> isolated namespaces/ports/users, resource pools, no shared mutable
+     globals, deterministic ordering, independent preflight
+
+Suite touches a real backend, DB, queue, or cache
+  -> transactional reset, schema/namespace isolation, seed baseline,
+     bounded wait + clear failure, idempotent setup
+
+Suite covers auth, multi-tenant, or role-based flows
+  -> reusable auth fixture, role/tenant factory, token rotation helper,
+     per-case principal, no copy-pasted login
+
+Suite covers external services or third-party APIs
+  -> anti-corruption layer, fake local server, recording/replay,
+     schema/version negotiation, dead-letter / failure injection
+
+Suite covers time, scheduling, retries, or background work
+  -> deterministic clock, virtual time, condition-based waits with
+     timeout, fake scheduler, controlled jitter
+
+Suite covers visual or browser behavior
+  -> local browser/devtools, stable selectors, screenshot/video on
+     failure, isolated user data dir, network shaping
+
+Suite is large or long-lived
+  -> BDD-style scenarios, tagging by speed/risk/layer, golden files,
+     shared preflight gate, test reporter with rich failure context
+```
+
+If the project hits one of these, the architecture step is incomplete
+until the matching patterns are named, even if they are not yet
+implemented.
+
+### Right-Sized Engineering
+
+Same rule as `architecting-changes`: invest pattern effort where
+under-engineering is costly, stay boring where over-engineering is
+worse.
+
+```text
+Invest in patterns when:
+  - the suite is parallel, large, or long-lived
+  - the system under test is pattern-sensitive (see list above)
+  - the suite already shows flakiness, slow runs, or hard onboarding
+  - new tests are accumulating copy-paste setup
+  - one flaky test blocks or hides other failures
+
+Stay boring when:
+  - the project has one or two tests and no infra plan exists
+  - the system under test is a tiny one-off helper
+  - a manual smoke test is the right proof (route to `manual-testing`)
+  - rewriting the few existing tests is cheaper than adding the pattern
+```
+
+A useful self-check: *if a new contributor joins tomorrow, can they add a
+test without copying setup from another file?* If no, the suite has
+already drifted into helper-spaghetti and needs a pattern pass before
+adding more tests.
+
+### Failure Mode: Flaky-Suite Spaghetti
+
+The signature of under-engineered test infra is recognizable:
+
+```text
+- fixed `sleep` calls before asserts
+- "skip if flaky" markers or `@pytest.mark.flaky` used to hide the cause
+- copy-pasted login / setup / teardown in many test files
+- one shared DB row or shared user mutated by many tests
+- mock setup that is longer than the assertion it enables
+- "just one more fixture parameter" added to fix a new case
+- tests pass locally, fail in CI, with no clear reproducer
+- new tests must run in a specific order to pass
+```
+
+When this shape appears, stop and reach for the right pattern from the
+list above. The goal is not layers for their own sake; the goal is that
+the next test is a normal local edit, not a copy-paste of broken setup.
+
+### Pattern Selection Questions
+
+Use these as a quick gate before leaving the architecture step:
+
+```text
+1. Which scope does this change live at? (file / suite / infra)
+2. Is the suite pattern-sensitive? (parallel, stateful, auth, external,
+   time, browser, large)
+3. What is the dominant force?
+     - state setup / isolation      -> builders, transactions, namespaces
+     - async / external boundary    -> fake server, ACL, recording
+     - time / retries / scheduling  -> deterministic clock, condition waits
+     - auth / tenants / roles       -> reusable auth fixture, factories
+     - parallel / shared state      -> resource pool, isolation, preflight
+     - long-lived / many cases      -> BDD scenarios, tagging, golden files
+4. What existing pattern in the suite already solves something similar?
+   Reuse or evolve it before introducing a new one.
+5. What is the smallest pattern that makes the next test local?
+```
+
+A pattern does not have to be implemented fully on day one. Naming it in
+the test-infra plan is enough to make the boundary visible and to keep
+the next test from sliding back into copy-paste setup.
+
+---
+
 ## Planning Infra Work
 
 For non-trivial infra, produce a small architecture plan before editing:
@@ -283,6 +434,8 @@ Keep dependent steps sequential: define framework and state model before paralle
 | No preflight checks | Fail fast with clear environment errors. |
 | Bootstrapping too much for one small change | Use smallest useful infra slice or manual testing. |
 | Treating BDD as heavyweight ceremony | Pick lightweight BDD-style tooling. |
+| Patching the next test by hand (extra sleep, copied setup, `@flaky`) instead of fixing the shared infra | Reach for the right pattern (builders, isolation, deterministic clock, fake server) and grow the suite from there. |
+| Building a per-test fake server, custom mini-framework, or heavyweight test platform for a small suite | Right-size: pattern effort goes where under-engineering is costly, not into one-off scripts. |
 
 ---
 
@@ -295,6 +448,7 @@ Keep dependent steps sequential: define framework and state model before paralle
 | Runtime/manual proof is the right or complementary path | `manual-testing` |
 | Infra work should be decomposed into implementation tasks | `planning-implementation` |
 | About to claim test infrastructure is ready | `verification-before-completion` |
+| Cross-domain pattern-vs-bare-code rule (three scopes, right-sized engineering, failure modes) | `architecting-changes` (Pattern Awareness section) |
 
 ---
 
@@ -305,5 +459,6 @@ Keep dependent steps sequential: define framework and state model before paralle
 - Required resources have preflight checks.
 - Flakiness risks are addressed architecturally.
 - Mocks are at justified boundaries.
+- Pattern-sensitive areas (parallel, stateful, auth, external, time, browser, large) have their patterns named, even if not yet implemented.
 - One representative test proves the infra works.
 - Follow-up test implementation routes to `test-driven-development`.
