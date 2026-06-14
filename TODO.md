@@ -10,9 +10,6 @@
   - parametrization to avoid hardcoding model into agent md description?
   - can orchestrator select a model for subagent in runtime, or this is config-level?
 
-- in main meta-skill (intro), define and explain "ceremony scales with task" rule, set task/repo measurement rules
-  - add initial project size estimation guide to understand how complex the workflow should be. Eg in small script it's ok to do quick edits with manual check, in big production monorepo all fixes will require testing
-
 - in skill for spawning subagents MAYBE add prompting rules from [context-management skill](.tmp/addy-agent-skills/skills/context-engineering/SKILL.md)
 
 - enroll own or merge:
@@ -28,8 +25,6 @@
 - subagents dispatching skills: list relevant/useful skills for the task in prompt of a subagent
   - reviewer subagents should use relevant architecting/test-strategy and so on skills
 
-- meta-workflow and lower-level sub-workflows that connect skills
-
 - later new collections to .tmp/:
   - <https://github.com/anomalyco/opencode/tree/dev/.opencode/skills/improve-codebase-architecture>
   - <https://github.com/GoogleChrome/modern-web-guidance-src>
@@ -41,4 +36,3 @@
 - cover commenting code. rule: required for business logic, complex tricks/hacks required to bypass a bug or needed by framework. Not needed for simple boilerplate code like controllers/react configuration and so on
 - "let's imagine it already failed. why?" pattern in planning/brainstorming skills
 - upstream-source-research new rule: always by default set systemd timer or equivalent to cleanup big tmp folder of downloaded sources after 2h. This should be done always in case user will miss the report and forget to cleanup. He will be able to ask you to drop this timer if he will want to preserve the folder
-- filter by current agent in using-my-skills hook
