@@ -261,7 +261,7 @@ The same principles apply at every scale. The implementation scales down. Don't 
 
 Code is read far more often than it is written. Favor clarity, directness, and transparency over abstraction, metaprogramming, or conciseness tricks.
 
-- **Name things for readers, not writers** — a descriptive 3-word name beats a terse 1-word name
+- **Name things for readers, not writers** — prefer meaningful, domain-specific names over generic buckets. A descriptive 3-word name beats a terse 1-word name when it removes ambiguity: `payload` → `solana_transaction_payload`, `mode` → `service_lifecycle_mode`. Generic names like `data`, `payload`, `mode`, `result`, or `item` are only acceptable when the surrounding scope makes the meaning obvious.
 - **Flat is better than nested** — guard clauses, early returns, extracted helpers. Deep nesting is a signal the logic needs splitting
 - **Explicit state over implicit magic** — visible data flow beats decorators, proxies, or interceptors that hide what's happening
 - **Simple over concise** — if the concise version requires a mental pause, write the simple version. Fewer characters is not the goal
