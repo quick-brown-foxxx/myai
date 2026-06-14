@@ -7,7 +7,6 @@ Use this file to understand:
 - how skills are organized conceptually
 - which workflows compose multiple skills
 - which skills fit feature, bugfix, greenfield, review, research, and release work
-- how the flat `skills/` directory relates to generated platform mirrors
 - which tags and workflow maps should be used when updating skill files later
 
 For the philosophy behind this map, see `../SKILLS-PHILOSOPHY.md`.
@@ -30,21 +29,7 @@ skills/
 ```
 
 The category structure below is logical, not physical. Do not move skill folders
-into nested category directories unless platform discovery and mirror generation
-are redesigned first.
-
-Generated mirrors:
-
-```text
-.agents/skills/<skill-name> -> ../../skills/<skill-name>
-.claude/skills/<skill-name> -> ../../skills/<skill-name>
-```
-
-Refresh mirrors with:
-
-```bash
-./upd-repo-symlinks.sh
-```
+into nested category directories unless platform discovery is redesigned first.
 
 ## Layer Model
 
@@ -571,24 +556,9 @@ Current assumptions:
 
 - `skills/` is the canonical source.
 - This README names canonical skills only.
-- `.agents/skills` and `.claude/skills` are generated/symlinked mirrors.
 - `hooks/session-start` injects `using-my-skills` for Claude-style plugin sessions.
 - `.opencode/plugins/using-my-skills.js` only injects `using-my-skills` for
   OpenCode plugin sessions. Not installs skills.
-- `upd-repo-symlinks.sh` expects immediate child directories under `skills/`.
-- Nested category directories under `skills/` would currently be treated as skill
-  directories by the mirror script.
 
-Future restructuring requirements:
-
-```text
-If skills become nested later:
-  update mirror generation to discover **/SKILL.md
-  generate flat platform mirrors by skill name
-  reject duplicate skill names
-  prune stale symlinks
-  verify target platforms follow symlinks and load expected skills
-```
-
-Until then, keep physical structure flat and express relationships through this
-map, frontmatter, related-skill sections, and workflow maps inside skill files.
+Keep the physical structure flat and express relationships through this map,
+frontmatter, related-skill sections, and workflow maps inside skill files.

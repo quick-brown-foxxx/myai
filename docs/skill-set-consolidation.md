@@ -165,7 +165,6 @@ Required before uninstall:
 - [x] `incremental-implementation` exists as lightweight execution discipline.
 - [x] `git-workflow` exists without duplicating platform git safety rules.
 - [x] `doing-code-review` and `receiving-code-review` exist without mandatory subagent ceremony.
-- [x] `.agents/skills` and `.claude/skills` are synced from `skills/`.
 - [x] Final `using-my-skills` bootstrap exists after the local skill map is stable.
 - [ ] Superpowers-disabled dry run passes: bootstrap behavior works and no active docs/configs require `using-superpowers` or Superpowers-only skill names.
 

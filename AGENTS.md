@@ -30,8 +30,6 @@ myai/
 |   |-- README.md            Canonical skill map, catalog, workflows, tags.
 |   |-- AGENTS.md            Router back to the skill map for AGENTS-aware tools.
 |   `-- <skill>/SKILL.md     Canonical skill files, plus optional references/scripts.
-|-- .agents/skills/         Generated/symlinked mirror.
-|-- .claude/skills/         Generated/symlinked mirror.
 |-- .opencode/opencode.json Canonical minimal OpenCode hierarchy config.
 |-- .opencode/agents/       Canonical OpenCode hierarchy agent prompts.
 |-- .opencode/plugins/      Shared plugin implementation (OpenCode + KiloCode).
@@ -46,12 +44,10 @@ myai/
 |-- ENGINEERING-PHILOSOPHY.md
 |-- TODO.md                 Scratch backlog, not canonical policy.
 |-- package.json            Package entrypoint for the OpenCode plugin.
-|-- upd-repo-symlinks.sh    Refreshes skill mirrors.
 ```
 
-`skills/` is intentionally flat because the current mirror script and common
-skill loaders expect each immediate child directory to be a skill directory with
-its own `SKILL.md`.
+`skills/` is intentionally flat because common skill loaders expect each
+immediate child directory to be a skill directory with its own `SKILL.md`.
 
 Some skills carry support files under their own directory, such as
 `skills/visual-mockups/scripts/` or `skills/ai-edge-research/references/`. Keep
@@ -60,8 +56,6 @@ skill-specific assets colocated with the owning skill.
 Generated or non-canonical paths:
 
 ```text
-.agents/skills/<skill-name> -> ../../skills/<skill-name>
-.claude/skills/<skill-name> -> ../../skills/<skill-name>
 .opencode/node_modules/ and .opencode/package*.json are local plugin deps
 .tmp/ is ignored scratch/source-import space
 ```
@@ -74,12 +68,6 @@ When creating or editing skills:
 - Keep every skill directory name globally unique.
 - Keep every canonical skill at `skills/<skill-name>/SKILL.md`.
 - Keep skill support files inside the owning skill directory.
-- Do not manually edit `.agents/skills` or `.claude/skills` unless explicitly
-  asked; treat them as generated mirrors of `skills/`.
-- Run `./upd-repo-symlinks.sh` after adding, removing, or renaming canonical
-  skill directories. The script creates and updates mirror symlinks; when a skill
-  is removed or renamed, also check for stale generated mirror links and remove
-  only those stale links deliberately.
 - Update `skills/README.md` when adding, removing, renaming, or substantially
   changing a skill's role, workflow relationships, or tags.
 - Use `metadata.tags` in skill frontmatter as a comma-separated string, following
@@ -101,7 +89,7 @@ skills/using-my-skills/SKILL.md -> bootstrap skill that should list all workflow
 ```
 
 Current canonical inventory is 38 skills. If that count changes, update the
-catalogs and mirror directories in the same change.
+catalogs in the same change.
 
 ## Bootstrap Adapter Rules
 
