@@ -190,6 +190,156 @@ repo and deployment model make that coupling intentional.
 - For risky multi-step actions, prefer explicit step/state models over opaque helper chains.
 - If a failure would be costly or hard to debug, design for traceability early instead of bolting it on later.
 
+### Pattern Awareness
+
+Architecture is not only about boundaries. It is also about choosing the
+**right pattern** for the problem at the right scope. A wrong or missing
+pattern in a sensitive area produces a web of `if`s and small tangled
+functions that becomes impossible to evolve, test, or trust. A pattern
+applied in a trivial area is just ceremony.
+
+For every non-trivial change, ask: *which established pattern fits this
+job, at which scope, and what happens if I skip it?*
+
+#### Three Scopes Of Patterns
+
+```text
+File-level / within one module
+  -> state machines, parsers/combinators, builders, strategies,
+     result types, value objects, specification/predicate, mappers
+System-level / across files inside one application
+  -> outbox, inbox, mediator/dispatcher, saga, CQRS, repository,
+     unit of work, dependency injection, observer/publisher,
+     idempotency keys, retries with backoff, circuit breakers,
+     feature flags, ACL (anti-corruption layer)
+Architecture-level / system shape
+  -> hexagonal/ports-and-adapters, modular monolith, microservices,
+     event-driven, message bus, event sourcing, read replicas,
+     separate OLTP vs OLAP stores, queue per workload, cache layers,
+     gateway / BFF, strangler fig
+```
+
+These scopes compose: an architecture choice (e.g. modular monolith) sets
+the system, a system pattern (e.g. outbox) lives inside it, and file-level
+patterns (e.g. a state machine for order status) make the pieces legible.
+
+#### When Patterns Are Required, Not Optional
+
+Some areas are **pattern-sensitive by nature**. If the wrong or no pattern
+is chosen, the code will rot quickly and the cost of fixing it later is
+high. Treat the following as a non-exhaustive list of areas where pattern
+thinking is part of the architecture step, not a polish step:
+
+```text
+Money, billing, payments, accounting
+  -> state machines, double-entry invariants, idempotency, outbox,
+     transactional boundaries, money value objects (no floats),
+     append-only audit log, reconciliation
+
+High-throughput data pipelines, ingest, ETL, protocol converters
+  -> backpressure, bounded queues, batching, idempotent consumers,
+     dead-letter queues, schema evolution, partitioning/sharding,
+     streaming vs batch choice, error classification
+
+Authentication, authorization, session, secrets
+  -> strategy/handler for providers, repository for sessions,
+     mediator for events, audit log, ACL at trust boundaries,
+     token rotation, fail-closed defaults
+
+Long-running workflows, multi-step business processes
+  -> saga / process manager, explicit state model, compensation
+     steps, timeouts, idempotency keys, durable state
+
+Multi-tenant or regulated data
+  -> repository + unit of work, row-level access policy, audit log,
+     soft delete with retention, separation of PII stores
+
+External integrations and third-party APIs
+  -> anti-corruption layer, adapter, retry with backoff, circuit
+     breaker, idempotency keys, schema/version negotiation,
+     dead-letter handling, sandbox/mock mode
+
+Caching, search, read-heavy domains
+  -> CQRS, read models, cache-aside vs write-through, eventual
+     consistency windows, cache invalidation strategy
+
+Configuration, feature flags, operational control
+  -> feature flag service, config repository, dry-run / shadow mode,
+     observability hooks, kill switch
+```
+
+If the change touches one of these areas, the architecture step is
+incomplete until the matching patterns are named and their boundaries
+drawn — even if their bodies are not yet implemented.
+
+#### Right-Sized Engineering
+
+Pattern awareness does not mean "apply every pattern everywhere". It
+means: **invest pattern effort where the cost of under-engineering is
+high, and stay boring where the cost of over-engineering is higher**.
+
+```text
+Invest in patterns when:
+  - the area is pattern-sensitive (see list above)
+  - business rules are non-trivial or expected to grow
+  - failures are costly, hard to detect, or hard to undo
+  - multiple actors, tenants, or processes share state
+  - the code is on a known scale or complexity axis
+
+Stay boring when:
+  - it is a one-off helper, glue, or boilerplate
+  - the rules are stable and the change axis is purely cosmetic
+  - the cost of rewriting from scratch is lower than the cost of the
+    pattern
+  - the lifetime of the code is short and well bounded
+```
+
+A useful self-check: *if this area is going to grow, what shape will
+make the next change easy?* That shape is usually a pattern. If the area
+is not going to grow, the pattern is overhead.
+
+#### Common Failure Mode: If-Webs And Helper Spaghetti
+
+The signature of under-engineered sensitive code is recognizable:
+
+```text
+- long functions with many flags and early returns
+- "manager" objects that take a context blob and branch on type
+- state stored in scattered booleans or magic strings
+- retries and rollbacks hidden inside ad-hoc helpers
+- implicit ordering between operations that must be transactional
+- "just one more if" added every time a case is reported
+- no place to attach tests, observability, or rollback
+```
+
+When this shape starts to appear, stop and reach for the right pattern
+instead of another conditional. The goal is not to add layers for their
+own sake; the goal is to make the next change a normal local edit
+rather than a global surgery.
+
+#### Pattern Selection Questions
+
+Use these as a quick gate before leaving the architecture step:
+
+```text
+1. Which scope does this change live at? (file / system / architecture)
+2. Is the area pattern-sensitive? (billing, throughput, auth, workflow, ...)
+3. What is the dominant force?
+     - state transitions           -> state machine
+     - async work / fan-out        -> queue, outbox, saga
+     - external boundary           -> adapter / ACL
+     - multiple representations   -> CQRS, read model
+     - many independent rules      -> strategy / specification
+     - cross-cutting concern       -> mediator / observer
+4. What existing pattern in the codebase already solves something
+   similar? Reuse or evolve it before introducing a new one.
+5. What is the smallest pattern that makes the next change local?
+```
+
+A pattern does not have to be implemented fully on day one. Naming it in
+the architecture step is enough to make the boundary visible and to keep
+the next change from sliding back into the if-web.
+
 ---
 
 ## Router
@@ -205,6 +355,7 @@ Use this table to decide whether to stay in this skill or load a deeper one.
 | Production launch, rollout, monitoring, rollback strategy | `shipping-and-launch` | — |
 | ADR-worthy decision or context future agents must preserve | `documentation-and-adrs` | — |
 | Implementation order or task decomposition after architecture direction is clear | `planning-implementation` | — |
+| Pattern-sensitive area (billing, throughput, auth, long-running workflows, integrations) needing named patterns and their boundaries | This skill, with the Pattern Awareness section as the gate | Move to `planning-implementation` after patterns are named |
 | Python-specific project, backend, GUI, or implementation concerns | Use this skill plus `engineering-principles` | Record follow-up if a future language-specific skill is needed |
 
 If a language-specific route is missing, make the architecture decision with this
@@ -233,6 +384,9 @@ Reuse:
 Framework:
   Is this commodity infrastructure that a boring framework should own?
 
+Pattern:
+  Is the area pattern-sensitive? If yes, which pattern fits at which scope, and is the boundary visible even if the pattern is not fully implemented yet?
+
 Handoff:
   Which deeper skill, plan, or implementation step comes next?
 ```
@@ -251,6 +405,8 @@ Handoff:
 | Introducing inheritance to share code | Prefer composition and small explicit collaborators |
 | Building custom infrastructure for solved problems | Use maintained frameworks/libraries for commodity concerns |
 | Refactoring unrelated architecture while passing through | Stay scoped to the current task unless the current task depends on the cleanup |
+| Skipping pattern thinking on a pattern-sensitive area (billing, throughput, auth, workflows, integrations) | Name the pattern, draw its boundary, and keep the next change local instead of growing the if-web |
+| Applying heavy patterns to trivial helpers or one-off glue | Right-size: pattern effort goes where the cost of under-engineering is high |
 
 ---
 
