@@ -179,6 +179,9 @@ infrastructure for hypothetical needs adds complexity without value.
 
 After bootstrap, use these skills for deeper decisions:
 
+- `building-backends` — for backend architecture patterns: thin transport,
+  reusable core, transaction ownership, auth boundaries, workers, and common
+  backend mistakes.
 - `architecting-changes` — for architecture decisions about service
   boundaries, pattern selection, and infrastructure choices.
 - `api-design` — for stable API and protocol/interface design at the HTTP
@@ -194,6 +197,8 @@ After bootstrap, use these skills for deeper decisions:
   setup philosophy and architecture principles.
 - **`architecting-changes`** — Parent skill. Architecture decision framework
   for backend shape, boundaries, and pattern selection.
+- **`building-backends`** — Backend architecture patterns: thin transport,
+  reusable core, transaction ownership, auth boundaries, and workers.
 - **`setting-up-projects`** — General project bootstrap (directory structure,
   setup checklist, domain adaptation). Load before this skill.
 - **`api-design`** — For stable API and protocol/interface design.

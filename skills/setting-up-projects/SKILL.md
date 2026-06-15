@@ -32,7 +32,7 @@ it grows.
 
 | Situation | Default shape |
 |-----------|---------------|
-| One-off helper or tiny automation | Single-file script with inline dependencies. Do not force a full project layout. |
+| One-off helper or tiny automation | Single-file script with inline dependencies. Do not force a full project layout. See `writing-scripts`. |
 | Reusable library or composable tool | Package with clean public API. Add a thin CLI only if needed. |
 | CLI application | Package with `core/`, `cli/`, `utils/`, `wrappers/` layers. |
 | Multi-interface application (GUI + CLI + API sharing logic) | Shared domain layer + separate presentation adapters + one composition root. |
@@ -180,6 +180,12 @@ space are structured.
   philosophy: invest early, pit of success, safety net.
 - **`architecting-changes`** — For architecture decisions about project shape,
   boundaries, and framework choice.
+- **`writing-scripts`** — For single-file scripts and small automation instead
+  of full project layout.
+- **`building-backends`** — For backend architecture patterns after initial
+  bootstrap: thin transport, reusable core, transactions, auth, workers.
+- **`setting-up-backends`** — For backend service bootstrap when the project
+  shape is a service/API/worker.
 - **`ci-cd-and-automation`** — For CI/CD pipeline setup after bootstrap.
 
 ---

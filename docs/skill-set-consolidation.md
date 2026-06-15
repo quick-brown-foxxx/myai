@@ -122,6 +122,8 @@ remaining blockers, and deferred work only.
 | `architecting-test-infra` | done | Test framework, fixtures, state isolation, service preflights. |
 | `setting-up-projects` | done | Language-agnostic project bootstrap: shape decisions, directory layout, setup checklist, graceful shutdown, domain adaptation. |
 | `setting-up-backends` | done | Language-agnostic backend bootstrap: service layout, app factory, wiring rules, defer-by-default infrastructure, migrations and operations. |
+| `building-backends` | done | Language-agnostic backend architecture: thin transport, reusable core, transaction ownership, auth boundaries, workers. Supersedes deferred `building-python-backends`. |
+| `writing-scripts` | done | Language-agnostic single-file scripts and automation: PEP 723 (Python), Bun (TS), layout, CLI conventions, graceful shutdown. Supersedes deferred `writing-python-scripts`. |
 
 ### Python-Specific Future Layer
 
@@ -130,14 +132,14 @@ remaining blockers, and deferred work only.
 | `writing-python-code` | deferred | Refactor to reference core philosophy; keep Python tooling specifics. |
 | `testing-python` | deferred | Keep pytest/testcontainers/CLI patterns; remove generic testing philosophy. |
 | `architecting-python-changes` | deferred | Python-specific routes after core `architecting-changes`. |
-| `building-python-backends` | deferred | FastAPI/Django, Result-to-HTTP, transactions, workers. |
+| `building-python-backends` | superseded | Language-agnostic `building-backends` covers the same patterns across Python and TypeScript/Node. Keep this only if Python-specific details (SQLAlchemy, FastAPI wiring) justify a separate extension. |
+| `writing-python-scripts` | superseded | Language-agnostic `writing-scripts` covers PEP 723 scripts plus Bun/TypeScript. Keep this only if Python-specific script patterns need a separate extension. |
 | `building-multi-ui-apps` | deferred | Reusable Python core plus UI/CLI/API adapters. |
 | `building-qt-apps` | deferred | PySide6/qasync details. |
 | `setting-up-logging` | deferred | colorlog and runtime-mode logging. |
 | `setting-up-python-backends` | deferred | Backend bootstrap, app factory, migrations. |
 | `setting-up-python-projects` | deferred | uv, pyproject, ruff, basedpyright, pytest, pre-commit. |
 | `setting-up-shortcuts` | deferred | PySide6 shortcut conventions. |
-| `writing-python-scripts` | external | PEP 723 scripts with uv and typer. Lives in a separate repo for now; planned to port later. |
 
 ## Progress Summary
 
@@ -231,4 +233,4 @@ Goal: remove stale references without hiding intentional external dependencies.
 
 - [x] Replace removed `finishing-a-development-branch` references in `git-workflow`.
 - [x] Replace missing `debugging-and-error-recovery` references in `ci-cd-and-automation`.
-- [ ] Keep `writing-python-scripts` referenced by `release-automation-small-repos` until it is ported from the external repo.
+- [x] `writing-scripts` now exists as language-agnostic canonical skill; `writing-python-scripts` is superseded.
