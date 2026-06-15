@@ -131,6 +131,16 @@ the wiring is correct before any real features are built.
 
 ---
 
+## Boundary Rules
+
+- Request/response schemas are not domain models.
+- No `Request`, `Response`, `Depends`, ORM session, or framework auth objects in domain services.
+- Convert request data and auth/session state at the edge.
+- Workers are another adapter, not a separate business-logic stack.
+- CLI/admin scripts should call the same core services when they touch the same workflows.
+
+---
+
 ## Defer by Default
 
 Add these only when the project/specs really needs them:
