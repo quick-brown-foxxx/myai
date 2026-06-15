@@ -123,6 +123,7 @@ Shared workflow tags:
 | Parallel / Subagent work | `orchestration` | `when-and-how-to-run-parallel-agents`, `executing-plans-with-subagents` |
 | Research | `research` | `upstream-source-research`, `ai-edge-research` |
 | Release / Operations | `release` | `ci-cd-and-automation`, `release-automation-small-repos`, `shipping-and-launch` |
+| Project Setup / Bootstrap | `setup` | `setting-up-projects`, `setting-up-backends` |
 
 Common relationship tags:
 
@@ -340,6 +341,8 @@ Use these during larger workflows when the task crosses a domain boundary.
 
 | Skill | Primary role | Tags |
 | --- | --- | --- |
+| `setting-up-projects` | Bootstrap new projects: choose project shape, directory layout, and setup checklist for any language or ecosystem | domain, setup, architecture |
+| `setting-up-backends` | Bootstrap new backend services and API/worker repos: service layout, app factory, wiring rules, infrastructure deferral | domain, setup, architecture |
 | `api-design` | Design stable APIs, protocols, and programmable boundaries | domain, architecture, boundaries |
 | `security-and-hardening` | Harden user input, auth, secrets, files, sessions, and integrations | domain, hardening, boundaries |
 | `performance-optimization` | Measure, identify, fix, and verify performance bottlenecks | domain, verification, quality |

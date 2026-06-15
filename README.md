@@ -483,6 +483,8 @@ Use these during larger workflows when the task crosses a domain boundary.
 
 | Skill | Primary role |
 | --- | --- |
+| `setting-up-projects` | Bootstrap new projects: choose project shape, directory layout, and setup checklist for any language or ecosystem |
+| `setting-up-backends` | Bootstrap new backend services and API/worker repos: service layout, app factory, wiring rules, infrastructure deferral |
 | `api-design` | Design stable APIs, protocols, and programmable boundaries |
 | `security-and-hardening` | Harden user input, auth, secrets, files, sessions, and integrations |
 | `performance-optimization` | Measure, identify, fix, and verify performance bottlenecks |
@@ -495,6 +497,8 @@ To install:
 
 ```bash
 npx -y skills add quick-brown-foxxx/myai \
+  -s 'setting-up-projects' \
+  -s 'setting-up-backends' \
   -s 'api-design' \
   -s 'security-and-hardening' \
   -s 'performance-optimization' \

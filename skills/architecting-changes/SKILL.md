@@ -357,6 +357,8 @@ Use this table to decide whether to stay in this skill or load a deeper one.
 | Implementation order or task decomposition after architecture direction is clear | `planning-implementation` | — |
 | Pattern-sensitive area (billing, throughput, auth, long-running workflows, integrations) needing named patterns and their boundaries | This skill, with the Pattern Awareness section as the gate | Move to `planning-implementation` after patterns are named |
 | Python-specific project, backend, GUI, or implementation concerns | Use this skill plus `engineering-principles` | Record follow-up if a future language-specific skill is needed |
+| New project bootstrap or choosing initial project shape | `setting-up-projects` | Load after this skill for concrete layout patterns and setup checklist |
+| New backend service, API, or worker repo bootstrap | `setting-up-backends` | Load after `setting-up-projects` for service layout, app factory, and wiring |
 
 If a language-specific route is missing, make the architecture decision with this
 skill and `engineering-principles`, then note any needed follow-up in the

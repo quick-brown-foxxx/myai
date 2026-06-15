@@ -120,6 +120,8 @@ remaining blockers, and deferred work only.
 | `manual-interacting-with-codex-via-cli` | done | Codex CLI smoke, sandbox/approval, config/profile isolation, MCP/plugin/skill, CI, and runtime verification. |
 | `manual-interacting-with-opencode-via-cli` | done | OpenCode CLI smoke, provider/config, runtime, and tool-call verification. |
 | `architecting-test-infra` | done | Test framework, fixtures, state isolation, service preflights. |
+| `setting-up-projects` | done | Language-agnostic project bootstrap: shape decisions, directory layout, setup checklist, graceful shutdown, domain adaptation. |
+| `setting-up-backends` | done | Language-agnostic backend bootstrap: service layout, app factory, wiring rules, defer-by-default infrastructure, migrations and operations. |
 
 ### Python-Specific Future Layer
 
