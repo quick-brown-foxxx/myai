@@ -7,7 +7,7 @@ description: >-
 license: MIT
 metadata:
   focus: project-bootstrap
-  tags: setup, bootstrap, architecture, project-structure
+  tags: bootstrap, architecture, project-structure
 ---
 
 # Setting Up Projects

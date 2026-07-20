@@ -37,6 +37,7 @@ myai/
 |-- kilo.json               KiloCode project config (schema-compatible with opencode.json).
 |-- .claude-plugin/         Claude plugin metadata.
 |-- hooks/                  Claude-style session bootstrap hooks.
+|-- scripts/validate-skills.js  Repository-wide canonical skill validator.
 |-- docs/                   Current status, notes, and drafts.
 |-- AGENTS.md               Operational instructions for agents in this repo.
 |-- README.md               Human-facing overview and install-oriented catalog.
@@ -148,6 +149,10 @@ references must be intentional and documented in `docs/skill-set-consolidation.m
 Before claiming documentation or skill maintenance is complete:
 
 - Check the relevant diff.
+- Run `npm run validate` after changing skills or skill-validation policy. The
+  validator checks canonical layout, YAML frontmatter, names, descriptions,
+  tags, body length, path safety, and conservative cross-skill references.
+  Warnings are non-blocking; errors make the command fail.
 - Verify changed skill names exist under `skills/`.
 - Verify catalogs still match canonical skills when the inventory changes.
 - Run lightweight formatting or syntax checks that fit the changed files.

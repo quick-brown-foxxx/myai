@@ -7,7 +7,7 @@ description: >-
 license: MIT
 metadata:
   focus: backend-bootstrap
-  tags: backend, api, setup, bootstrap, architecture
+  tags: backend, api, bootstrap, architecture
 ---
 
 # Setting Up Backends

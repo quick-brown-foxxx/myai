@@ -20,12 +20,19 @@ function skillContent({
   tags = 'quality, verification',
   body = '# Sample\n\nArbitrary guidance.',
 } = {}) {
-  return `---\nname: ${name}\ndescription: ${description}\nmetadata:\n  tags: ${tags}\n---\n\n${body}\n`;
+  const frontmatter = `---\nname: ${name}\ndescription: ${description}\nmetadata:\n  tags: ${tags}\n---`;
+  return body === '' ? `${frontmatter}\n` : `${frontmatter}\n${body}\n`;
 }
 
 function descriptionOfCodePointLength(length) {
   const trigger = 'Use when needed. ';
   return trigger + '😀'.repeat(length - [...trigger].length);
+}
+
+function bodyOfLineCount(lineCount) {
+  return Array.from({ length: lineCount }, (_, index) => `Body line ${index + 1}`).join(
+    '\n',
+  );
 }
 
 test('parses folded YAML descriptions and nested metadata.tags', () => {
@@ -162,14 +169,93 @@ test('enforces local metadata.tags rules', () => {
 });
 
 test('does not require any body sections', () => {
-  const result = lintSkillContent(
-    'sample-skill',
-    skillContent({ body: '# Bespoke Structure\n\nNo standard sections.' }),
-    knownSkills,
+  for (const body of ['', 'Unstructured guidance without standard sections.']) {
+    assert.deepEqual(
+      lintSkillContent('sample-skill', skillContent({ body }), knownSkills),
+      { errors: [], warnings: [] },
+      JSON.stringify(body),
+    );
+  }
+});
+
+test('validates body line-count boundaries without counting frontmatter or a terminal newline', () => {
+  const results = new Map(
+    [399, 400, 510, 511].map((lineCount) => [
+      lineCount,
+      lintSkillContent(
+        'sample-skill',
+        skillContent({ body: bodyOfLineCount(lineCount) }),
+        knownSkills,
+      ),
+    ]),
   );
 
-  assert.deepEqual(result.errors, []);
-  assert.ok(result.errors.every((error) => !error.includes('required section')));
+  assert.deepEqual(results.get(399), { errors: [], warnings: [] });
+  assert.deepEqual(results.get(400), {
+    errors: [],
+    warnings: [
+      'Body has 400 lines — warning range is 400–510 lines; 511+ lines is an error',
+    ],
+  });
+  assert.deepEqual(results.get(510), {
+    errors: [],
+    warnings: [
+      'Body has 510 lines — warning range is 400–510 lines; 511+ lines is an error',
+    ],
+  });
+  assert.deepEqual(results.get(511), {
+    errors: ['Body has 511 lines — error threshold is 511+ lines'],
+    warnings: [],
+  });
+});
+
+test('counts CRLF documents and bodies with the same line boundaries', () => {
+  const content = skillContent({ body: bodyOfLineCount(400) }).replaceAll(
+    '\n',
+    '\r\n',
+  );
+
+  assert.deepEqual(lintSkillContent('sample-skill', content, knownSkills), {
+    errors: [],
+    warnings: [
+      'Body has 400 lines — warning range is 400–510 lines; 511+ lines is an error',
+    ],
+  });
+});
+
+test('counts trailing blank lines but not the final line ending', () => {
+  const bodyWithTwoTrailingBlankLines = `${bodyOfLineCount(398)}\n\n`;
+
+  assert.deepEqual(
+    lintSkillContent(
+      'sample-skill',
+      skillContent({ body: bodyWithTwoTrailingBlankLines }),
+      knownSkills,
+    ),
+    {
+      errors: [],
+      warnings: [
+        'Body has 400 lines — warning range is 400–510 lines; 511+ lines is an error',
+      ],
+    },
+  );
+});
+
+test('reports a 511+ body error alongside an unrelated cross-skill warning', () => {
+  const body = [
+    'Use the `missing-skill` skill.',
+    ...bodyOfLineCount(510).split('\n'),
+  ].join('\n');
+
+  assert.deepEqual(
+    lintSkillContent('sample-skill', skillContent({ body }), knownSkills),
+    {
+      errors: ['Body has 511 lines — error threshold is 511+ lines'],
+      warnings: [
+        'Unknown cross-skill reference: `missing-skill` is not a known local skill',
+      ],
+    },
+  );
 });
 
 test('rejects malformed YAML and name/directory mismatches', () => {

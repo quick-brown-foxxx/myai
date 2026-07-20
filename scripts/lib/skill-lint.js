@@ -5,6 +5,11 @@
  * 2fbfa004a0192529bc997d103fc12f19a3804aab. This keeps the upstream split
  * between a thin CLI and a rules library while adapting it to this repository's
  * ESM package, real YAML frontmatter, flat skill layout, and local tag policy.
+ *
+ * Rule categories: canonical directory/file layout and path safety;
+ * YAML frontmatter presence, syntax, and mapping shape; skill/directory names;
+ * description content, length, and routing cues; metadata tags; Markdown body
+ * line count (400–510 lines warn, 511+ lines error); and cross-skill references.
  */
 
 import fs from 'node:fs';
@@ -13,6 +18,8 @@ import path from 'node:path';
 import { parseDocument } from 'yaml';
 
 const MAX_DESCRIPTION_LENGTH = 1024;
+const BODY_LENGTH_WARNING_LINES = 400;
+const BODY_LENGTH_ERROR_LINES = 511;
 const LOWERCASE_KEBAB_SOURCE = String.raw`[a-z0-9]+(?:-[a-z0-9]+)*`;
 const KEBAB_CASE = new RegExp(`^${LOWERCASE_KEBAB_SOURCE}$`);
 const BACKTICKED_SKILL_NAME = `\`(${LOWERCASE_KEBAB_SOURCE})\``;
@@ -44,6 +51,7 @@ const SKILL_REF_PATTERNS = [
   new RegExp(String.raw`→ ` + BACKTICKED_SKILL_NAME, 'g'),
 ];
 
+/** Remove fenced code blocks so examples are not interpreted as live references. */
 function stripFencedCodeBlocks(content) {
   const lines = content.split(/\r?\n/);
   const proseLines = [];
@@ -73,8 +81,12 @@ function stripFencedCodeBlocks(content) {
   return proseLines.join('\n');
 }
 
-/** Parse a frontmatter mapping from the start of a Markdown document. */
-export function parseFrontmatter(content) {
+/**
+ * Split a skill document at its leading frontmatter block and parse the YAML.
+ * The returned body starts after the closing delimiter and the optional
+ * following line ending.
+ */
+function parseSkillDocument(content) {
   const match = content.match(
     /^---[ \t]*\r?\n([\s\S]*?)\r?\n---[ \t]*(?:\r?\n|$)/,
   );
@@ -96,7 +108,24 @@ export function parseFrontmatter(content) {
   ) {
     throw new Error('frontmatter must be a YAML mapping');
   }
-  return frontmatter;
+  return { frontmatter, body: content.slice(match[0].length) };
+}
+
+/** Parse a frontmatter mapping from the start of a Markdown document. */
+export function parseFrontmatter(content) {
+  return parseSkillDocument(content)?.frontmatter ?? null;
+}
+
+/**
+ * Count ordinary Markdown body lines. A final line ending terminates the last
+ * line but does not create an additional phantom line.
+ */
+function countBodyLines(body) {
+  if (body === '') return 0;
+
+  const lines = body.split(/\r\n|\n|\r/);
+  if (lines.at(-1) === '') lines.pop();
+  return lines.length;
 }
 
 /** Collect conservative, explicit cross-skill references from prose. */
@@ -114,6 +143,7 @@ export function extractSkillReferences(content) {
   return refs;
 }
 
+/** Validate the portable description contract and local routing-cue policy. */
 function validateDescription(description, errors) {
   if (typeof description !== 'string' || description.trim() === '') {
     errors.push("Frontmatter field 'description' must be a non-empty string");
@@ -140,6 +170,7 @@ function validateDescription(description, errors) {
   }
 }
 
+/** Validate required metadata.tags shape, count, spelling, and formatting. */
 function validateTags(metadata, errors) {
   if (
     metadata === null ||
@@ -193,25 +224,45 @@ function validateTags(metadata, errors) {
   }
 }
 
+/** Route body line-count findings to warning or error channels at the boundaries. */
+function validateBodyLength(body, errors, warnings) {
+  const bodyLineCount = countBodyLines(body);
+
+  if (bodyLineCount >= BODY_LENGTH_ERROR_LINES) {
+    errors.push(
+      `Body has ${bodyLineCount} lines — error threshold is ` +
+        `${BODY_LENGTH_ERROR_LINES}+ lines`,
+    );
+  } else if (bodyLineCount >= BODY_LENGTH_WARNING_LINES) {
+    warnings.push(
+      `Body has ${bodyLineCount} lines — warning range is ` +
+        `${BODY_LENGTH_WARNING_LINES}–${BODY_LENGTH_ERROR_LINES - 1} lines; ` +
+        `${BODY_LENGTH_ERROR_LINES}+ lines is an error`,
+    );
+  }
+}
+
 /** Lint already-read SKILL.md content without filesystem access. */
 export function lintSkillContent(dirName, content, knownSkills = new Set()) {
   const errors = [];
   const warnings = [];
 
-  let frontmatter;
+  let skillDocument;
   try {
-    frontmatter = parseFrontmatter(content);
+    skillDocument = parseSkillDocument(content);
   } catch (error) {
     errors.push(`Invalid YAML frontmatter: ${error.message}`);
     return { errors, warnings };
   }
 
-  if (!frontmatter) {
+  if (!skillDocument) {
     errors.push(
       'Missing or malformed YAML frontmatter (expected a --- block at the top of the file)',
     );
     return { errors, warnings };
   }
+
+  const { frontmatter, body } = skillDocument;
 
   if (typeof frontmatter.name !== 'string' || frontmatter.name.trim() === '') {
     errors.push("Frontmatter field 'name' must be a non-empty string");
@@ -227,6 +278,7 @@ export function lintSkillContent(dirName, content, knownSkills = new Set()) {
 
   validateDescription(frontmatter.description, errors);
   validateTags(frontmatter.metadata, errors);
+  validateBodyLength(body, errors, warnings);
 
   const refs = [...extractSkillReferences(content)].sort();
   for (const ref of refs) {
@@ -238,9 +290,11 @@ export function lintSkillContent(dirName, content, knownSkills = new Set()) {
   return { errors, warnings };
 }
 
+/** Find non-canonical SKILL.md files below a canonical skill directory. */
 function findNestedSkillFiles(skillDir) {
   const nestedSkillFiles = [];
 
+  /** Traverse real directories only, avoiding symlink cycles and escapes. */
   function visit(currentDir) {
     const entries = fs.readdirSync(currentDir, { withFileTypes: true });
     for (const entry of entries) {
@@ -264,6 +318,10 @@ function findNestedSkillFiles(skillDir) {
   return nestedSkillFiles.sort();
 }
 
+/**
+ * Return whether candidatePath is lexically contained by parentPath. Callers
+ * canonicalize paths first where filesystem identity matters.
+ */
 function isPathWithin(parentPath, candidatePath) {
   const relativePath = path.relative(parentPath, candidatePath);
   return (
