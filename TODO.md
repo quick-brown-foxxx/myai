@@ -26,6 +26,5 @@
 
 - run over all borrowed skills to check if we can enrich them with our PHILOSOPHY or practices
 - ensure all our skills are consistent
-- {IN PROGRESS} maybe pick validate-skills.js from addy
 - "let's imagine it already failed. why?" pattern in planning/brainstorming skills
 - upstream-source-research new rule: always by default set systemd timer or equivalent to cleanup big tmp folder of downloaded sources after 2h. This should be done always in case user will miss the report and forget to cleanup. He will be able to ask you to drop this timer if he will want to preserve the folder
