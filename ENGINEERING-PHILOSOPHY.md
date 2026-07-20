@@ -235,7 +235,12 @@ Code is read far more often than it is written. Favor clarity, directness, and t
 - **Flat is better than nested** — guard clauses, early returns, extracted helpers. Deep nesting is a signal the logic needs splitting
 - **Explicit state over implicit magic** — visible data flow beats decorators, proxies, or interceptors that hide what's happening
 - **Simple over concise** — if the concise version requires a mental pause, write the simple version. Fewer characters is not the goal
-- **Comments for "why", not "what"** — the code should already say what it does. Comments explain constraints, trade-offs, or reasons that can't be expressed in code
+- **Comment business and domain logic** — always preserve intent, business rules, invariants, or the overall approach; never narrate syntax
+- **Explain non-obvious constraints** — always document tricks, hacks, bug workarounds, and framework-imposed constraints, including the removal condition when useful
+- **Layer comments by scale** — give large, complex logic sections a high-level overview, then target non-obvious phases, decisions, and invariants inside the flow
+- **Skip obvious narration** — self-evident boilerplate and standard framework wiring need no comments; avoid line-by-line descriptions
+
+The canonical agent-facing commenting policy is in `skills/engineering-principles/SKILL.md`.
 
 ## Applying This Document
 

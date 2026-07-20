@@ -106,7 +106,9 @@ PROPOSED → ACCEPTED → (SUPERSEDED or DEPRECATED)
 
 ### When to Comment
 
-Comment the *why*, not the *what*:
+Defer to the canonical commenting policy in `engineering-principles`. Inline
+documentation preserves intent rather than narrating syntax: business rules and
+invariants require explanation, while obvious code does not.
 
 ```typescript
 // BAD: Restates the code

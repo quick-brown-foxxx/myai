@@ -45,18 +45,19 @@ Decide first whether ordinary web research is enough or whether the task should 
 
 - Treat `/tmp` clones as disposable research artifacts.
 - If the clone needs submodules, deeper history, or large assets, keep checking whether that extra weight is actually required.
-- After inspection, if the temporary folder is larger than about `512 MB`, warn the user and suggest cleanup now or a later automatic cleanup job.
-- On systemd-based personal Linux machines, recommend a `systemd` cleanup timer task over plain `cron` because a timer can use `Persistent=true` and catch up after the laptop was off or asleep.
+- By default, schedule deletion of each temporary upstream source tree for two wall-clock hours after active inspection ends. Use a systemd timer or a safe native equivalent; if scheduling is unavailable or fails, state clearly that cleanup is **not scheduled**.
+- Scope deletion to the exact full tree path beneath the OS temporary dir. Avoid deleting incorrect dirs and any empty, broad, or non-temporary path; never use globs or broad deletion commands.
+- Report the target, cleanup mechanism, trigger time and timezone, and cancellation procedure. If the user wants to preserve the tree, do not schedule cleanup or cancel/drop the timer or job and confirm the tree remains.
 
 ## Return Value
 
 Return the useful conclusion, the evidence source, and any constraints discovered during research.
 
-If you used a temporary clone, mention where it was created and whether it should be deleted.
+If you used a temporary clone, mention where it was created and its cleanup status, including the scheduled mechanism/time and cancellation command when applicable.
 
 ## Avoid
 
 - Cloning by habit when one or two web reads would answer the question.
 - Fetching full history when shallow history is enough.
-- Leaving large temporary research clones behind without telling the user.
+- Leaving temporary research source trees behind without telling the user.
 - Treating rate-limit friction as a blocker before trying better-suited CLIs or a local clone.
