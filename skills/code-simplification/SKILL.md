@@ -139,13 +139,21 @@ Scan for these patterns — each one is a concrete signal, not a vague smell:
 | Boolean parameter flags | `doThing(true, false, true)` | Replace with options objects or separate functions |
 | Repeated conditionals | Same `if` check in multiple places | Extract to a well-named predicate function |
 
-**Naming and readability:**
+**Naming during refactoring:**
+
+Apply meaningful-naming policy from `engineering-principles`. In a
+simplification pass, act on concrete naming smells rather than renaming by taste:
 
 | Pattern | Signal | Simplification |
 |---------|--------|----------------|
-| Generic names | `data`, `result`, `temp`, `val`, `item` | Rename to describe the content: `userProfile`, `validationErrors` |
-| Abbreviated names | `usr`, `cfg`, `btn`, `evt` | Use full words unless the abbreviation is universal (`id`, `url`, `api`) |
+| Generic or abbreviated name obscures a concept | A reader must trace assignments or callers to learn what it means | Rename it to the project's established domain term |
 | Misleading names | Function named `get` that also mutates state | Rename to reflect actual behavior |
+| Inconsistent terminology | The same concept has different names in neighboring code | Align it with the codebase's established term |
+
+**Comment readability:**
+
+| Pattern | Signal | Simplification |
+|---------|--------|----------------|
 | Comments explaining "what" | `// increment counter` above `count++` | Delete the comment — the code is clear enough |
 | Comments explaining "why" | `// Retry because the API is flaky under load` | Keep these — they carry intent the code can't express |
 

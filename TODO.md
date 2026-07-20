@@ -5,11 +5,6 @@
   - relation between prototype-first and doubt-early, what is the order?
   - pick [Confusion Management](.tmp/addy-agent-skills/skills/context-engineering/SKILL.md) section somewhere. but rewrite to "escalate"/"spawn subagent to think and document" wording instead of "stop and ask"
 
-- different models for different subagents?
-  - eg coder is gpt, reviewer is claude and so on?
-  - parametrization to avoid hardcoding model into agent md description?
-  - can orchestrator select a model for subagent in runtime, or this is config-level?
-
 - in skill for spawning subagents MAYBE add prompting rules from [context-management skill](.tmp/addy-agent-skills/skills/context-engineering/SKILL.md)
 
 - enroll own or merge:
@@ -34,4 +29,3 @@
 - {IN PROGRESS} maybe pick validate-skills.js from addy
 - "let's imagine it already failed. why?" pattern in planning/brainstorming skills
 - upstream-source-research new rule: always by default set systemd timer or equivalent to cleanup big tmp folder of downloaded sources after 2h. This should be done always in case user will miss the report and forget to cleanup. He will be able to ask you to drop this timer if he will want to preserve the folder
-- naming of variables/fields/entities and so on: meaningful names, bigger-better. eg `payload` vs `solana_transaction_payload`, `mode` vs `service_lifecycle_mode`  
