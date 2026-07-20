@@ -17,9 +17,6 @@ layers, read @SKILLS-PHILOSOPHY.md
 For engineering values used by coding, architecture, testing, and tooling skills,
 read @ENGINEERING-PHILOSOPHY.md.
 
-For migration state, source consolidation decisions, remaining cleanup, and
-deferred work, read @docs/skill-set-consolidation.md
-
 When touching future autonomous orchestration, read @docs/my-workflow-draft.md.
 
 ## Repository Layout
@@ -75,8 +72,6 @@ When creating or editing skills:
   the tag policy in `skills/README.md`.
 - Update `README.md` when public install instructions, plugin usage, or the
   install-oriented catalog changes.
-- Update `docs/skill-set-consolidation.md` when migration state or remaining
-  plans change.
 - Update this `AGENTS.md` when repository operations, canonical sources,
   generated paths, or agent maintenance rules change.
 
@@ -141,8 +136,7 @@ agent reports evidence, blockers, and next options
 The future long-running `mega-workflow` is out of scope for current skill edits.
 Keep current work focused on atomic skills and composable short workflows.
 
-Prefer local canonical skill names from `skills/`. External or inherited skill
-references must be intentional and documented in `docs/skill-set-consolidation.md`.
+Prefer local canonical skill names from `skills/`.
 
 ## Verification Expectations
 
