@@ -9,6 +9,10 @@
     "./gpt5-style-helper": "./.opencode/plugins/gpt5-style-helper/index.js"
   },
   "scripts": {
-    "test": "node --test --test-concurrency=1"
+    "test": "node --test --test-concurrency=1",
+    "validate": "node scripts/validate-skills.js"
+  },
+  "dependencies": {
+    "yaml": "^2.9.0"
   }
 }
