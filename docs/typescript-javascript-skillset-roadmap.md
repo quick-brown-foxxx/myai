@@ -71,8 +71,8 @@ REJECTED  -> explicitly excluded
 | --- | --- | --- |
 | Do not use MSW. | **Accepted** | The local policy prioritizes real behavior over request interception; use normal executable mock/test HTTP servers. |
 | Prefer realistic HTTP boundaries. | **Accepted** | Tests should exercise real sockets, serialization, routing, and generated contracts where practical. |
-| Backends expose complete generated OpenAPI documents. | **Accepted** | In code-first approaches, endpoint annotations or metadata are generation inputs—not the finished contract. API bootstrap and architecture guidance must require a complete generated document. |
-| OpenAPI supports test servers and client contract verification. | **Accepted** | Generated contracts should enable realistic mock/test servers and detect frontend/client drift. |
+| Use OpenAPI when the contract crosses an ecosystem or repository boundary, or is public. | **Accepted** | Require a complete OpenAPI document when the backend is not TS/JS, lives in a separate repository from its frontend/client, or exposes an API to third-party consumers. Generate API types, schemas, clients, and contract-powered test infrastructure from it where practical. |
+| Shared TS runtime DTOs are sufficient for closely coupled private TS systems. | **Accepted** | When frontend and backend share a TypeScript/package ecosystem and can consume one contract package, share transport runtime schemas and inferred types; OpenAPI is optional unless another requirement makes the API public or cross-boundary. |
 | Frontend/backend systems use the DTO selection strategy below. | **Accepted** | Accidental copying or coupling is not an acceptable default. Library, tooling, and profile mechanics remain open. |
 
 ## Accepted Decision: DTO and Runtime Contract Strategy
@@ -83,10 +83,12 @@ REJECTED  -> explicitly excluded
 
 ```mermaid
 flowchart TD
-  A[Frontend consumes backend contract] --> B{Same TypeScript/package ecosystem?}
-  B -- yes --> C{Shared package practical?}
+  A[Client consumes backend contract] --> P{Public API for third parties?}
+  P -- yes --> E[OpenAPI source of truth<br/>+ generated clients/types/schemas]
+  P -- no --> B{TS/JS backend in same repository ecosystem?}
+  B -- yes --> C{Shared contract package practical?}
   C -- yes --> D[Shared transport runtime schemas<br/>+ inferred TypeScript types]
-  C -- no --> E[OpenAPI source of truth<br/>+ generated clients/types]
+  C -- no --> E
   B -- no --> E
   D --> F[Server validates every external input]
   E --> F
@@ -109,12 +111,17 @@ shared runtime transport schema
 - Treat frontend validation as usability and early feedback—not authorization, integrity enforcement, or security.
 - Do not expose backend entities, persistence models, internal domain types, or use-case inputs merely because both sides use TypeScript.
 - Keep exact **Zod vs. Valibot** selection open and profile-specific until the relevant skill is designed and validated.
+- Do not require OpenAPI only for internal symmetry. Add it when the API becomes public, crosses repository/language boundaries, or has another concrete contract-governance need.
 
 Plain TypeScript types alone are insufficient because they are erased at runtime. They cannot prove that network JSON, storage data, environment values, or untrusted user input matches a compile-time declaration. A type assertion can silence the compiler without validating a single byte.
 
-#### Separate repos or cross-language consumers: OpenAPI-first contracts
+#### Separate repos, non-TS backends, or public APIs: OpenAPI-first contracts
 
-When consumers live in separate repositories, use different languages, or cannot practically consume a shared source package, prefer:
+Prefer OpenAPI as the interoperable contract when:
+
+- the backend is not implemented in TS/JS;
+- the backend and its frontend/client live in separate repositories and cannot consume one shared contract package cleanly; or
+- third-party clients can access the backend, even if the first-party frontend and backend otherwise share TypeScript.
 
 ```text
 authoritative complete OpenAPI document
@@ -126,15 +133,26 @@ authoritative complete OpenAPI document
 
 Generated clients and types reduce manual drift while preserving a language-neutral boundary. Runtime validators may also be generated or derived when clients must validate responses defensively.
 
+### Contract-Powered Test Servers
+
+The test server should consume the same authoritative contract as production clients:
+
+| Contract model | Test-server default |
+| --- | --- |
+| OpenAPI-first or code-first OpenAPI | Run an executable mock/test server powered by the generated OpenAPI document, such as Mockoon, so routes and payload shapes follow the published contract. |
+| Shared runtime-schema-first | Run a normal TypeScript HTTP test server that imports the same shared DTO/runtime-schema package as the frontend and backend. |
+
+Both approaches must use a real listening HTTP server and exercise real serialization and network behavior. The shared DTO path does not require generating OpenAPI merely to construct the test server.
+
 ### Source-of-Truth Models
 
-Choose **one** authoritative model per system; do not maintain OpenAPI annotations, shared schemas, and handwritten DTOs as three independent truths. Every accepted model and toolchain must generate, or provably align with, one complete OpenAPI document. In code-first models, endpoint metadata and annotations are inputs used to generate that document.
+Choose **one** authoritative model per system; do not maintain OpenAPI annotations, shared schemas, and handwritten DTOs as three independent truths. When OpenAPI is required, its generated document must be complete and aligned with endpoint behavior. In code-first models, endpoint metadata and annotations are inputs used to generate that document.
 
 | Model | Best fit | Authoritative artifact | Derived artifacts |
 | --- | --- | --- | --- |
-| Shared runtime-schema-first | Same TypeScript/package ecosystem and practical shared package | Transport runtime schemas | Complete OpenAPI document with provable alignment, TS types, adapters, clients, and test-server inputs |
+| Shared runtime-schema-first | Private TS/JS frontend and backend in the same repository/package ecosystem | Transport runtime schemas | Inferred TS types, adapters, and a TS HTTP test server using the same package; OpenAPI only when separately required |
 | Backend/code-first OpenAPI | Framework can generate a complete document from authoritative endpoint metadata | Backend endpoint DTO metadata/annotations as generation inputs | Complete OpenAPI document, generated clients/types, validators, and test-server inputs |
-| OpenAPI-first | Separate repos, multiple languages, or contract-governed APIs | Complete OpenAPI document | Server/client stubs, types, validators, and mock/test servers |
+| OpenAPI-first | Non-TS backends, separate repositories, public/third-party APIs, or other contract-governed APIs | Complete OpenAPI document | Server/client stubs, types, validators, and OpenAPI-powered mock/test servers |
 
 The exact model is a project-profile decision. Completeness checks and drift detection are required whichever model is selected.
 
@@ -148,7 +166,7 @@ All entries below are **Planned**. Descriptions are intentionally rough boundari
 | 2 | `writing-typescript-code` | `coding_rules_ts` | `engineering-principles` | Coding guidance for any TS application: strict type handling, TS/ESLint rules, reusable patterns, boundary validation, and case-based guidance. |
 | 3 | `architecting-typescript-changes` | `coding_rules_ts` | `engineering-principles` → `architecting-changes` | TS-specific architecture router parallel to `architecting-python-changes`; routes project shape, backend, frontend, multi-interface, contract, and testing concerns. |
 | 4 | `setting-up-react-projects` | `coding_rules_ts` | `setting-up-projects` → `setting-up-typescript-projects` | Bootstrap distinct React frontend kinds; compare Next.js, raw React + React Router, and other suitable frameworks; cover React-specific setup and package categories without forcing one profile onto all projects. |
-| 5 | `setting-up-typescript-backends` | `coding_rules_ts` | `setting-up-projects` → `setting-up-backends` → `setting-up-typescript-projects` | Backend bootstrap and framework selection: NestJS default, Hono for edge profiles, Prisma, authentication, complete OpenAPI generation, contract strategy, and related setup boundaries. |
+| 5 | `setting-up-typescript-backends` | `coding_rules_ts` | `setting-up-projects` → `setting-up-backends` → `setting-up-typescript-projects` | Backend bootstrap and framework selection: NestJS default, Hono for edge profiles, Prisma, authentication, shared DTO versus OpenAPI contract selection, and related setup boundaries. |
 | 6 | `building-react-frontends` | `coding_rules_ts` | `architecting-changes` → `architecting-typescript-changes` | Architecture for new React subsystems plus low-level React implementation guidance, state categories and management, component boundaries, and patterns. |
 | 7 | `testing-typescript` | `coding_rules_ts` | `high-level-testing-strategy` → `architecting-test-infra` → `test-driven-development` / `manual-testing` | TS/JS testing patterns, recommended tool categories, test-infrastructure architecture, real service boundaries, and routing to frontend-specific testing. |
 | 8 | `testing-frontends` | `coding_rules_ts` | `high-level-testing-strategy` → `architecting-test-infra` → `testing-typescript` → `test-driven-development` / `manual-testing` | Framework-neutral frontend testing with React-specific sections and Svelte/other applicability: unit, component, realistic UI, executable HTTP test servers, Playwright, and testcontainers when warranted. Explicitly excludes MSW. |
@@ -242,7 +260,7 @@ Accepted TS extension decisions govern the ecosystem-specific work after this al
 
 1. Design `setting-up-react-projects` with a framework decision matrix.
 2. Design `setting-up-typescript-backends` with NestJS as the default profile and Hono for edge profiles.
-3. Validate complete OpenAPI generation/alignment and the tooling mechanics for the accepted DTO selection strategy.
+3. Validate the accepted contract-selection strategy: shared runtime DTOs for closely coupled private TS systems, and complete OpenAPI generation/alignment for non-TS, separate-repository, or public APIs.
 
 **Exit evidence:** representative frontend and backend bootstraps run, build, typecheck, and expose their intended development/test boundaries.
 
@@ -262,7 +280,7 @@ Accepted TS extension decisions govern the ecosystem-specific work after this al
 
 1. Design `testing-typescript` and its routing to canonical `high-level-testing-strategy`, `architecting-test-infra`, `test-driven-development`, and `manual-testing` skills.
 2. Design `testing-frontends` with executable HTTP test servers, realistic UI tests, Playwright, and conditional testcontainers.
-3. Exercise complete generated OpenAPI documents in mock/test server and client-verification scenarios.
+3. Exercise both contract-powered server paths: an OpenAPI-powered server such as Mockoon for OpenAPI contracts, and a TypeScript HTTP server importing the shared DTO package for shared-schema contracts.
 
 **Exit evidence:** representative tests prove real behavior without MSW and clearly distinguish unit, integration, component, and browser evidence.
 
@@ -296,7 +314,7 @@ Minimum expectations:
 | Structure and discoverability | Valid skill layout/frontmatter; task-shaped description; positive and negative trigger prompts. |
 | Fresh-context review | A reviewer without authoring context identifies ambiguity, duplication, missing routing, or over-prescription. |
 | Executable setup | For setup skills, run actual install, lint, typecheck, test, build, and start/smoke commands appropriate to the selected profile. |
-| Runtime/API behavior | For backend and contract guidance, prove the OpenAPI document is complete and aligned with endpoint behavior, then exercise a real server/client or executable test-server path. |
+| Runtime/API behavior | Exercise a real server/client or executable test-server path. When OpenAPI is the contract, prove the document is complete and power the test server from it; when shared DTOs are the contract, prove the TS test server consumes the same runtime-schema package. |
 | UI behavior | For React/frontend skills, run browser or component scenarios and Playwright where the claim requires browser evidence. |
 | Cross-skill coherence | Confirm parent skills exist, references are canonical, and generic guidance is not copied into the extension. |
 | Completion claim | Use fresh evidence; document skipped checks and why. |
@@ -310,7 +328,7 @@ No specific command is prescribed in this roadmap because commands depend on the
 | Zod or Valibot as the preferred runtime schema tool? | **Open / profile-specific** | Ecosystem integration, OpenAPI generation quality, bundle/runtime cost, ergonomics, and maintenance signal. |
 | Should SvelteKit later enter the setup decision matrix or become a default? | **Proposed—not accepted** | It is excluded from current roadmap implementation; future consideration requires explicit approval and current framework evidence. |
 | Which package manager and runner/build defaults should each profile use? | **Open** | Current stable tooling, runtime targets, framework conventions, and real bootstrap evidence. |
-| How should a schema-first shared package emit or align with a complete OpenAPI document? | **Open** | Tooling prototype proving completeness and drift detection without duplicate manual definitions. |
+| When a shared-schema system later needs public or cross-boundary OpenAPI, how should it generate or align the document? | **Open** | Tooling prototype proving completeness and drift detection without turning OpenAPI into a second manually maintained source of truth. |
 | When do frontend tests warrant testcontainers? | **Open / conditional** | Complexity, fidelity benefits, startup cost, and whether a normal executable HTTP server is sufficient. |
 | When should templates or shared packages be reconsidered? | **Deferred** | Repeated, stable patterns across several verified skills and projects. |
 
@@ -323,8 +341,8 @@ No specific command is prescribed in this roadmap because commands depend on the
 | Framework guidance becomes a package catalog. | Recommend by responsibility and project profile; keep lists short and evidence-based. |
 | Shared DTOs leak backend internals into the frontend. | Share transport schemas only; preserve separate domain and persistence models. |
 | Compile-time types are mistaken for runtime safety. | Require validation at external boundaries and keep the server authoritative. |
-| Contract definitions drift across endpoint metadata, schemas, handwritten DTOs, and the OpenAPI document. | Select one source-of-truth model; treat code-first metadata as generation input and prove all derivatives align in CI. |
-| “Mock server” tests still bypass meaningful behavior. | Use normal executable HTTP servers and contract-derived scenarios; verify real serialization and network boundaries. |
+| Contract definitions drift across endpoint metadata, schemas, handwritten DTOs, and the OpenAPI document. | Select one source-of-truth model. Generate OpenAPI derivatives when OpenAPI is required; otherwise keep the shared runtime-schema package authoritative. |
+| “Mock server” tests still bypass meaningful behavior. | Use real listening HTTP servers derived from the authoritative contract: OpenAPI-powered servers for OpenAPI contracts, or TS servers importing the shared DTO package. Verify real serialization and network boundaries. |
 | React guidance accidentally excludes other frontends. | Keep `testing-frontends` framework-neutral with framework-specific sections; SvelteKit remains proposed—not accepted and outside current roadmap implementation. |
 
 ---
