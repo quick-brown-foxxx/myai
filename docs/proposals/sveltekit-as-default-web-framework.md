@@ -1,5 +1,15 @@
 # SvelteKit As Default Web Framework
 
+> **Status: Superseded — not current policy**
+>
+> This document advocated SvelteKit as the default web framework. It has been
+> superseded by `docs/typescript-javascript-skillset-roadmap.md`, which defines
+> the current scope, sequencing, and decisions for TypeScript/JavaScript and
+> React skill development. SvelteKit remains a proposed framework option but
+> is **not accepted** as a default in current roadmap implementation. Do not
+> treat this document as active policy. Use the roadmap for authoritative
+> sequencing and decision status.
+
 This document records the decision to adopt **SvelteKit** as the default web
 framework for future frontend / fullstack projects, and provides a cookbook for
 a classic frontend app shape.

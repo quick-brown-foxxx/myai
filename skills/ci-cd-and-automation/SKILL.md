@@ -29,29 +29,29 @@ defaults.
 
 ## The Quality Gate Pipeline
 
-Every change goes through these gates before merge:
+Every change goes through project-appropriate gates before merge. Which gates
+apply depends on the project profile, but once declared, **no gate can be
+skipped** — if lint fails, fix the lint rule, not the pipeline.
 
-```
+```text
 Pull Request Opened
     │
     ▼
-┌─────────────────┐
-│   LINT CHECK     │  eslint, prettier
-│   ↓ pass         │
-│   TYPE CHECK     │  tsc --noEmit
-│   ↓ pass         │
-│   UNIT TESTS     │  jest/vitest
-│   ↓ pass         │
-│   BUILD          │  npm run build
-│   ↓ pass         │
-│   INTEGRATION    │  API/DB tests
-│   ↓ pass         │
-│   E2E (optional) │  Playwright/Cypress
-│   ↓ pass         │
-│   SECURITY AUDIT │  npm audit
-│   ↓ pass         │
-│   BUNDLE SIZE    │  bundlesize check
-└─────────────────┘
+┌─────────────────────┐
+│   FORMAT CHECK       │  format:check
+│   ↓ pass             │
+│   LINT CHECK         │  lint
+│   ↓ pass             │
+│   TYPE CHECK         │  typecheck
+│   ↓ pass             │
+│   TESTS              │  test
+│   ↓ pass             │
+│   BUILD              │  build (when the project produces an artifact)
+│   ↓ pass             │
+│   INTEGRATION / E2E  │  project-specific (may be separate job)
+│   ↓ pass             │
+│   SECURITY AUDIT     │  package-manager audit or equivalent
+└─────────────────────┘
     │
     ▼
   Ready for review
@@ -63,8 +63,17 @@ Pull Request Opened
 
 ### Basic CI Pipeline
 
+The exact pipeline depends on the project's selected runtime, package manager,
+and script contract. Derive the runtime version from the project's declared
+policy, provision the package manager explicitly, use frozen lockfile installs,
+and prefer repository-owned package scripts over direct `npx` commands.
+
+Configure caching for the selected package manager's download/store, not
+`node_modules` itself, unless the project has deliberately validated that
+strategy.
+
 ```yaml
-# .github/workflows/ci.yml
+# .github/workflows/ci.yml — example for a pnpm project
 name: CI
 
 on:
@@ -79,31 +88,45 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Derive Node version from project policy, not a hardcoded major
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'npm'
+          node-version-file: '.nvmrc'        # or .node-version, package.json#engines
+          cache: 'pnpm'                       # cache package manager store, not node_modules
+
+      - name: Install pnpm
+        run: npm install -g pnpm              # or use corepack; verify current Corepack availability
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
+
+      # Use repository-owned package scripts, not direct npx
+      - name: Format check
+        run: pnpm format:check               # or: npm run format:check
 
       - name: Lint
-        run: npm run lint
+        run: pnpm lint
 
       - name: Type check
-        run: npx tsc --noEmit
+        run: pnpm typecheck                  # project script, not npx tsc
 
       - name: Test
-        run: npm test -- --coverage
+        run: pnpm test
 
       - name: Build
-        run: npm run build
+        run: pnpm build
 
       - name: Security audit
-        run: npm audit --audit-level=high
+        run: pnpm audit --audit-level=high   # use the selected manager's audit command
 ```
 
+For projects using npm, adjust accordingly — `npm ci` for install, `node-version`
+for the runtime, `npm` commands, and `cache: npm` for the store.
+
 ### With Database Integration Tests
+
+Derive Node version and package manager from the project's declarations, as
+shown in the basic pipeline above.
 
 ```yaml
   integration:
@@ -127,15 +150,15 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'npm'
-      - run: npm ci
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
       - name: Run migrations
-        run: npx prisma migrate deploy
+        run: pnpm db:migrate                 # project-owned script, not npx
         env:
           DATABASE_URL: postgresql://ci_user:${{ secrets.CI_DB_PASSWORD }}@localhost:5432/testdb
       - name: Integration tests
-        run: npm run test:integration
+        run: pnpm test:integration
         env:
           DATABASE_URL: postgresql://ci_user:${{ secrets.CI_DB_PASSWORD }}@localhost:5432/testdb
 ```
@@ -151,15 +174,15 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          cache: 'npm'
-      - run: npm ci
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
       - name: Install Playwright
-        run: npx playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium   # or pnpm playwright install
       - name: Build
-        run: npm run build
+        run: pnpm build
       - name: Run E2E tests
-        run: npx playwright test
+        run: pnpm test:e2e
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
@@ -190,7 +213,7 @@ Agent fixes → pushes → CI runs again
 **Key patterns:**
 
 ```
-Lint failure → Agent runs `npm run lint --fix` and commits
+Lint failure → Agent runs the project's lint:fix command and commits
 Type error  → Agent reads the error location and fixes the type
 Test failure → Agent follows `systematic-debugging`
 Build error → Agent checks config and dependencies
@@ -291,10 +314,10 @@ CI should never have production secrets. Use separate secrets for CI testing.
 ### Dependabot / Renovate
 
 ```yaml
-# .github/dependabot.yml
+# .github/dependabot.yml — adjust package-ecosystem to match the project (npm, pnpm, etc.)
 version: 2
 updates:
-  - package-ecosystem: npm
+  - package-ecosystem: npm        # use 'npm' for both npm and pnpm projects
     directory: /
     schedule:
       interval: weekly
@@ -319,7 +342,7 @@ When the pipeline exceeds 10 minutes, apply these strategies in order of impact:
 ```
 Slow CI pipeline?
 ├── Cache dependencies
-│   └── Use actions/cache or setup-node cache option for node_modules
+│   └── Cache the package manager's download/store using setup-node or equivalent; avoid caching node_modules directly unless deliberately validated
 ├── Run jobs in parallel
 │   └── Split lint, typecheck, test, build into separate parallel jobs
 ├── Run full heavy suite only before release
@@ -334,7 +357,7 @@ Slow CI pipeline?
     └── GitHub-hosted larger runners or self-hosted for CPU-heavy builds
 ```
 
-**Example: caching and parallelism**
+**Example: caching and parallelism (adapt Node version and package manager to the project)**
 ```yaml
 jobs:
   lint:
@@ -342,27 +365,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '22', cache: 'npm' }
-      - run: npm ci
-      - run: npm run lint
+        with: { node-version-file: '.nvmrc', cache: 'pnpm' }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
 
   typecheck:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '22', cache: 'npm' }
-      - run: npm ci
-      - run: npx tsc --noEmit
+        with: { node-version-file: '.nvmrc', cache: 'pnpm' }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
 
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: '22', cache: 'npm' }
-      - run: npm ci
-      - run: npm test -- --coverage
+        with: { node-version-file: '.nvmrc', cache: 'pnpm' }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
 ```
 
 ## Common Rationalizations

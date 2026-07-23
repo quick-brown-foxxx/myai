@@ -302,11 +302,18 @@ program.parse();
 - Use **Bun** as the default runtime — zero-config TypeScript, auto-installs
   npm dependencies on first run, no `package.json` or build step needed.
 - Use **commander** or **yargs** for CLI parsing.
-- Use **zod** for validation at the file/config boundary.
+- Use a runtime schema validator (e.g., zod, valibot) for validation at the
+  file/config boundary — this example uses zod.
 - Use **neverthrow** or a custom Result type for expected errors.
 - Use `import.meta.dir` (Bun built-in) instead of `__dirname` for script-relative paths.
 - For scripts that must run under Node instead, use **tsx** or
-  `node --experimental-strip-types` with a minimal `package.json`.
+  `node myscript.ts` with a minimal `package.json`. Verify
+  current Node native type-stripping limitations (erasable syntax only, no
+  `tsconfig`-dependent behavior) before choosing it for a script.
+
+These defaults apply to single-file scripts only. Maintained application
+projects should follow `setting-up-typescript-projects` for their own runtime,
+package-manager, and schema decisions.
 
 ## Handoff
 

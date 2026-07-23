@@ -197,7 +197,7 @@ language-specific extension for concrete tool choices, library selections,
 config templates, and code examples:
 
 - **Python**: `setting-up-python-projects` — uv, basedpyright, ruff, pytest,
-  pre-commit, pyproject.toml, src layout, bootstrap script
+  pre-commit, pyproject.toml, src layout, bootstrap script (provided by coding_rules_python aux repository)
 - **Other ecosystems**: if no language-specific skill exists, apply the
   patterns above with `engineering-principles` ecosystem examples as a
   starting point, and record the gap for follow-up

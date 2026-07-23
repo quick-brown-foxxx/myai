@@ -92,12 +92,16 @@ interface APIError {
 
 ### 3. Validate at Boundaries
 
-Trust internal code. Validate at system edges where external input enters:
+Trust internal code. Validate at system edges where external input enters.
+
+Use a runtime schema validator at the HTTP boundary. The example below uses
+a `safeParse`-style API (Zod, Valibot, or equivalent); use the appropriate
+validator for the project.
 
 ```typescript
 // Validate at the API boundary
 app.post('/api/tasks', async (req, res) => {
-  const result = CreateTaskSchema.safeParse(req.body);
+  const result = taskSchema.safeParse(req.body);          // appropriate validator
   if (!result.success) {
     return res.status(422).json({
       error: {
@@ -268,7 +272,7 @@ function getTask(id: TaskId): Promise<Task> { ... }
 
 | Rationalization | Reality |
 |---|---|
-| "We'll document the API later" | The types ARE the documentation. Define them first. |
+| "We'll document the API later" | TypeScript types document in-process programmable interfaces effectively, but plain types are erased at runtime. For external transport contracts, use an authoritative runtime schema (like zod) or OpenAPI model plus boundary validation. Define the contract first. |
 | "We don't need pagination for now" | You will the moment someone has 100+ items. Add it from the start. |
 | "PATCH is complicated, let's just use PUT" | PUT requires the full object every time. PATCH is what clients actually want. |
 | "We'll version the API when we need to" | Breaking changes without versioning break consumers. Design for extension from the start. |

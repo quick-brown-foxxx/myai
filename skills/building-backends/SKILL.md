@@ -112,10 +112,12 @@ Also load `engineering-principles` (via myai bootstrap).
 - **Express** + manual middleware is justified for very thin-edge builds or
   when framework weight is actively undesirable.
 - **Prisma** or **Drizzle** for relational persistence. Keep ORM models
-  at the infrastructure layer — map to plain TypeScript types or Zod
-  schemas in domain code.
-- **Zod** for request/response validation at the HTTP edge. Convert
-  validated shapes immediately into plain domain types.
+  at the infrastructure layer — map to plain domain types at the
+  service boundary.
+- Use appropriate runtime schema validator (e.g., Zod, Valibot) for
+  request/response validation at the HTTP edge. Convert validated transport
+  DTOs immediately into plain domain types. Transport schemas describe the
+  wire format; domain models are not transport schemas.
 - Use `Result<T, E>` (neverthrow, effect, or custom Either) for expected
   failures through core layers. Map to HTTP status codes in exception
   filters or error middleware.
