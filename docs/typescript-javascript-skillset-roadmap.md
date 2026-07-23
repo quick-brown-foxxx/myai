@@ -41,6 +41,9 @@ The roadmap intentionally keeps descriptions high-level. Package selections, fra
 | Complex `coding_rules_ts` repository layout | **Deferred** | Start with skills only; add supporting structure only when evidence justifies it. |
 | Locked framework or package versions | **Out of scope** | Future skills should use current stable documentation and project constraints. |
 | Exhaustive package lists | **Out of scope here** | Future skills may recommend small, role-based sets after research. |
+| Pure JavaScript in `setting-up-typescript-projects` | **Out of scope** | The setup skill is TypeScript-first. It must not create a pure-JavaScript project without explicit user approval, and pure-JavaScript setup remains outside the skill even when separately requested. |
+| JavaScript-to-TypeScript migration | **Out of scope** | Migration guidance requires a separate future effort. |
+| Legacy projects and interoperability | **Out of scope** | The setup skill covers new projects and existing modern projects, not legacy module systems, compatibility work, or modernization. |
 
 ## Decision Status Vocabulary
 
@@ -162,7 +165,7 @@ All entries below are **Planned**. Descriptions are intentionally rough boundari
 
 | Order | Skill | Initial owner | Parent/foundation skills in `myai` | High-level responsibility |
 | ---: | --- | --- | --- | --- |
-| 1 | `setting-up-typescript-projects` | `coding_rules_ts` | `engineering-principles` → `setting-up-projects` | Adjustable TS/JS application bootstrap: package manager, strict compiler configuration, runtime/module decisions, runner/build choices, ESLint/rules, recommended package categories, and brief monorepo routing. |
+| 1 | `setting-up-typescript-projects` | `coding_rules_ts` | `engineering-principles` → `setting-up-projects` | Modern TypeScript application bootstrap for new and existing modern projects: package manager, strict compiler and ESLint rules, runtime/execution model, build choices, Git hooks, recommended package categories, and brief workspace routing. Runtime, bundler, runner, package-manager, and strict-ruleset recommendations remain unapproved until researched and proven with test projects. |
 | 2 | `writing-typescript-code` | `coding_rules_ts` | `engineering-principles` | Coding guidance for any TS application: strict type handling, TS/ESLint rules, reusable patterns, boundary validation, and case-based guidance. |
 | 3 | `architecting-typescript-changes` | `coding_rules_ts` | `engineering-principles` → `architecting-changes` | TS-specific architecture router parallel to `architecting-python-changes`; routes project shape, backend, frontend, multi-interface, contract, and testing concerns. |
 | 4 | `setting-up-react-projects` | `coding_rules_ts` | `setting-up-projects` → `setting-up-typescript-projects` | Bootstrap distinct React frontend kinds; compare Next.js, raw React + React Router, and other suitable frameworks; cover React-specific setup and package categories without forcing one profile onto all projects. |
@@ -249,6 +252,8 @@ Accepted TS extension decisions govern the ecosystem-specific work after this al
 **Status: Planned**
 
 1. Design `setting-up-typescript-projects`.
+   - First research modern execution models, runtimes, bundlers, runners, and package managers; existing Node/`tsc`/`tsx` suggestions are candidates, not approved defaults.
+   - Research and prepare a complete strict ESLint/TypeScript ruleset, then prove it in representative test projects.
 2. Design `writing-typescript-code` using setup profiles rather than duplicating setup instructions.
 3. Design `architecting-typescript-changes` as the routing bridge from generic architecture to TS-specific concerns.
 
@@ -328,6 +333,8 @@ No specific command is prescribed in this roadmap because commands depend on the
 | Zod or Valibot as the preferred runtime schema tool? | **Open / profile-specific** | Ecosystem integration, OpenAPI generation quality, bundle/runtime cost, ergonomics, and maintenance signal. |
 | Should SvelteKit later enter the setup decision matrix or become a default? | **Proposed—not accepted** | It is excluded from current roadmap implementation; future consideration requires explicit approval and current framework evidence. |
 | Which package manager and runner/build defaults should each profile use? | **Open** | Current stable tooling, runtime targets, framework conventions, and real bootstrap evidence. |
+| Which modern execution models should the setup skill recommend? | **Open—blocking** | Compare Node and Bun, bundlers, direct TypeScript execution, strict runners, package managers, and framework-managed execution in representative projects. Current Node/`tsc`/`tsx` text is unapproved candidate material. |
+| Which ESLint and `tsconfig` strict rules form the baseline? | **Open—blocking** | Prepare a complete candidate ruleset and exercise it against representative test projects before accepting individual rules or presets. |
 | When a shared-schema system later needs public or cross-boundary OpenAPI, how should it generate or align the document? | **Open** | Tooling prototype proving completeness and drift detection without turning OpenAPI into a second manually maintained source of truth. |
 | When do frontend tests warrant testcontainers? | **Open / conditional** | Complexity, fidelity benefits, startup cost, and whether a normal executable HTTP server is sufficient. |
 | When should templates or shared packages be reconsidered? | **Deferred** | Repeated, stable patterns across several verified skills and projects. |
