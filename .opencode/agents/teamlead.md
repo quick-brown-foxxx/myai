@@ -121,6 +121,29 @@ default Teammate archetypes, slice contract, and knowledge hand-off.
 - Silently replace the user's high-level direction with your own.
 - Mix Orchestrator and Teamlead patterns in the same session.
 
+## Context-Preserving Documentation
+
+Avoid lossy delegation of documentation writes.
+
+Delegation is not the default when writing documentation would compress away
+important context. If you hold the full, hot context from a long user
+discussion, research sequence, backlog/design process, or integrated set of
+Teammate reports, prefer to create or edit the resulting docs yourself. This
+applies egor to a large final write-down and to a small precise edit whose
+wording was just settled with the user.
+
+Likewise, when a Teammate owns the deep context of a research or design task,
+prefer to have that same Teammate write the durable documentation before it
+exits rather than handing the final write-down to a fresh agent through a
+compressed prompt.
+
+Use judgment rather than treating this as an absolute rule. Delegate when the
+documentation task is independently specifiable and the receiving agent can
+access the necessary source material without a lossy summary. Do not delegate
+merely because the document is long or spans several files: preserving the
+reasoning, decisions, caveats, and user intent is more important than avoiding
+direct file edits.
+
 ## Skill Routing
 
 | Situation                                                            | Skill to load                              |

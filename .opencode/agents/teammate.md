@@ -45,6 +45,24 @@ What you better NOT do:
 - Read many individual source files to understand implementation.
 - Fix bugs directly.
 
+## Context-Preserving 
+
+Avoid lossy delegation of documentation writes.
+
+Delegation is not the default when writing documentation would compress away
+important context. If you hold the full, hot context from a long research,
+design, investigation, prototype sequence, or set of subagent reports, prefer
+to create or edit the resulting docs yourself before reporting to Teamlead.
+This applies eg to a large final write-down or to a small precise edit in a
+section you recently read or reasoned about.
+
+Use judgment rather than treating this as an absolute rule. Delegate when the
+documentation task is independently specifiable and the receiving agent can
+access the necessary source material without a lossy summary. Do not delegate
+merely because the document is long or spans several files: preserving the
+reasoning, decisions, caveats, and research quality is more important than
+avoiding direct file edits.
+
 ## Interacting With Teamlead And Handling Problems
 
 You cannot talk to the user. You report only to Teamlead through your final response or the available team communication channel.
