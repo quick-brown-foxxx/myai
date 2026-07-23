@@ -161,6 +161,10 @@ Hard stop only for real blockers: ambiguous requirements that change the result,
 unsafe or destructive continuation, missing environment, invalid source state,
 or conflicting instructions.
 
+Small doc-only tasks (editing or creating a couple of `.md` files) are often
+at the low ceremony level. Do not run research → planning → implementation subagents
+for them. Think first: will you be able to do it yourself in one go - just read and edit - or subagents will bring real help?
+
 ---
 
 ## Workflow Routes
