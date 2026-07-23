@@ -8,7 +8,9 @@ Don't abuse just one or two formatting options, like giant nested lists or big f
 
 Good structure helps both humans and AI agents better expose and understand ideas.
 
-## Bad example
+Also prefer to use normal, human readable wording, lexicon and phrases. Don't abuse strange inhuman complex phrases.
+
+## Bad example 1
 
 ```md
 At a high level, the Linux kernel is a **monolithic kernel** (most core services run in kernel space), but it’s highly **modular** (features/drivers can be built as loadable kernel modules).
@@ -65,7 +67,7 @@ At a high level, the Linux kernel is a **monolithic kernel** (most core services
 - **Process scheduling**: timer interrupt → scheduler decides next task → context switch → MMU state updates as needed.
 ```
 
-## Good example
+## Good example 1
 
 ```md
 ## Linux Kernel Architecture (High Level)
@@ -170,3 +172,9 @@ BIOS/UEFI → Bootloader (GRUB) → decompress vmlinuz → init hardware
 
 This is a monolithic kernel design, contrasted with microkernels (like Minix/L4) where subsystems run as user-space servers — Linux trades some isolation for performance.
 ```
+
+## Small examples
+
+1. Context: a prompt to subagent with instructions to create a guide on bootstrapping new ts projects. Bad phrasing: "Preserve reproducibility without embedding package versions as durable policy". Good phrasing: "Do not hardcode package versions in the doc".
+2. Context: same as above (ask subagent for ts projects guide). Bad phrasing: "Prove every normative profile through executable temporary fixtures". Good phrasing: "Verify that all examples work by running them in a temporary directory".
+3. Context: document discusses React vs Svelte and explains why to choose React in particular case. Bad phrasing: "Svelte applicability should be preserved without adopting the proposal by implication". Good phrasing: "Even though we discussed Svelte, we still prefer React for this project".
