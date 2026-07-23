@@ -21,7 +21,7 @@ in representative test projects and resolve noisy, conflicting, redundant, or
 impractical rules before accepting it.
 
 Do not preserve an existing recommendation merely because it already appears in
-this plan. Research may replace the candidate profiles and tools below.
+this plan. Research may replace the candidate recommendations and tools below.
 
 ## Final Skill Writing Rule
 
@@ -71,15 +71,15 @@ evidence sources only. They are not templates for the new skill.
 
 - Prefer one concise, self-contained `SKILL.md`.
 - State only non-obvious, high-value rules unique to this ruleset.
-- Give decision rules and a small number of verified profiles rather than one
+- Give decision rules and a small number of verified approaches rather than one
   universal configuration.
 - Use one clearly assigned tool per responsibility.
 - Model the real runtime, module resolver, and deployment artifact.
 - Make checks independently runnable, non-mutating, and suitable for automation.
 - Preserve reproducibility without embedding package versions as durable policy.
 - Require runtime validation when an external boundary exists without mandating
-  one schema library for every profile.
-- Prove every normative profile through executable temporary fixtures.
+  one schema library for every project type.
+- Prove every recommendation through executable temporary fixtures.
 - Route framework, architecture, implementation, and detailed testing concerns
   to their owning skills.
 
@@ -94,12 +94,12 @@ evidence sources only. They are not templates for the new skill.
 | Runtime and modules | Modern runtime or bundler resolution, and emitted versus direct execution |
 | TypeScript configuration | Strict, target-aware compiler configuration and complete file coverage |
 | Tool roles | Type checker, linter, formatter, development runner, build path, and test-runner baseline |
-| Git hooks | A small, fast local-feedback profile whose commands also run independently and in automation |
+| Git hooks | A small, fast local-feedback setup whose commands also run independently and in automation |
 | Package scripts | Stable commands for development, checking, testing, building, and starting |
 | Manifest and artifacts | Module metadata, dependency classification, compatibility metadata, and source/output boundaries |
 | External configuration | Centralized validation and fail-fast behavior when external configuration exists |
 | Workspace routing | Brief criteria for remaining single-package or adopting workspaces |
-| Bootstrap proof | Install, analysis, test, build, runtime, and failure-path evidence appropriate to each profile |
+| Bootstrap proof | Install, analysis, test, build, runtime, and failure-path evidence appropriate to each recommended approach |
 
 ### The skill will route elsewhere
 
@@ -130,7 +130,7 @@ The skill should state that it:
 - loads after `engineering-principles` and `setting-up-projects`;
 - applies when creating a TypeScript project or configuring an existing modern
   TypeScript project;
-- selects profile-specific setup from project constraints;
+- selects setup based on project constraints;
 - does not replace React, backend, architecture, coding, or testing skills.
 
 The eventual description should trigger on language such as:
@@ -178,10 +178,10 @@ The skill should require these invariants:
 - Avoid accidental, unpinned package downloads through automation commands.
 
 The exact pnpm-versus-npm default remains a research and prototype decision.
-Bun and Deno should be treated as runtime profiles with their own current
+Bun and Deno should be treated as runtimes with their own current
 conventions, not merely as interchangeable Node package managers.
 
-### 4. Runtime, module, and execution profiles
+### 4. Runtime, module, and execution setup
 
 The skill should teach alignment among:
 
@@ -194,21 +194,21 @@ package.json module type
   <-> emitted or bundled artifact
 ```
 
-Candidate profiles to validate follow.
+Candidate setups to validate follow.
 
-#### Profile A: Node ESM with emitted JavaScript
+#### Node ESM with emitted JavaScript
 
 ```text
 TypeScript source -> tsc -> JavaScript output -> Node
 ```
 
-This is a candidate primary application profile when bundling is unnecessary.
+This is a candidate primary application approach when bundling is unnecessary.
 It must prove clean output, correct Node imports, source maps where selected,
 and production startup from the emitted artifact.
 
-#### Profile B: Direct TypeScript execution
+#### Direct TypeScript execution
 
-Potential subprofiles are:
+Potential variants are:
 
 - native Node type stripping for erasable TypeScript only;
 - `tsx` when broader development execution support is required.
@@ -218,7 +218,7 @@ performs authoritative type checking. Unsupported syntax, import semantics,
 `tsconfig` limitations, JSX, aliases, and downlevel requirements must be part of
 the selection decision.
 
-#### Profile C: Bundler or framework-managed source
+#### Bundler or framework-managed source
 
 ```text
 tsc --noEmit for checking
@@ -228,7 +228,7 @@ tsc --noEmit for checking
 Only generic alignment rules belong here. React and backend framework selection
 remain in their dedicated setup skills.
 
-Every normative profile included in the final skill must have corresponding
+Every recommendation included in the final skill must have corresponding
 executable evidence. Unverified possibilities should remain routing notes rather
 than recommended configurations.
 
@@ -244,7 +244,7 @@ Candidate strictness settings to validate include:
 - `noUncheckedSideEffectImports`;
 - `verbatimModuleSyntax`.
 
-Profile-dependent decisions include:
+Situation-dependent decisions include:
 
 - `target` and `lib` from the actual runtime;
 - ambient `types` and separation of Node, DOM, test, and worker globals;
@@ -276,24 +276,24 @@ The final recommendations should be selected after prototype evidence.
 | --- | --- |
 | Type checking | Local `tsc` |
 | Linting | ESLint flat configuration with typescript-eslint |
-| Formatting | Prettier candidate; alternatives only as deliberate replacement profiles |
-| Development execution | Node, `tsx`, or framework runner according to the selected profile |
+| Formatting | Prettier candidate; alternatives only as deliberate replacements |
+| Development execution | Node, \`tsx\`, or framework runner according to the project type |
 | Build or transformation | `tsc`, framework, or bundler according to the required artifact |
 | Testing baseline | Vitest by default; `node:test` only for very small, zero-dependency, or throwaway projects |
 | Task orchestration | Package scripts initially |
 
 Research must determine:
 
-- whether typed linting is universal or profile-specific;
+- whether typed linting is universal or situational;
 - whether `recommendedTypeChecked` or `strictTypeChecked` is the practical
   baseline;
-- whether Prettier or a lean alternative best fits each supported profile;
+- whether Prettier or a lean alternative best fits each supported setup;
 - how small a project must be for `node:test` to remain appropriate; any project
   expected to grow or need meaningful test infrastructure should use Vitest;
-- whether a profile needs an additional runner at all.
+- whether the project needs an additional runner at all.
 
 Biome or another integrated tool should be considered only as a replacement
-toolchain profile, not added alongside overlapping ESLint and formatter roles.
+toolchain alternative, not added alongside overlapping ESLint and formatter roles.
 
 ### 7. Git hooks
 
@@ -305,7 +305,7 @@ work; keep only rules that add meaningful value to the final skill.
 
 ### 8. Stable package-script contract
 
-Use predictable names for the checks the selected profile actually needs. The
+Use predictable names for the checks the project actually needs. The
 governing non-obvious rules are:
 
 - verification commands are non-mutating;
@@ -371,7 +371,7 @@ The final skill should not contain:
 - exhaustive package recommendation lists;
 - committed project templates or shared configuration packages;
 - project-specific dependency compatibility escapes;
-- pure-JavaScript setup or checked-JavaScript profiles;
+- pure-JavaScript setup or checked-JavaScript alternatives;
 - JavaScript-to-TypeScript migration;
 - legacy projects, CommonJS compatibility, old-project modernization, or other
   legacy interoperability;
@@ -422,7 +422,7 @@ Do not universalize:
 
 ## Research and Prototype Work
 
-Before drafting normative guidance, use current official documentation and
+Before drafting guidance, use current official documentation and
 executable prototypes to evaluate:
 
 | Decision | Required evidence |
@@ -431,10 +431,10 @@ executable prototypes to evaluate:
 | Native Node TypeScript versus `tsx` | Imports, watch mode, unsupported syntax, and `tsconfig` limitations |
 | `tsc` emit versus direct execution | Runtime semantics, production startup, artifact cleanliness, and source maps |
 | ESM compiler settings | Package type, import extensions, Node resolution, and emitted output |
-| ESLint typed configuration | Setup cost and useful signal across supported TypeScript profiles |
+| ESLint typed configuration | Setup cost and useful signal across supported TypeScript scenarios |
 | ESLint strictness preset | Useful enforcement versus noise in representative code |
 | Prettier versus alternatives | Responsibility overlap, ecosystem support, and reproducibility |
-| Vitest versus `node:test` | Minimal Node and general application profiles |
+| Vitest versus \`node:test\` | Minimal Node and general application use cases |
 | Git hooks | Current hook managers, staged-file behavior, speed, portability, and agreement with independently runnable checks |
 | `skipLibCheck` | Performance benefit versus hidden declaration failures |
 | Runtime schema tools | Enough evidence to keep setup compatible while leaving detailed selection to the right skill |
@@ -443,7 +443,7 @@ Record each outcome as one of:
 
 ```text
 accepted default
-profile-specific alternative
+situational alternative
 compatibility fallback
 deferred to another skill
 rejected
@@ -451,7 +451,7 @@ rejected
 
 ## Executable Evidence Plan
 
-Select the exact supported profiles before drafting. Every normative profile in
+Select the exact supported approaches before drafting. Every recommendation in
 the final skill must map to executable evidence.
 
 Likely temporary fixtures are:
@@ -460,9 +460,9 @@ Likely temporary fixtures are:
 | --- | --- |
 | Node ESM application emitting JavaScript | Prove module alignment, clean build output, and production startup |
 | Direct-TypeScript Node application | Prove native stripping or `tsx` limitations and independent type checking |
-| Bundler-managed fixture, if normative guidance remains | Prove `noEmit` and bundler-resolution behavior |
+| Bundler-managed fixture, if guidance remains | Prove `noEmit` and bundler-resolution behavior |
 
-Run the profile's install, formatting, linting, type checking, tests, build, and
+Run each fixture's install, formatting, linting, type checking, tests, build, and
 runtime smoke checks as applicable. Include real module imports and relevant
 failure paths; do not add artificial subsystems merely to create more evidence.
 
@@ -510,7 +510,7 @@ A reviewer without authoring context should check:
 
 - whether the decision model is understandable and actionable;
 - whether any recommendation is presented as universal without evidence;
-- whether every normative profile was actually exercised;
+- whether every recommendation was actually exercised;
 - whether JavaScript, migration, or legacy guidance has leaked into the skill;
 - whether parent guidance is duplicated;
 - whether sibling-skill responsibilities have leaked into this skill;
@@ -523,9 +523,9 @@ After this design is approved and its prerequisites are complete:
 ```text
 1. Research modern execution models, runtimes, bundlers, runners, and package managers
 2. Prepare and test the complete strict ESLint and TypeScript ruleset
-3. Select the initial normative profiles
+3. Select the initial recommendations
 4. Build disposable executable fixtures
-5. Record accepted, profile-specific, deferred, and rejected outcomes
+5. Record accepted, situational, deferred, and rejected outcomes
 6. Draft one compact SKILL.md containing only non-obvious local rules
 7. Validate structure and catalog integration
 8. Run positive and negative discovery tests
@@ -552,7 +552,7 @@ Expected characteristics:
 - trigger-oriented frontmatter;
 - explicit parent-skill routing;
 - concise decision rules rather than copied configuration files;
-- no more than two or three primary profiles plus compact compatibility notes;
+- no more than two or three primary approaches plus compact compatibility notes;
 - no supporting files unless executable evidence demonstrates a clear need;
 - no committed project template.
 

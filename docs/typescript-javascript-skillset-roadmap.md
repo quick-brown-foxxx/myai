@@ -20,7 +20,7 @@ flowchart LR
   U --> P
 ```
 
-The roadmap intentionally keeps descriptions high-level. Package selections, framework profiles, examples, and strict rules belong in the future design of each skill—not in this ledger.
+The roadmap intentionally keeps descriptions high-level. Package selections, framework options, examples, and strict rules belong in the future design of each skill—not in this ledger.
 
 ## Goals
 
@@ -76,11 +76,11 @@ REJECTED  -> explicitly excluded
 | Prefer realistic HTTP boundaries. | **Accepted** | Tests should exercise real sockets, serialization, routing, and generated contracts where practical. |
 | Use OpenAPI when the contract crosses an ecosystem or repository boundary, or is public. | **Accepted** | Require a complete OpenAPI document when the backend is not TS/JS, lives in a separate repository from its frontend/client, or exposes an API to third-party consumers. Generate API types, schemas, clients, and contract-powered test infrastructure from it where practical. |
 | Shared TS runtime DTOs are sufficient for closely coupled private TS systems. | **Accepted** | When frontend and backend share a TypeScript/package ecosystem and can consume one contract package, share transport runtime schemas and inferred types; OpenAPI is optional unless another requirement makes the API public or cross-boundary. |
-| Frontend/backend systems use the DTO selection strategy below. | **Accepted** | Accidental copying or coupling is not an acceptable default. Library, tooling, and profile mechanics remain open. |
+| Frontend/backend systems use the DTO selection strategy below. | **Accepted** | Accidental copying or coupling is not an acceptable default. Library, tooling, and selection mechanics remain open. |
 
 ## Accepted Decision: DTO and Runtime Contract Strategy
 
-> **Status: Accepted.** This selection strategy governs future ecosystem-specific work. Exact schema libraries, generators, and profile mechanics remain open until validated during individual skill design.
+> **Status: Accepted.** This selection strategy governs future ecosystem-specific work. Exact schema libraries, generators, and selection mechanics remain open until validated during individual skill design.
 
 ### Recommended Selection Model
 
@@ -113,7 +113,7 @@ shared runtime transport schema
 - Keep the server authoritative. Browser code and browser-supplied data remain untrusted even when both sides consume the same package; the server validates every external request regardless of frontend validation.
 - Treat frontend validation as usability and early feedback—not authorization, integrity enforcement, or security.
 - Do not expose backend entities, persistence models, internal domain types, or use-case inputs merely because both sides use TypeScript.
-- Keep exact **Zod vs. Valibot** selection open and profile-specific until the relevant skill is designed and validated.
+- Keep exact **Zod vs. Valibot** selection open and situational until the relevant skill is designed and validated.
 - Do not require OpenAPI only for internal symmetry. Add it when the API becomes public, crosses repository/language boundaries, or has another concrete contract-governance need.
 
 Plain TypeScript types alone are insufficient because they are erased at runtime. They cannot prove that network JSON, storage data, environment values, or untrusted user input matches a compile-time declaration. A type assertion can silence the compiler without validating a single byte.
@@ -157,7 +157,7 @@ Choose **one** authoritative model per system; do not maintain OpenAPI annotatio
 | Backend/code-first OpenAPI | Framework can generate a complete document from authoritative endpoint metadata | Backend endpoint DTO metadata/annotations as generation inputs | Complete OpenAPI document, generated clients/types, validators, and test-server inputs |
 | OpenAPI-first | Non-TS backends, separate repositories, public/third-party APIs, or other contract-governed APIs | Complete OpenAPI document | Server/client stubs, types, validators, and OpenAPI-powered mock/test servers |
 
-The exact model is a project-profile decision. Completeness checks and drift detection are required whichever model is selected.
+The exact model is a project-specific decision. Completeness checks and drift detection are required whichever model is selected.
 
 ## Planned Skill Inventory
 
@@ -168,8 +168,8 @@ All entries below are **Planned**. Descriptions are intentionally rough boundari
 | 1 | `setting-up-typescript-projects` | `coding_rules_ts` | `engineering-principles` → `setting-up-projects` | Modern TypeScript application bootstrap for new and existing modern projects: package manager, strict compiler and ESLint rules, runtime/execution model, build choices, Git hooks, recommended package categories, and brief workspace routing. Runtime, bundler, runner, package-manager, and strict-ruleset recommendations remain unapproved until researched and proven with test projects. |
 | 2 | `writing-typescript-code` | `coding_rules_ts` | `engineering-principles` | Coding guidance for any TS application: strict type handling, TS/ESLint rules, reusable patterns, boundary validation, and case-based guidance. |
 | 3 | `architecting-typescript-changes` | `coding_rules_ts` | `engineering-principles` → `architecting-changes` | TS-specific architecture router parallel to `architecting-python-changes`; routes project shape, backend, frontend, multi-interface, contract, and testing concerns. |
-| 4 | `setting-up-react-projects` | `coding_rules_ts` | `setting-up-projects` → `setting-up-typescript-projects` | Bootstrap distinct React frontend kinds; compare Next.js, raw React + React Router, and other suitable frameworks; cover React-specific setup and package categories without forcing one profile onto all projects. |
-| 5 | `setting-up-typescript-backends` | `coding_rules_ts` | `setting-up-projects` → `setting-up-backends` → `setting-up-typescript-projects` | Backend bootstrap and framework selection: NestJS default, Hono for edge profiles, Prisma, authentication, shared DTO versus OpenAPI contract selection, and related setup boundaries. |
+| 4 | `setting-up-react-projects` | `coding_rules_ts` | `setting-up-projects` → `setting-up-typescript-projects` | Bootstrap distinct React frontend kinds; compare Next.js, raw React + React Router, and other suitable frameworks; cover React-specific setup and package categories without forcing one approach onto all projects. |
+| 5 | `setting-up-typescript-backends` | `coding_rules_ts` | `setting-up-projects` → `setting-up-backends` → `setting-up-typescript-projects` | Backend bootstrap and framework selection: NestJS default, Hono for edge deployments, Prisma, authentication, shared DTO versus OpenAPI contract selection, and related setup boundaries. |
 | 6 | `building-react-frontends` | `coding_rules_ts` | `architecting-changes` → `architecting-typescript-changes` | Architecture for new React subsystems plus low-level React implementation guidance, state categories and management, component boundaries, and patterns. |
 | 7 | `testing-typescript` | `coding_rules_ts` | `high-level-testing-strategy` → `architecting-test-infra` → `test-driven-development` / `manual-testing` | TS/JS testing patterns, recommended tool categories, test-infrastructure architecture, real service boundaries, and routing to frontend-specific testing. |
 | 8 | `testing-frontends` | `coding_rules_ts` | `high-level-testing-strategy` → `architecting-test-infra` → `testing-typescript` → `test-driven-development` / `manual-testing` | Framework-neutral frontend testing with React-specific sections and Svelte/other applicability: unit, component, realistic UI, executable HTTP test servers, Playwright, and testcontainers when warranted. Explicitly excludes MSW. |
@@ -201,8 +201,8 @@ This is an implementation and routing aid, not a mandatory runtime chain. Agents
 ### Setup versus implementation
 
 - `setting-up-typescript-projects` owns cross-project bootstrap decisions and strict baseline tooling.
-- `setting-up-react-projects` owns React project profiles and framework bootstrap choices.
-- `setting-up-typescript-backends` owns service/backend bootstrap profiles.
+- `setting-up-react-projects` owns React project setups and framework bootstrap choices.
+- `setting-up-typescript-backends` owns service/backend bootstrap approaches.
 - `writing-typescript-code` owns language-level application coding guidance after setup.
 - `building-react-frontends` owns subsystem architecture and React implementation after a project exists.
 
@@ -230,7 +230,7 @@ This is an implementation and routing aid, not a mandatory runtime chain. Agents
 Before TS extension skills treat canonical `myai` guidance as an authoritative parent, reconcile ecosystem-specific examples that conflict with this accepted roadmap:
 
 1. Remove or qualify MSW recommendations so the accepted executable HTTP test-server policy is not contradicted.
-2. Reframe universal Zod language so Zod vs. Valibot and other tooling mechanics remain profile-specific while runtime validation stays mandatory.
+2. Reframe universal Zod language so Zod vs. Valibot and other tooling mechanics remain situational while runtime validation stays mandatory.
 3. Inspect other parent examples for equivalent conflicts and record any deliberate exceptions.
 
 Accepted TS extension decisions govern the ecosystem-specific work after this alignment. Parent guidance must be updated, qualified, or explicitly superseded; agents must not be left to resolve silent contradictions.
@@ -254,17 +254,17 @@ Accepted TS extension decisions govern the ecosystem-specific work after this al
 1. Design `setting-up-typescript-projects`.
    - First research modern execution models, runtimes, bundlers, runners, and package managers; existing Node/`tsc`/`tsx` suggestions are candidates, not approved defaults.
    - Research and prepare a complete strict ESLint/TypeScript ruleset, then prove it in representative test projects.
-2. Design `writing-typescript-code` using setup profiles rather than duplicating setup instructions.
+2. Design `writing-typescript-code` using setup examples rather than duplicating setup instructions.
 3. Design `architecting-typescript-changes` as the routing bridge from generic architecture to TS-specific concerns.
 
 **Exit evidence:** fresh agents can bootstrap a representative TS application, apply strict language guidance, and route architecture questions without contradictory defaults.
 
-### Phase 2 — Add project profiles
+### Phase 2 — Add project-specific setup
 
 **Status: Planned**
 
 1. Design `setting-up-react-projects` with a framework decision matrix.
-2. Design `setting-up-typescript-backends` with NestJS as the default profile and Hono for edge profiles.
+2. Design `setting-up-typescript-backends` with NestJS as the default and Hono for edge deployments.
 3. Validate the accepted contract-selection strategy: shared runtime DTOs for closely coupled private TS systems, and complete OpenAPI generation/alignment for non-TS, separate-repository, or public APIs.
 
 **Exit evidence:** representative frontend and backend bootstraps run, build, typecheck, and expose their intended development/test boundaries.
@@ -273,7 +273,7 @@ Accepted TS extension decisions govern the ecosystem-specific work after this al
 
 **Status: Planned**
 
-1. Design `building-react-frontends` against multiple React project profiles.
+1. Design `building-react-frontends` against multiple React project types.
 2. Move and generalize `building-multi-ui-apps` into canonical `myai` while preserving Python applicability and adding TS/JS examples.
 3. Confirm that generic architecture theory remains in `myai` and extensions contain only ecosystem-specific guidance.
 
@@ -295,7 +295,7 @@ Accepted TS extension decisions govern the ecosystem-specific work after this al
 
 1. Review triggers, overlap, parent-skill references, and workflow maps across the completed skills.
 2. Test positive and negative discovery prompts so skills load neither too broadly nor too narrowly.
-3. Revisit open decisions using accumulated project evidence; record accepted, rejected, or profile-specific outcomes.
+3. Revisit open decisions using accumulated project evidence; record accepted, rejected, or situational outcomes.
 
 **Exit evidence:** catalogs are consistent, realistic end-to-end prompts route correctly, and no skill duplicates generic `myai` theory.
 
@@ -318,21 +318,21 @@ Minimum expectations:
 | --- | --- |
 | Structure and discoverability | Valid skill layout/frontmatter; task-shaped description; positive and negative trigger prompts. |
 | Fresh-context review | A reviewer without authoring context identifies ambiguity, duplication, missing routing, or over-prescription. |
-| Executable setup | For setup skills, run actual install, lint, typecheck, test, build, and start/smoke commands appropriate to the selected profile. |
+| Executable setup | For setup skills, run actual install, lint, typecheck, test, build, and start/smoke commands appropriate to the project type. |
 | Runtime/API behavior | Exercise a real server/client or executable test-server path. When OpenAPI is the contract, prove the document is complete and power the test server from it; when shared DTOs are the contract, prove the TS test server consumes the same runtime-schema package. |
 | UI behavior | For React/frontend skills, run browser or component scenarios and Playwright where the claim requires browser evidence. |
 | Cross-skill coherence | Confirm parent skills exist, references are canonical, and generic guidance is not copied into the extension. |
 | Completion claim | Use fresh evidence; document skipped checks and why. |
 
-No specific command is prescribed in this roadmap because commands depend on the future package manager, runtime, framework, and project profile. The governing rule is that configuration snippets alone are not proof when executable behavior can be checked.
+No specific command is prescribed in this roadmap because commands depend on the future package manager, runtime, framework, and project type. The governing rule is that configuration snippets alone are not proof when executable behavior can be checked.
 
 ## Open Decisions and Questions
 
 | Question | Status | Evidence needed |
 | --- | --- | --- |
-| Zod or Valibot as the preferred runtime schema tool? | **Open / profile-specific** | Ecosystem integration, OpenAPI generation quality, bundle/runtime cost, ergonomics, and maintenance signal. |
+| Zod or Valibot as the preferred runtime schema tool? | **Open / situational** | Ecosystem integration, OpenAPI generation quality, bundle/runtime cost, ergonomics, and maintenance signal. |
 | Should SvelteKit later enter the setup decision matrix or become a default? | **Proposed—not accepted** | It is excluded from current roadmap implementation; future consideration requires explicit approval and current framework evidence. |
-| Which package manager and runner/build defaults should each profile use? | **Open** | Current stable tooling, runtime targets, framework conventions, and real bootstrap evidence. |
+| Which package manager and runner/build defaults should each project type use? | **Open** | Current stable tooling, runtime targets, framework conventions, and real bootstrap evidence. |
 | Which modern execution models should the setup skill recommend? | **Open—blocking** | Compare Node and Bun, bundlers, direct TypeScript execution, strict runners, package managers, and framework-managed execution in representative projects. Current Node/`tsc`/`tsx` text is unapproved candidate material. |
 | Which ESLint and `tsconfig` strict rules form the baseline? | **Open—blocking** | Prepare a complete candidate ruleset and exercise it against representative test projects before accepting individual rules or presets. |
 | When a shared-schema system later needs public or cross-boundary OpenAPI, how should it generate or align the document? | **Open** | Tooling prototype proving completeness and drift detection without turning OpenAPI into a second manually maintained source of truth. |
@@ -345,7 +345,7 @@ No specific command is prescribed in this roadmap because commands depend on the
 | --- | --- |
 | Skills duplicate `myai` and drift from generic principles. | Keep explicit parent links and write only TS/React deltas; perform cross-skill fresh-context review. |
 | Defaults become stale or version-bound. | Avoid locked versions in skills; consult current upstream documentation during each design and verification pass. |
-| Framework guidance becomes a package catalog. | Recommend by responsibility and project profile; keep lists short and evidence-based. |
+| Framework guidance becomes a package catalog. | Recommend by responsibility and project type; keep lists short and evidence-based. |
 | Shared DTOs leak backend internals into the frontend. | Share transport schemas only; preserve separate domain and persistence models. |
 | Compile-time types are mistaken for runtime safety. | Require validation at external boundaries and keep the server authoritative. |
 | Contract definitions drift across endpoint metadata, schemas, handwritten DTOs, and the OpenAPI document. | Select one source-of-truth model. Generate OpenAPI derivatives when OpenAPI is required; otherwise keep the shared runtime-schema package authoritative. |
