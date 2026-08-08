@@ -45,7 +45,7 @@ Decide first whether ordinary web research is enough or whether the task should 
 
 - Treat `/tmp` clones as disposable research artifacts.
 - If the clone needs submodules, deeper history, or large assets, keep checking whether that extra weight is actually required.
-- By default, schedule deletion of each temporary upstream source tree for two wall-clock hours after active inspection ends. Use a systemd timer or a safe native equivalent; if scheduling is unavailable or fails, state clearly that cleanup is **not scheduled**.
+- By default, schedule deletion of each temporary upstream source tree for two wall-clock hours after active inspection ends. Use a systemd timer or a safe native equivalent; prefer a **user-scoped** timer (`systemctl --user` / `systemd-run --user`), which needs no sudo and does not trigger a global password prompt. If scheduling is unavailable or fails, state clearly that cleanup is **not scheduled**.
 - Scope deletion to the exact full tree path beneath the OS temporary dir. Avoid deleting incorrect dirs and any empty, broad, or non-temporary path; never use globs or broad deletion commands.
 - Report the target, cleanup mechanism, trigger time and timezone, and cancellation procedure. If the user wants to preserve the tree, do not schedule cleanup or cancel/drop the timer or job and confirm the tree remains.
 
