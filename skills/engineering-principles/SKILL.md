@@ -55,8 +55,8 @@ Instead of relying on conventions that developers must remember, construct bound
 
 |                            | Python                                                  | TypeScript / Node                                                 | Frontend (React)                                                                     |
 | -------------------------- | ------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| Static analysis            | basedpyright strict, reportAny=error                    | tsconfig strict, noUncheckedIndexedAccess, noUnusedLocals         | same as TS + eslint-plugin-react-hooks exhaustive-deps                               |
-| Linting                    | ruff (replaces black, isort, flake8, bandit)            | eslint + prettier (no debate)                                     | eslint-plugin-react, eslint-plugin-jsx-a11y                                          |
+| Static analysis            | basedpyright strict, reportAny=error                    | tsconfig strict, noUncheckedIndexedAccess                         | same as TS + eslint-plugin-react-hooks exhaustive-deps                               |
+| Linting                    | ruff (replaces black, isort, flake8, bandit)            | eslint + prettier (project-specific toolchain)                    | eslint-plugin-react, eslint-plugin-jsx-a11y                                          |
 | Architecture separation    | layered: UI → Domain → Utilities, UI is a plugin        | layered: transport → use-cases → entities, adapters at boundaries | data flow unidirectional, UI as pure render of state, separate state vs presentation |
 | Error handling enforcement | Result[T, E] for expected failures, exceptions for bugs | discriminated unions / Either types for expected failures         | error boundaries at route level, form validation at field level                      |
 
@@ -80,7 +80,7 @@ The goal: if the type checker says it's correct, it runs correctly. If something
 | ----------------------- | ------------------------------------------------------ | ------------------------------------------------------------ | -------------------------------------------------------------------- |
 | Type checking           | basedpyright strict, reportAny=error                   | tsconfig strict, noUncheckedIndexedAccess                    | same as TS                                                           |
 | Errors as values        | rusty-results / Result[T, E]                           | neverthrow / nevertype / discriminated unions                | neverthrow for side effects, React Query status for async            |
-| Data shape              | msgspec.Struct for JSON, dataclass for domain          | zod for runtime validation, interface/types for compile-time | zod for form validation, react-hook-form for field-level narrowing   |
+| Data shape              | msgspec.Struct for JSON, dataclass for domain          | appropriate runtime schema validator for external boundaries (e.g., zod, valibot); infer transport DTO types from schemas | appropriate runtime validator for form/transport boundaries; pair with the form library |
 | Wrap dynamic boundaries | typed wrappers around libraries, linter bans raw usage | typed wrappers around untyped JS libs, adapter pattern       | wrapper hooks around untyped context, typed props on every component |
 
 </details>
@@ -99,7 +99,7 @@ Detect problems at the earliest possible moment. Compile time is better than run
 
 | Concept             | Python                                                   | TypeScript / Node                                            | Frontend (React)                                          |
 | ------------------- | -------------------------------------------------------- | ------------------------------------------------------------ | --------------------------------------------------------- |
-| Precondition checks | raise early at boundary, use `__init_subclass__` for cfg | assert, neverthrow early return, zod.parse upfront           | form validation before submit, route guards before render |
+| Precondition checks | raise early at boundary, use `__init_subclass__` for cfg | assert, neverthrow early return, parse with appropriate runtime validator | form validation before submit, route guards before render |
 | No escape hatches   | no `# type: ignore` without note, no bare except         | no `as any` / `@ts-ignore`, no `eslint-disable` without note | no `// @ts-ignore`, no disabled hooks rules               |
 | Type narrowing      | isinstance, TypeIs, match statement                      | type guards, discriminated unions, satisfies keyword         | same as TS                                                |
 
@@ -137,15 +137,15 @@ Tests exist to prove that features work, not to produce green checkmarks.
 - **Unit tests for pure logic** — functions that transform data without side effects. These are worth unit testing because they're honest.
 - **Real over mocked** — prefer real HTTP servers over patched requests. Prefer real file systems (via temp directories) over mocked IO. Prefer real databases over in-memory fakes. When mocking is necessary, build test doubles, don't monkey-patch runtime.
 - **20/80 rule** — invest test effort where it gives the most confidence. Don't chase 100% coverage in utilities while core workflows go untested.
-- **Two tiers of infrastructure** — lightweight (test runner + fixtures) for most projects. Heavyweight (containers, mock servers, isolated environments) when the project warrants it.
+- **Two tiers of infrastructure** — lightweight (test runner + fixtures) for most projects. Heavyweight (containers, contract-powered test servers, isolated environments) when the project warrants it.
 
 <details>
 <summary>Ecosystem examples</summary>
 
 | Concept                         | Python                                                    | TypeScript / Node                               | Frontend (React)                                     |
 | ------------------------------- | --------------------------------------------------------- | ----------------------------------------------- | ---------------------------------------------------- |
-| Integration / e2e               | pytest + httpx, containerized, real process exec          | vitest + supertest, Playwright for browser e2e  | Playwright / Cypress for browser tests               |
-| Real over mocked                | pytest-httpserver, tmp_path for files, subprocess for CLI | msw for HTTP, tmp dirs for files, execa for CLI | mockoon for API mocking, testing-library (no enzyme) |
+| Integration / e2e               | pytest + httpx, containerized, real process exec          | vitest + listening app server with real HTTP client, Playwright for browser e2e  | Playwright / Cypress for browser tests               |
+| Real over mocked                | pytest-httpserver, tmp_path for files, subprocess for CLI | real-listening HTTP test server (OpenAPI-powered or shared-schema TS server), tmp dirs for files, execa for CLI | contract-powered real listening test server (Mockoon for OpenAPI, or eg TS server importing shared transport schemas), testing-library (no enzyme) |
 | Lightweight infra               | pytest + fixtures + markers                               | vitest + describe/it/expect                     | vitest + testing-library + happy-dom                 |
 | Heavyweight infra (when needed) | testcontainers, docker compose                            | testcontainers, docker compose, isolated env    | Playwright with docker browsers, Percy for visual    |
 
@@ -157,7 +157,7 @@ Separate what changes for different reasons. Separate what can be tested indepen
 
 - **Layered dependency flow**: Presentation (UI/CLI/API) → Domain (business logic) → Utilities. Never upward.
 - **Separate by expected change axis** — split code where domain rules, validation, transport, infrastructure, platform integration, or workflow orchestration will evolve for different reasons.
-- **UI is a plugin (within its application boundary)** — UI, CLI, API, workers, and automation should be thin adapters over the logic they own. In a single codebase, this often means a reusable core with multiple presentation adapters. In separate frontend/backend codebases, do not force frontend code to share backend internals; share contracts, schemas, generated clients, and stable API semantics instead. Server-side domain invariants still belong on the server. Frontend-specific state, validation UX, and interaction logic belong in the frontend application layer.
+- **UI is a plugin (within its application boundary)** — UI, CLI, API, workers, and automation should be thin adapters over the logic they own. In a single codebase, this often means a reusable core with multiple presentation adapters. In separate frontend/backend codebases, do not force frontend code to share backend internals; share transport contracts—transport runtime schemas or generated clients—not backend domain, persistence, entity, or use-case models. Server-side domain invariants still belong on the server. Frontend-specific state, validation UX, and interaction logic belong in the frontend application layer.
 - **Reusable core, thin adapters** — if CLI, GUI, API, workers, or automation may share behavior (within the same application boundary), keep a composable core and treat each interface as a presentation adapter. Across separate applications, share contracts before implementation.
 - **State management is layered, not scattered** — in UI apps, separate server state (API data), client state (UI, form, navigation), and derived state (computed from other state). Use purpose-built tools for each layer. Don't scatter low-level state management across the app, but also don't put everything in one god store.
 - **Data vs. logic** — domain types carry data. Services operate on data. Utilities are stateless pure functions. Stateful classes exist for managing lifecycle — but their state is explicit, not hidden.
@@ -197,8 +197,8 @@ Use tools that enforce the philosophy automatically. Prefer tools that are fast,
 | Formatter       | ruff format  | prettier            | prettier                     |
 | Type checker    | basedpyright | tsc                 | tsc                          |
 | Test runner     | pytest       | vitest              | vitest + testing-library     |
-| Package manager | uv           | pnpm                | pnpm                         |
-| Task runner     | poethepoet   | npm scripts / turbo | npm scripts / turbo          |
+| Package manager | uv           | depending on project (e.g., pnpm) | depending on project (e.g., pnpm) |
+| Task runner     | poethepoet   | npm scripts initially; add orchestrator only when graph/caching needed | npm scripts initially; add orchestrator only when graph/caching needed |
 | Git hooks       | pre-commit   | husky + lint-staged | husky + lint-staged          |
 
 </details>
@@ -212,7 +212,7 @@ Each interface type gets one standard framework per ecosystem, chosen for qualit
 | Web framework | FastAPI / Django | NestJS             | Next.js / Remix     |
 | CLI           | typer            | commander / clack  | n/a                 |
 | HTTP client   | httpx            | ky / ofetch        | ky / TanStack Query |
-| Config        | YAML + msgspec   | cosmiconfig + zod  | same as Node        |
+| Config        | YAML + msgspec   | config loader + appropriate runtime schema validator | same as Node        |
 | Logging       | colorlog         | pino               | pino (server-side)  |
 | Async         | asyncio          | native async/await | native async/await  |
 | GUI           | PySide6 + qasync | tauri / electron   | React itself        |
@@ -222,8 +222,8 @@ Each interface type gets one standard framework per ecosystem, chosen for qualit
 Choose established batteries-included frameworks over ad-hoc architecture for core concerns.
 A framework codifies conventions, provides battle-tested infrastructure, and brings an ecosystem that individual developers can't replicate.
 
-- **Pick the framework for the job** — NestJS over Express, FastAPI/Django over Flask, Next.js over manual Vite+React+Router setup. The framework's conventions become your conventions. Don't fight them unless you chose the wrong framework.
-- **Standard library from day one** — don't reimplement ad-hoc state management, form handling, routing, or validation. Eg for React: TanStack Query + Zustand/Jotai + React Hook Form + zod. This is a non-negotiable starting point. For Python backend: FastAPI + SQLAlchemy/psycopg3 + alembic. This should be extended/adjust per project.
+- **Pick the framework for the job** — NestJS over Express, FastAPI/Django over Flask. React framework selection (Next.js, Vite + React Router, etc.) is a project decision owned by `setting-up-react-projects`. The framework's conventions become your conventions. Don't fight them unless you chose the wrong framework.
+- **Standard library from day one** — don't reimplement ad-hoc state management, form handling, routing, or validation. Eg for React: TanStack Query + Zustand/Jotai + React Hook Form + appropriate runtime schema validator. Runtime validation is non-negotiable; exact state, form, and schema packages are project-specific. For Python backend: FastAPI + SQLAlchemy/psycopg3 + alembic. This should be extended/adjust per project.
 - **Thin application code** — framework handles transport, serialization, routing, lifecycle. Your code handles business logic. When framework knowledge dominates your codebase, the separation is wrong.
 - **Exceptions prove the rule** — a small script or experimental prototype may skip frameworks. But if the project will be maintained, introduce the framework before ad-hoc patterns harden.
 
@@ -241,9 +241,9 @@ Every project, no matter how small, starts with the safety net configured:
 
 | Concept                | Python                                              | TypeScript / Node                                                | Frontend (React)                                |
 | ---------------------- | --------------------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------- |
-| Single file            | PEP 723 inline metadata, uv run --script            | node --experimental-strip-types, tsx, npx                        | npx create-next-app, vite                       |
-| Full project bootstrap | uv init, pyproject.toml, ruff, basedpyright, pytest | pnpm init, NestJS CLI, tsconfig strict, eslint, prettier, vitest | create-next-app, Vite, FSD layout               |
-| CI from day one        | GitHub Actions: lint → typecheck → test             | GitHub Actions: lint → typecheck → test                          | GitHub Actions: lint → typecheck → test → build |
+| Single file            | PEP 723 inline metadata, uv run --script            | tsx or Node native type stripping for small projects (see writing-scripts) | npx create-next-app, vite                       |
+| Full project bootstrap | uv init, pyproject.toml, ruff, basedpyright, pytest | project-specific selection: package manager, strict tsconfig, linter, formatter, runner, test runner | project-specific: framework scaffold, linter, formatter, runner, test runner |
+| CI from day one        | GitHub Actions: lint → typecheck → test             | GitHub Actions: format:check → lint → typecheck → test → build (when applicable) | GitHub Actions: lint → typecheck → test → build |
 
 </details>
 

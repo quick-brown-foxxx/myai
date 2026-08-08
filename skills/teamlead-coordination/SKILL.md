@@ -333,3 +333,4 @@ Teamlead spends the first hour re-deriving context.
 | Mixing Orchestrator and Teamlead patterns in one session             | Pick one at session start. Mixing confuses the operating model               |
 | Reusing the same prompt for a fresh Teammate after a reject          | Add the knowledge pass: what failed, what to keep, what to avoid             |
 | Trying to verify-fine-tune-fix without leaving the main worktree     | Each Teammate gets its own worktree when there is a real risk of conflict    |
+| Spawning a subagent for a small doc-only task ("update these two docs") | Handle it directly; doc-only tasks do not always need subagent or teammate delegation |

@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../coding_rules_ts"
+		},
+		{
+			"path": "../coding_rules_python"
+		}
+	],
+	"settings": {}
+}

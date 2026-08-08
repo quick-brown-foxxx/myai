@@ -101,10 +101,12 @@ const SALT_ROUNDS = 12;
 const hashedPassword = await hash(plaintext, SALT_ROUNDS);
 const isValid = await compare(plaintext, hashedPassword);
 
-// Session management
-const isLocalDev = process.env.NODE_ENV === 'development';
+// Session management — assumes config.environment and config.sessionSecret
+// have been parsed and validated at startup from the project-selected
+// runtime schema validator.
+const isLocalDev = config.environment === 'development';
 app.use(session({
-  secret: process.env.SESSION_SECRET,  // From environment, not code
+  secret: config.sessionSecret,       // From validated config, not raw process.env
   resave: false,
   saveUninitialized: false,
   cookie: {
@@ -193,6 +195,9 @@ if (!API_KEY) throw new Error('STRIPE_API_KEY not configured');
 ## Input Validation Patterns
 
 ### Schema Validation at Boundaries
+
+This example uses Zod. Use the project-selected runtime schema validator
+(e.g., Zod, Valibot) while preserving equivalent validation and error handling.
 
 ```typescript
 import { z } from 'zod';

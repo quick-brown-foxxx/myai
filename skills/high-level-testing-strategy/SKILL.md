@@ -174,7 +174,7 @@ This protects the test purpose even when the framework is not BDD-native.
 | API/domain/storage interaction | Integration test through public boundary |
 | CLI/tool workflow | Real command execution, temp dirs/env isolation |
 | Browser/UI behavior | Browser/runtime verification plus automation where useful |
-| External service behavior | Local fake server, contract fixture, or manual/staging verification |
+| External service behavior | Real-listening contract-powered test server (OpenAPI or shared-schema-driven), contract fixture, or manual/staging verification |
 | Hard-to-automate infrastructure | Manual smoke/e2e with clear steps and evidence |
 
 Prefer the most realistic proof that is still maintainable. Do not chase unit-test counts if one integration or e2e test proves the actual risk better.
@@ -214,7 +214,7 @@ Good mock boundaries:
 - email/SMS/payment delivery
 - time and randomness
 - external binaries or system services
-- network calls where a local fake server is better than a live dependency
+- network calls where a real-listening contract-powered test server (powered by OpenAPI contracts or shared transport schemas) is better than hitting the live dependency
 
 When mocking response data, mirror the real shape. Partial mocks hide assumptions and can pass while integration fails.
 

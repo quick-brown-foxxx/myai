@@ -146,7 +146,7 @@ Useful patterns:
 - unique namespaces/tenants/users per test
 - transaction rollback or database reset per case/group
 - temp directories for filesystem state
-- fake local servers that preserve realistic behavior
+- real-listening contract-powered servers (OpenAPI or shared-schema-driven) that preserve realistic behavior
 - mock binaries for external command integrations
 
 Avoid shared mutable global test data unless the suite guarantees isolation.
@@ -202,7 +202,7 @@ If writing the current test requires ad hoc isolation patches, stop and improve 
 Prefer realistic local resources:
 
 - temp filesystem over mocked file operations
-- local HTTP server with mock data over patched HTTP client
+- real-listening contract-powered server with mock data (aligned with contract schemas) over patched HTTP client
 - test database/container over in-memory fake when persistence semantics matter
 - mock binary over patched `subprocess` when process behavior matters
 - browser/runtime inspection over DOM assumptions for visual behavior
@@ -238,7 +238,7 @@ System-level / across the suite inside one project
      shared preflight gate, retry-with-backoff wrapper, recording/replay
      proxy, golden-file comparison, deterministic clock
 Infra-level / shared framework, services, environments
-  -> fake local server, containerized dependencies (DB, broker, cache),
+  -> contract-powered test server (OpenAPI or shared-schema-driven), containerized dependencies (DB, broker, cache),
      ephemeral environment per CI job, service virtualization, BDD
      framework + step libraries, scenario data files, mock binary
      harness, browser farm / devtools container, test reporter with
@@ -271,7 +271,7 @@ Suite covers auth, multi-tenant, or role-based flows
      per-case principal, no copy-pasted login
 
 Suite covers external services or third-party APIs
-  -> anti-corruption layer, fake local server, recording/replay,
+  -> anti-corruption layer, contract-powered test server (OpenAPI or shared-schema-driven), recording/replay,
      schema/version negotiation, dead-letter / failure injection
 
 Suite covers time, scheduling, retries, or background work
@@ -346,7 +346,7 @@ Use these as a quick gate before leaving the architecture step:
    time, browser, large)
 3. What is the dominant force?
      - state setup / isolation      -> builders, transactions, namespaces
-     - async / external boundary    -> fake server, ACL, recording
+      - async / external boundary    -> contract-powered test server, ACL, recording
      - time / retries / scheduling  -> deterministic clock, condition waits
      - auth / tenants / roles       -> reusable auth fixture, factories
      - parallel / shared state      -> resource pool, isolation, preflight
