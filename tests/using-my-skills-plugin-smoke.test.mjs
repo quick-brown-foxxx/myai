@@ -8,12 +8,11 @@ import assert from 'node:assert/strict';
 import {
   copyOnlyAuth,
   extractText,
-  findExistingOpenCodeAuth,
-  getOpencodeVersion,
   makeIsolatedDirs,
   makeIsolatedEnv,
   makeOpenCodeConfig,
   packAndInstallPlugin,
+  preflightOpenCodeSmoke,
   resolveOpenCodeCommand,
   runJson,
   smokeModel,
@@ -24,8 +23,6 @@ import {
 } from './opencode-smoke-helpers.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-
-// Real CLI smoke currently verifies against OpenCode 1.15.0.
 
 test('smoke: packed using-my-skills plugin injects bootstrap through real opencode CLI', { timeout: 180_000 }, async (t) => {
   /*
@@ -41,17 +38,7 @@ test('smoke: packed using-my-skills plugin injects bootstrap through real openco
   }
 
   const opencode = await resolveOpenCodeCommand();
-  const opencodeVersion = await getOpencodeVersion(opencode);
-  if (!opencodeVersion) {
-    t.skip('opencode CLI is not available on PATH');
-    return;
-  }
-
-  const existingAuthPath = await findExistingOpenCodeAuth();
-  if (!existingAuthPath) {
-    t.skip('local OpenCode auth file was not found; run opencode auth login first');
-    return;
-  }
+  const { authPath: existingAuthPath } = await preflightOpenCodeSmoke(t, { opencode, model: smokeModel });
 
   const tempDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'myai-opencode-bootstrap-smoke-'));
   t.after(() => fs.promises.rm(tempDir, { recursive: true, force: true }));
@@ -80,6 +67,8 @@ test('smoke: packed using-my-skills plugin injects bootstrap through real openco
     source: 'OPENCODE_CONFIG_CONTENT',
     scope: 'local',
   }]);
+
+  t.diagnostic(`running: ${opencode} run --dir ${dirs.project} ... -m ${smokeModel}`);
 
   const result = await spawnCollect(
     opencode,

@@ -1,4 +1,5 @@
 import { execFile, spawn } from 'node:child_process';
+import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -7,9 +8,7 @@ import { promisify } from 'node:util';
 
 const execFileAsync = promisify(execFile);
 
-// Real CLI smoke helpers currently verify against OpenCode 1.15.0.
-
-export const smokeModel = process.env.MYAI_OPENCODE_SMOKE_MODEL || 'openai/gpt-5.5';
+export const smokeModel = process.env.MYAI_OPENCODE_SMOKE_MODEL || 'kilo/openai/gpt-5.6-luna';
 export const smokeProofToken = 'MYAI_RESOLVED_CONFIG_DIR_SKILL';
 
 export async function resolveOpenCodeCommand() {
@@ -43,6 +42,24 @@ export async function findExistingOpenCodeAuth() {
   } catch {
     return null;
   }
+}
+
+export async function preflightOpenCodeSmoke(t, { opencode, model }) {
+  t.diagnostic(`opencode binary: ${opencode}`);
+
+  const version = await getOpencodeVersion(opencode);
+  assert.ok(version, `opencode CLI did not answer --version: ${opencode}`);
+  t.diagnostic(`opencode version: ${version}`);
+
+  const authPath = await findExistingOpenCodeAuth();
+  assert.ok(authPath, 'no local opencode auth.json found; run `opencode auth login` first');
+  t.diagnostic(`opencode auth: ${authPath}`);
+
+  t.diagnostic(
+    `smoke model: ${model}${process.env.MYAI_OPENCODE_SMOKE_MODEL ? ' (from MYAI_OPENCODE_SMOKE_MODEL)' : ' (default)'}`,
+  );
+
+  return { opencode, version, authPath };
 }
 
 export async function makeIsolatedDirs(tempDir) {
@@ -272,11 +289,18 @@ async function findWrapperExecTarget(candidate) {
     const match = content.match(/^exec\s+(\S*opencode)(?:\s|$)/m);
     if (!match) return null;
 
-    await fs.promises.access(match[1], fs.constants.X_OK);
-    return match[1];
+    const target = expandHome(match[1]);
+    await fs.promises.access(target, fs.constants.X_OK);
+    return target;
   } catch {
     return null;
   }
+}
+
+function expandHome(target) {
+  if (target.startsWith('~/')) return path.join(os.homedir(), target.slice(2));
+  if (target.startsWith('$HOME/')) return path.join(os.homedir(), target.slice('$HOME/'.length));
+  return target;
 }
 
 function pickEnv(names) {
