@@ -485,6 +485,7 @@ Use these during larger workflows when the task crosses a domain boundary.
 | --- | --- |
 | `setting-up-projects` | Bootstrap new projects: choose project shape, directory layout, and setup checklist for any language or ecosystem |
 | `setting-up-backends` | Bootstrap new backend services and API/worker repos: service layout, app factory, wiring rules, infrastructure deferral |
+| `openai-ai-integration` | Integrate an OpenAI-compatible LLM API: official SDK, chat completions, configurable base URL/model/reasoning, structured output with healing parse, retries |
 | `api-design` | Design stable APIs, protocols, and programmable boundaries |
 | `building-backends` | Design backend, service, worker, or API architecture: thin transport, reusable core, transaction ownership, auth boundaries, and workers |
 | `writing-scripts` | Create standalone single-file scripts, automation, and tiny CLI tools for any language or ecosystem |
@@ -501,6 +502,7 @@ To install:
 npx -y skills add quick-brown-foxxx/myai \
   -s 'setting-up-projects' \
   -s 'setting-up-backends' \
+  -s 'openai-ai-integration' \
   -s 'api-design' \
   -s 'building-backends' \
   -s 'writing-scripts' \

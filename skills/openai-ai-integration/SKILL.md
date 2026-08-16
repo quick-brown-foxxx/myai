@@ -3,6 +3,8 @@ name: openai-ai-integration
 description: >-
   Use when integrating an OpenAI-compatible LLM API into an app, CLI, tool, or service: choosing the SDK, shaping chat-completion requests, configuring base URL/model/reasoning-effort, structured output via response_format, resilient JSON parsing, and retry handling.
   Language-agnostic guidance with Python examples and TypeScript references.
+metadata:
+  tags: domain, api, automation
 ---
 
 # OpenAI API Integration
@@ -235,5 +237,6 @@ completion = await client.chat.completions.create(
 ## Related Skills
 
 - **`engineering-principles`** — Parent skill. Language-agnostic philosophy (error handling, boundaries, fail fast).
-- **`writing-python-code`** — Python typing and `Result` conventions for the wrapper module.
-- **`setting-up-python-backends`** — Where the AI client lives in a service/API repo.
+- **`api-design`** — Designing the typed surface between your app and the AI client.
+- **`security-and-hardening`** — API key handling, secrets, and trusted input boundaries.
+- **`building-backends`** — Where the AI client lives in a service/API architecture.
