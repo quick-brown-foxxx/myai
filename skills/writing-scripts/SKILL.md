@@ -193,7 +193,7 @@ if __name__ == "__main__":
 **Python tool config** (pyproject.toml, no `[project]` section):
 
 ```toml
-[tool.basedpyright]
+[tool.pyrigt]
 typeCheckingMode = "strict"
 reportAny = "error"
 
