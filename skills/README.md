@@ -347,6 +347,7 @@ Use these during larger workflows when the task crosses a domain boundary.
 | `api-design` | Design stable APIs, protocols, and programmable boundaries | domain, architecture, boundaries |
 | `building-backends` | Design backend, service, worker, or API architecture: thin transport, reusable core, transaction ownership, auth boundaries, and workers | domain, architecture, backend |
 | `writing-scripts` | Create standalone single-file scripts, automation, and tiny CLI tools for any language or ecosystem | domain, scripts, automation |
+| `creating-slides` | Set up an open-slide workspace and hand deck authoring to its auto-installed agent skills | domain, design |
 | `security-and-hardening` | Harden user input, auth, secrets, files, sessions, and integrations | domain, hardening, boundaries |
 | `performance-optimization` | Measure, identify, fix, and verify performance bottlenecks | domain, verification, quality |
 | `code-simplification` | Refactor for clarity without behavior changes | domain, implementation, quality |

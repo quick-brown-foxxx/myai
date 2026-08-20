@@ -489,6 +489,7 @@ Use these during larger workflows when the task crosses a domain boundary.
 | `api-design` | Design stable APIs, protocols, and programmable boundaries |
 | `building-backends` | Design backend, service, worker, or API architecture: thin transport, reusable core, transaction ownership, auth boundaries, and workers |
 | `writing-scripts` | Create standalone single-file scripts, automation, and tiny CLI tools for any language or ecosystem |
+| `creating-slides` | Set up an open-slide workspace and hand deck authoring to its auto-installed agent skills |
 | `security-and-hardening` | Harden user input, auth, secrets, files, sessions, and integrations |
 | `performance-optimization` | Measure, identify, fix, and verify performance bottlenecks |
 | `code-simplification` | Refactor for clarity without behavior changes |
@@ -506,6 +507,7 @@ npx -y skills add quick-brown-foxxx/myai \
   -s 'api-design' \
   -s 'building-backends' \
   -s 'writing-scripts' \
+  -s 'creating-slides' \
   -s 'security-and-hardening' \
   -s 'performance-optimization' \
   -s 'code-simplification' \
