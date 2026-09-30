@@ -225,13 +225,20 @@ This is an implementation and routing aid, not a mandatory runtime chain. Agents
 
 ### Prerequisite — Align canonical `myai` parents
 
-**Status: Planned and blocking**
+**Status: Satisfied (2026-09-30). Ran during the initial TS work; awaiting user review, not committed.**
 
 Before TS extension skills treat canonical `myai` guidance as an authoritative parent, reconcile ecosystem-specific examples that conflict with this accepted roadmap:
 
 1. Remove or qualify MSW recommendations so the accepted executable HTTP test-server policy is not contradicted.
 2. Reframe universal Zod language so Zod vs. Valibot and other tooling mechanics remain situational while runtime validation stays mandatory.
 3. Inspect other parent examples for equivalent conflicts and record any deliberate exceptions.
+
+**Findings:**
+
+- **MSW: clean.** No skill or doc mentions MSW. It was already removed in commit `eca5a70`. It survives only in planning docs, as an explicit exclusion.
+- **Zod: clean.** Every mention is situational (`e.g., Zod, Valibot`, `project-selected`). Runtime validation at external boundaries stays mandatory.
+- **Fixed equivalent conflict:** `engineering-principles` and `ENGINEERING-PHILOSOPHY.md` named `tsx` / Node native type stripping as the single-file runner, contradicting `writing-scripts` (Bun) and the still-open runtime decision. Reworded to “run from source without a separate bundle when practical” and routed to `writing-scripts`.
+- **Deliberate exception:** `writing-scripts` keeps **Bun** as its default script runtime. Scope is single-file scripts only; it does not set the runtime default for projects. That remains Open for `setting-up-typescript-projects`.
 
 Accepted TS extension decisions govern the ecosystem-specific work after this alignment. Parent guidance must be updated, qualified, or explicitly superseded; agents must not be left to resolve silent contradictions.
 
@@ -335,7 +342,7 @@ No specific command is prescribed in this roadmap because commands depend on the
 | Which package manager and runner/build defaults should each project type use? | **Open** | Current stable tooling, runtime targets, framework conventions, and real bootstrap evidence. |
 | Which modern execution models should the setup skill recommend? | **Open—blocking** | Compare Node and Bun, bundlers, direct TypeScript execution, strict runners, package managers, and framework-managed execution in representative projects. Current Node/`tsc`/`tsx` text is unapproved candidate material. |
 | Which ESLint and `tsconfig` strict rules form the baseline? | **Open—blocking** | Prepare a complete candidate ruleset and exercise it against representative test projects before accepting individual rules or presets. |
-| When a shared-schema system later needs public or cross-boundary OpenAPI, how should it generate or align the document? | **Open** | Tooling prototype proving completeness and drift detection without turning OpenAPI into a second manually maintained source of truth. |
+| When a shared-schema system later needs public or cross-boundary OpenAPI, how should it generate or align the document? | **Closed and already described in this doc** | Tooling prototype proving completeness and drift detection without turning OpenAPI into a second manually maintained source of truth. |
 | When do frontend tests warrant testcontainers? | **Open / conditional** | Complexity, fidelity benefits, startup cost, and whether a normal executable HTTP server is sufficient. |
 | When should templates or shared packages be reconsidered? | **Deferred** | Repeated, stable patterns across several verified skills and projects. |
 

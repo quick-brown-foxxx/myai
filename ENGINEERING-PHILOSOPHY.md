@@ -50,7 +50,7 @@ The goal: if the type checker says it's correct, it runs correctly. If something
 | ----------------------- | ------------------------------------------------------ | ------------------------------------------------------------ | -------------------------------------------------------------------- |
 | Type checking           | basedpyright strict, reportAny=error                   | tsconfig strict, noUncheckedIndexedAccess                    | same as TS                                                           |
 | Errors as values        | rusty-results / Result[T, E]                           | neverthrow / nevertype / discriminated unions                | neverthrow for side effects, React Query status for async            |
-| Data shape              | msgspec.Struct for JSON, dataclass for domain          | appropriate runtime schema validator for external boundaries (e.g., zod, valibot); infer transport DTO types from schemas | appropriate runtime validator for form/transport boundaries; pair with the appropriate form library |
+| Data shape              | msgspec.Struct for JSON, dataclass for domain          | appropriate runtime schema validator for external boundaries (e.g., Zod, Valibot); infer transport DTO types from schemas | appropriate runtime validator for form/transport boundaries; pair with the appropriate form library |
 | Wrap dynamic boundaries | typed wrappers around libraries, linter bans raw usage | typed wrappers around untyped JS libs, adapter pattern       | wrapper hooks around untyped context, typed props on every component |
 
 </details>
@@ -211,7 +211,7 @@ Every project, no matter how small, starts with the safety net configured:
 
 | Concept                | Python                                              | TypeScript / Node                                                | Frontend (React)                                |
 | ---------------------- | --------------------------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------- |
-| Single file            | PEP 723 inline metadata, uv run --script            | tsx or Node native type stripping for small projects (see writing-scripts) | npx create-next-app, vite                       |
+| Single file            | PEP 723 inline metadata, uv run --script            | run from source without a separate bundle when practical (see writing-scripts) | npx create-next-app, vite                       |
 | Full project bootstrap | uv init, pyproject.toml, ruff, basedpyright, pytest | project-specific selection: package manager, strict tsconfig, linter, formatter, runner, test runner | project-specific: framework scaffold, linter, formatter, runner, test runner |
 | CI from day one        | GitHub Actions: lint → typecheck → test             | GitHub Actions: format:check → lint → typecheck → test → build (when applicable) | GitHub Actions: lint → typecheck → test → build |
 
