@@ -63,6 +63,12 @@ interface TaskAPI {
 }
 ```
 
+#### Choose the Contract Source of Truth
+
+A contract needs one authoritative artifact. Compile-time types are erased before
+runtime and cannot validate a payload by themselves. For the selection rule —
+shared runtime schemas vs. an OpenAPI document, with examples — load `api-contracts`.
+
 ### 2. Consistent Error Semantics
 
 Pick one error strategy and use it everywhere:
@@ -288,12 +294,14 @@ function getTask(id: TaskId): Promise<Task> { ... }
 - Breaking changes to existing fields (type changes, removals)
 - List endpoints without pagination
 - Third-party API responses used without validation or sanitization
+- OpenAPI annotations, shared schemas, and handwritten DTOs maintained as three separate truths
 
 ## Verification
 
 After designing an API:
 
 - [ ] Every endpoint has typed input and output schemas
+- [ ] Exactly one contract source of truth (shared schemas or OpenAPI); derived artifacts are generated, not hand-maintained
 - [ ] Error responses follow a single consistent format
 - [ ] Validation happens at system boundaries only
 - [ ] List endpoints support pagination

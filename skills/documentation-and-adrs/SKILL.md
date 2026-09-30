@@ -184,20 +184,11 @@ export async function createTask(input: CreateTaskInput): Promise<Task> {
 
 ### External Transport Contracts
 
-Plain TypeScript types alone are insufficient for external HTTP transports
-because they are erased at runtime. For REST or GraphQL APIs:
-
-- Choose one authoritative source of truth following the roadmap's contract
-  selection strategy:
-  - **Closely coupled private TypeScript systems**: shared transport runtime
-    schemas (e.g., Zod, Valibot) with inferred types — not domain or
-    persistence models.
-  - **Public, cross-repository, or cross-language APIs**: a complete OpenAPI
-    document as the authoritative contract.
-- Documentation, generated clients, and test-server inputs are **derived**
-  artifacts, not independent sources of truth.
-- Ensure OpenAPI documents are generated and aligned with endpoint behavior,
-  not maintained as a second manual document.
+For any external HTTP or RPC contract, choose one authoritative source of truth and
+derive docs, clients, and test inputs from it. Plain TypeScript types are not enough:
+they are erased at runtime. See `api-contracts` for the selection rule and examples
+(shared runtime schemas for same-stack private systems, an OpenAPI document across
+languages, repositories, or public APIs).
 
 ## README Structure
 

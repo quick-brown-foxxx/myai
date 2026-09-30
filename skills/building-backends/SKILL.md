@@ -117,7 +117,8 @@ Also load `engineering-principles` (via myai bootstrap).
 - Use appropriate runtime schema validator (e.g., Zod, Valibot) for
   request/response validation at the HTTP edge. Convert validated transport
   DTOs immediately into plain domain types. Transport schemas describe the
-  wire format; domain models are not transport schemas.
+  wire format; domain models are not transport schemas. Choose the contract
+  source of truth (shared runtime schemas vs. OpenAPI) via `api-contracts`.
 - Use `Result<T, E>` (neverthrow, effect, or custom Either) for expected
   failures through core layers. Map to HTTP status codes in exception
   filters or error middleware.

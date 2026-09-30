@@ -177,7 +177,7 @@ This protects the test purpose even when the framework is not BDD-native.
 | External service behavior | Real-listening contract-powered test server (OpenAPI or shared-schema-driven), contract fixture, or manual/staging verification |
 | Hard-to-automate infrastructure | Manual smoke/e2e with clear steps and evidence |
 
-Prefer the most realistic proof that is still maintainable. Do not chase unit-test counts if one integration or e2e test proves the actual risk better.
+Prefer the most realistic proof that is still maintainable. Do not chase unit-test counts if one integration or e2e test proves the actual risk better. Contract-powered servers follow the source of truth chosen via `api-contracts` (an OpenAPI document or a shared runtime-schema package).
 
 ---
 

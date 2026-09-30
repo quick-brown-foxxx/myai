@@ -111,7 +111,9 @@ Vertical slices keep every increment useful and testable.
 ### Contract-First Slices For Big Greenfield Work
 
 For large greenfield features or separate frontend/backend work, contract-first
-slicing can be better than a premature vertical path.
+slicing can be better than a premature vertical path. Choose the contract source
+of truth (shared schemas vs. an OpenAPI document) via `api-contracts` before
+Slice 0.
 
 ```text
 Slice 0: Define contract

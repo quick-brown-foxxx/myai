@@ -151,6 +151,9 @@ Useful patterns:
 
 Avoid shared mutable global test data unless the suite guarantees isolation.
 
+Contract-powered servers follow the contract source of truth chosen via
+`api-contracts`: an OpenAPI document or a shared runtime-schema package.
+
 ---
 
 ## Preflight Checks

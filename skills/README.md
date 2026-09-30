@@ -345,6 +345,7 @@ Use these during larger workflows when the task crosses a domain boundary.
 | `setting-up-backends` | Bootstrap new backend services and API/worker repos: service layout, app factory, wiring rules, infrastructure deferral | domain, setup, architecture |
 | `openai-ai-integration` | Integrate an OpenAI-compatible LLM API: official SDK, chat completions, configurable base URL/model/reasoning, structured output with healing parse, retries | domain, api, automation |
 | `api-design` | Design stable APIs, protocols, and programmable boundaries | domain, architecture, boundaries |
+| `api-contracts` | Choose and enforce one source of truth for an API contract: shared runtime schemas vs. an OpenAPI document | domain, architecture, boundaries |
 | `building-backends` | Design backend, service, worker, or API architecture: thin transport, reusable core, transaction ownership, auth boundaries, and workers | domain, architecture, backend |
 | `writing-scripts` | Create standalone single-file scripts, automation, and tiny CLI tools for any language or ecosystem | domain, scripts, automation |
 | `creating-slides` | Set up an open-slide workspace and hand deck authoring to its auto-installed agent skills | domain, design |

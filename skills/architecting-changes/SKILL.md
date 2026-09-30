@@ -163,7 +163,9 @@ Frontend app ──> API contract / generated client ──> Backend API ──>
 
 Do not move logic across a frontend/backend boundary just to satisfy "shared
 core" as a pattern. Share contracts first. Share implementation only when the
-repo and deployment model make that coupling intentional.
+repo and deployment model make that coupling intentional. Pick the contract
+source of truth — shared runtime schemas vs. an OpenAPI document — via
+`api-contracts`.
 
 ### Reuse Versus Custom Code
 

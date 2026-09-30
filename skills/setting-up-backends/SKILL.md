@@ -158,6 +158,9 @@ Each deferred item is real infrastructure with real operational cost. The
 default is to defer until a concrete feature demands it. Pre-installing
 infrastructure for hypothetical needs adds complexity without value.
 
+When a contract is actually needed, choose its source of truth (shared runtime
+schemas vs. an OpenAPI document) via `api-contracts`.
+
 ---
 
 ## Migrations and Operations

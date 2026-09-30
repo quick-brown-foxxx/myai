@@ -487,6 +487,7 @@ Use these during larger workflows when the task crosses a domain boundary.
 | `setting-up-backends` | Bootstrap new backend services and API/worker repos: service layout, app factory, wiring rules, infrastructure deferral |
 | `openai-ai-integration` | Integrate an OpenAI-compatible LLM API: official SDK, chat completions, configurable base URL/model/reasoning, structured output with healing parse, retries |
 | `api-design` | Design stable APIs, protocols, and programmable boundaries |
+| `api-contracts` | Choose the single source of truth for an API contract: shared runtime schemas vs. an OpenAPI document |
 | `building-backends` | Design backend, service, worker, or API architecture: thin transport, reusable core, transaction ownership, auth boundaries, and workers |
 | `writing-scripts` | Create standalone single-file scripts, automation, and tiny CLI tools for any language or ecosystem |
 | `creating-slides` | Set up an open-slide workspace and hand deck authoring to its auto-installed agent skills |
@@ -505,6 +506,7 @@ npx -y skills add quick-brown-foxxx/myai \
   -s 'setting-up-backends' \
   -s 'openai-ai-integration' \
   -s 'api-design' \
+  -s 'api-contracts' \
   -s 'building-backends' \
   -s 'writing-scripts' \
   -s 'creating-slides' \
