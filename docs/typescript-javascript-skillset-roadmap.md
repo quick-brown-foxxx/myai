@@ -225,7 +225,7 @@ This is an implementation and routing aid, not a mandatory runtime chain. Agents
 
 ### Prerequisite — Align canonical `myai` parents
 
-**Status: Satisfied (2026-09-30). Ran during the initial TS work; awaiting user review, not committed.**
+**Status: Satisfied.**
 
 Before TS extension skills treat canonical `myai` guidance as an authoritative parent, reconcile ecosystem-specific examples that conflict with this accepted roadmap:
 
@@ -246,13 +246,13 @@ Accepted TS extension decisions govern the ecosystem-specific work after this al
 
 ### Phase 0 — Establish the auxiliary repository
 
-**Status: Planned**
+**Status: Satisfied.**
 
 1. Create `coding_rules_ts` with a skills-only initial layout.
 2. Record its dependency on canonical `myai` principles and workflows.
 3. Define catalog and validation conventions without introducing templates or shared code packages.
 
-**Exit evidence:** the repository can discover and validate one minimal skill without special layout machinery.
+**Exit evidence:** `npm run validate` reports `1 skills checked — 0 error(s), 0 warning(s) — PASSED` using the normal layout, with no special machinery.
 
 ### Phase 1 — Build the language foundation
 
