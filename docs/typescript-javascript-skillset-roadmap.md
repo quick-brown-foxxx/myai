@@ -256,11 +256,17 @@ Accepted TS extension decisions govern the ecosystem-specific work after this al
 
 ### Phase 1 — Build the language foundation
 
-**Status: Planned**
+**Status: In progress — tooling research complete and settled; skill drafting next.**
+
+> The approved tooling stack is recorded in `typescript-tooling-baseline.md`. Use it
+> as the single source for the setup skill; do not re-derive it. Findings that were
+> investigated but deliberately set aside are parked in
+> `typescript-tooling-reevaluation-notes.md` — that file is not policy and must not
+> leak into any skill.
 
 1. Design `setting-up-typescript-projects`.
-   - First research modern execution models, runtimes, bundlers, runners, and package managers; existing Node/`tsc`/`tsx` suggestions are candidates, not approved defaults.
-   - Research and prepare a complete strict ESLint/TypeScript ruleset, then prove it in representative test projects.
+   - ~~Research modern execution models, runtimes, bundlers, runners, and package managers.~~ Done; see `typescript-tooling-baseline.md`.
+   - Remaining: prepare a complete strict ESLint/TypeScript ruleset and prove it in representative test projects.
 2. Design `writing-typescript-code` using setup examples rather than duplicating setup instructions.
 3. Design `architecting-typescript-changes` as the routing bridge from generic architecture to TS-specific concerns.
 
@@ -339,9 +345,9 @@ No specific command is prescribed in this roadmap because commands depend on the
 | --- | --- | --- |
 | Zod or Valibot as the preferred runtime schema tool? | **Open / situational** | Ecosystem integration, OpenAPI generation quality, bundle/runtime cost, ergonomics, and maintenance signal. |
 | Should SvelteKit later enter the setup decision matrix or become a default? | **Proposed—not accepted** | It is excluded from current roadmap implementation; future consideration requires explicit approval and current framework evidence. |
-| Which package manager and runner/build defaults should each project type use? | **Open** | Current stable tooling, runtime targets, framework conventions, and real bootstrap evidence. |
-| Which modern execution models should the setup skill recommend? | **Open—blocking** | Compare Node and Bun, bundlers, direct TypeScript execution, strict runners, package managers, and framework-managed execution in representative projects. Current Node/`tsc`/`tsx` text is unapproved candidate material. |
-| Which ESLint and `tsconfig` strict rules form the baseline? | **Open—blocking** | Prepare a complete candidate ruleset and exercise it against representative test projects before accepting individual rules or presets. |
+| Which package manager and runner/build defaults should each project type use? | **Settled** — see `typescript-tooling-baseline.md` | Prototyped: pnpm, `tsc --watch` + `node --watch`, Nest `nest start --watch`, Bun CLI/scripts only. |
+| Which modern execution models should the setup skill recommend? | **Settled** — see `typescript-tooling-baseline.md` | Prototyped across runners, package managers, and frameworks. |
+| Which ESLint and `tsconfig` strict rules form the baseline? | **Tooling settled; ruleset contents open** | Tooling: ESLint + typescript-eslint + Prettier; tsconfig base + per-target overlays. Remaining: prove the strict ruleset contents in representative projects. |
 | When a shared-schema system later needs public or cross-boundary OpenAPI, how should it generate or align the document? | **Closed and already described in this doc** | Tooling prototype proving completeness and drift detection without turning OpenAPI into a second manually maintained source of truth. |
 | When do frontend tests warrant testcontainers? | **Open / conditional** | Complexity, fidelity benefits, startup cost, and whether a normal executable HTTP server is sufficient. |
 | When should templates or shared packages be reconsidered? | **Deferred** | Repeated, stable patterns across several verified skills and projects. |
