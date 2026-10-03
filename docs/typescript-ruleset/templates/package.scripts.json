@@ -1,0 +1,19 @@
+{
+  "_comment": "Merge these into package.json. Verification commands are non-mutating; fixes are explicit.",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix && prettier --write .",
+    "typecheck": "tsc -p tsconfig.src.json --noEmit && tsc -p tsconfig.node.json --noEmit && tsc -p tsconfig.test.json --noEmit",
+    "typecheck:watch": "tsc -p tsconfig.src.json --noEmit --watch",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "test": "vitest run",
+    "check": "pnpm typecheck && pnpm lint && pnpm format && pnpm test",
+    "check:typed": "eslint ."
+  },
+  "_cadence": {
+    "local-edit": "eslint --cache <changed files>  +  tsc --watch   (untyped, fast)",
+    "pre-commit": "typed projectService on changed files (~7s for 40k LOC)",
+    "ci": "pnpm check + typed eslint on the full tree"
+  }
+}
